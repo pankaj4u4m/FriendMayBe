@@ -1,0 +1,98 @@
+<div class="loginbox-fixed">
+  <div id="fb-root"></div>
+  <script>
+    // Load the SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+    }(document));
+
+    // Init the SDK upon load
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '439365762770182', // App ID
+        channelUrl : '//'+window.location.hostname+'/channel', // Path to your Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+
+      // listen for and handle auth.statusChange events
+      FB.Event.subscribe('auth.statusChange', function(response) {
+        if (response.authResponse) {
+          // user has auth'd your app and is logged into Facebook
+          FB.api('/me', function(me){
+            $('#response').val(me);
+            console.log(me);
+            //$('#openid_form').submit();
+          })
+        }
+      });
+    }
+  </script>
+  <script>
+    var GOOGLE;
+    (function($){
+      GOOGLE = {
+        url : 'https://accounts.google.com/o/oauth2/auth',
+        client_id:	'61362364823.apps.googleusercontent.com',
+        redirect_uri: 'http://localhost:9001',
+        response_type: 'token',
+        scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        state: '/home',
+        login : function(){
+          console.log('login started');
+          var params = {
+            client_id: GOOGLE.client_id,
+            redirect_uri: GOOGLE.redirect_uri,
+            response_type: GOOGLE.response_type,
+            scope: GOOGLE.scope,
+            state: GOOGLE.state
+          };
+          var str = $.param(params);
+
+          window.location = GOOGLE.url+'?'+str;
+          console.log(str);
+        }
+      }
+      var params = {}, queryString = location.hash.substring(1),
+      regex = /([^&=]+)=([^&]*)/g, m;
+      while ((m = regex.exec(queryString))) {
+        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+      }
+      if(params.state == '/home'){
+        $.get('https://www.googleapis.com/oauth2/v1/userinfo', {access_token:params.access_token}, function(data){
+          console.log(data);
+          $('#response').val(data);
+
+          $('#openid_form').submit();
+        });
+
+      }
+    })(jQuery);
+  </script>
+
+  <%= form_tag("/home", method: "get", id: "openid_form", class: "loginbtn") do %>
+      <fieldset>
+        <legend>Sign-in</legend>
+        <div id="openid_choice" style="display: block;">
+          <div id="openid_btns">
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+            <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
+            <a class="google openid_large_btn" href="javascript:GOOGLE.login();" title="log in with Google"></a>
+            <a class="facebook openid_large_btn" href="javascript:FB.login();" title="log in with Facebook"></a>
+          </div>
+        </div>
+        <noscript>
+        <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
+          Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
+        </noscript>
+      </fieldset>
+      <input type="hidden" id="response" name="response" value=""/>
+
+    <% end %>
+
+  </div>
