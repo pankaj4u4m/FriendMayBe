@@ -10,30 +10,28 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid
   # attr_accessible :title, :body
 
+  has_many :user_details
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:email => auth.info.email).first
-    unless user
-      user = User.create(
-                         provider:auth.provider,
-                         uid:auth.uid,
-                         email:auth.info.email,
-                         password:Devise.friendly_token[0,20]
-      )
+    if !user
+      user = save_user(auth)
+      detail =  user.save_user_details(auth)
+    elsif !(detail = user.user_details.where(provider: auth.provider, uid: auth.uid).first)
+      detail =  user.save_user_details(auth)
     end
-    user
+    detail ? user : null;
   end
 
-  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
-    data = access_token.info
-    user = User.where(:email => data["email"]).first
-
-    unless user
-      user = User.create(
-                         email: data["email"],
-                         password: Devise.friendly_token[0,20]
-      )
+  def self.find_for_google_oauth2(auth, signed_in_resource=nil)
+    user = User.where(:email => auth.info.email).first
+    if !user
+      user = save_user(auth)
+      detail =  user.save_user_details(auth)
+    elsif !(detail = user.user_details.where(provider: auth.provider, uid: auth.uid).first)
+      detail =  user.save_user_details(auth)
     end
-    user
+    detail ? user : null;
   end
 
   def self.new_with_session(params, session)
@@ -44,5 +42,25 @@ class User < ActiveRecord::Base
         user.email = data["email"] if user.email.blank?
       end
     end
+  end
+
+  def self.save_user(auth)
+    user = User.create(
+        email:auth.info.email,
+        password:Devise.friendly_token[0,20]
+    )
+    user
+  end
+
+  def save_user_details(auth)
+    detail = UserDetail.new(
+        name: auth.info.name,
+        gender: auth.extra.raw_info.gender,
+        details: ActiveSupport::JSON.encode(auth),
+        uid: auth.uid,
+        provider: auth.provider
+    )
+    self.user_details << detail;
+    detail
   end
 end

@@ -49,6 +49,7 @@
     <orderEntry type="library" scope="PROVIDED" name="oauth2 (v0.8.0, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth (v1.1.0, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth-facebook (v1.4.1, ruby-1.9.3-p194) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="omniauth-google-oauth2 (v0.1.12, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth-oauth2 (v1.1.0, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.3.0, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="polyglot (v0.3.3, ruby-1.9.3-p194) [gem]" level="application" />
@@ -70,6 +71,7 @@
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v0.3.33, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uglifier (v1.2.6, ruby-1.9.3-p194) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="warden (v1.2.1, ruby-1.9.3-p194) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="xmpp4r (v0.5, ruby-1.9.3-p194) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
