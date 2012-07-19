@@ -11,7 +11,7 @@ class CreateUserDetails < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :user_details, [:user_id, :provider],     :unique => true
+    add_index :user_details, [:user_id, :provider, :uid],     :unique => true
   end
 
 end

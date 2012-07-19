@@ -11,7 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120718184513) do
+ActiveRecord::Schema.define(:version => 20120719184606) do
+
+  create_table "messages", :force => true do |t|
+    t.integer  "user_id_from"
+    t.integer  "user_id_to"
+    t.datetime "message_time"
+    t.text     "message"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "messages", ["user_id_from"], :name => "index_messages_on_user_id_from"
+  add_index "messages", ["user_id_to"], :name => "index_messages_on_user_id_to"
+
+  create_table "remembers", :force => true do |t|
+    t.integer  "user_id_by"
+    t.integer  "user_id_to"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "remembers", ["user_id_by"], :name => "index_remembers_on_user_id_by"
+  add_index "remembers", ["user_id_to"], :name => "index_remembers_on_user_id_to"
 
   create_table "user_details", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -25,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20120718184513) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "user_details", ["user_id", "provider"], :name => "index_user_details_on_user_id_and_provider", :unique => true
+  add_index "user_details", ["user_id", "provider", "uid"], :name => "index_user_details_on_user_id_and_provider_and_uid", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
