@@ -1,16 +1,37 @@
 MetlyDevise::Application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
+
   devise_scope :user do
     get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
     get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
-  authenticated :user do
-    root to: "home_pages#home"
+
+  resources :remembers do
+    member do
+      get :remembereds
+      get :rememberers
+      post :remember
+      post :forget
+      post :block
+    end
+  end
+  resources :messages do
+    member do
+      get :senders
+      get :receivers
+      post :sendmessage
+    end
   end
 
+  authenticated :user do
+    root to: "home_pages#home"
+    match "/remembereds", to: "remembers#remembereds"
+    match "/rememberers", to: "remembers#rememberers"
+  end
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
   match "/contact", to: "login_pages#contact"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

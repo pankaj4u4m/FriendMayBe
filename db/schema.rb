@@ -14,27 +14,28 @@
 ActiveRecord::Schema.define(:version => 20120719184606) do
 
   create_table "messages", :force => true do |t|
-    t.integer  "user_id_from"
-    t.integer  "user_id_to"
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
     t.datetime "message_time"
     t.text     "message"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
-  add_index "messages", ["user_id_from"], :name => "index_messages_on_user_id_from"
-  add_index "messages", ["user_id_to"], :name => "index_messages_on_user_id_to"
+  add_index "messages", ["receiver_id"], :name => "index_messages_on_receiver_id"
+  add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
 
   create_table "remembers", :force => true do |t|
-    t.integer  "user_id_by"
-    t.integer  "user_id_to"
+    t.integer  "rememberer_id"
+    t.integer  "remembered_id"
     t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
-  add_index "remembers", ["user_id_by"], :name => "index_remembers_on_user_id_by"
-  add_index "remembers", ["user_id_to"], :name => "index_remembers_on_user_id_to"
+  add_index "remembers", ["remembered_id"], :name => "index_remembers_on_remembered_id"
+  add_index "remembers", ["rememberer_id", "remembered_id"], :name => "index_remembers_on_rememberer_id_and_remembered_id", :unique => true
+  add_index "remembers", ["rememberer_id"], :name => "index_remembers_on_rememberer_id"
 
   create_table "user_details", :force => true do |t|
     t.integer  "user_id",    :null => false
