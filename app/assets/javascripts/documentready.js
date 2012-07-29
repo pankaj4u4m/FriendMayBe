@@ -6,8 +6,6 @@ $(document).ready(function(){
     autohide: $('div.scrollable').hasClass('autohide')
   });
 
-  $.xmppConnect();
-
   $('.nav').each(function(){
     var currentTab, ul = $(this);
     $(this).find('a').each(function(){
@@ -29,23 +27,22 @@ $(document).ready(function(){
     });
   });
 
-  $('#chattypebox').keypress(function(e){
-    console.debug(e);
-    var code = (e.keyCode ? e.keyCode : e.which);
-    if(code == 13) { //Enter keycode
-      var msg = $(this).val().trim();
-      if(msg && msg.length){
-        console.debug(msg);
-        $('#chatmsg').append("<div class=\"message\"><p><strong>Pankaj:</strong>" +
-          msg + "</p></div>");
-        console.debug($('#chatmsg').html());
-      }
-      $(this).val("");
-      $.post('')
-      return false;
-    }
-    return true;
-  });
+    $("#chattypebox").keypress(function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code == 13) { //Enter keycode
+            var msg = $(this).val().trim();
+            if(msg && msg.length){
+                $('#chatmsg').append("<div class=\"message\"><p><strong>Pankaj:</strong>" +
+                    msg + "</p></div>");
+                $.xmppSend(msg);
+            }
+
+            $(this).val("");
+            return false;
+        }
+        return true;
+    });
+
   $('.message').each(function(){
     $(this).width($('.tab-content').width());
     $(window).bind('resize',function(){

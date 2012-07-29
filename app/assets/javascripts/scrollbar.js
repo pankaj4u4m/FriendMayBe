@@ -28,7 +28,6 @@
       });
 
       $('#chattypebox').keypress(function(e){
-        console.debug(e);
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code == 13) { //Enter keycode
           if ($.browser.msie) {
@@ -51,7 +50,6 @@
       });
 
       function reFormat(pan, options){
-        console.debug(options);
         var vPan = $(pan).find('.jspVerticalBar').get(0);
         if(vPan != null){
           $(pan).find('.jspPane').width(

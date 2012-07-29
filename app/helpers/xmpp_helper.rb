@@ -10,35 +10,30 @@ include Jabber
 module XmppHelper
 
   Jabber::debug = true
-  @httpbind = 'http://localhost/bosh'
-  @host = 'localhost'
-  @port = 5222
-  @jid = 'metly@metly.com'
-  @pass = 'metly'
-  @client
 
   def xmpp_login(jid, pass)
-    @pass = pass
-    @client = connect(jid)
-    {http_sid: @client.http_sid, http_rid: @client.http_rid, jid: @client.jid}
+    @client = connect(jid, pass)
+    {http_sid: @client.http_sid, http_rid: @client.http_rid, jid: @client.jid,
+    id: jid, pass: pass}
   end
 
-  def xmpp_logout
-    @client.close()
+  def self.xmppRegister(jid, pass)
+    client =JabberHTTPBindingClient.new(JID::new("#{jid}@localhost"))
+    client.connect('http://localhost/bosh', 'localhost', 5222)
+    client.register(pass)
+    client.close
   end
 
   private
-  def connect(jid)
-    @jid = JID::new('metly@metly.com')
-    @client =JabberHTTPBindingClient.new(@jid)
+  def connect(jid, pass)
+    @client =JabberHTTPBindingClient.new(JID::new("#{jid}@localhost"))
     @client.connect('http://localhost/bosh', 'localhost', 5222)
     begin
-      @client.auth('metly')
-      @client.close
+      @client.auth(pass)
     rescue
-  #    @client.register(@pass)
-  #    @client.auth(@pass)
+      XmppHelper.xmppRegister(jid, pass)
     end
+    @client.close
     @client
   end
 

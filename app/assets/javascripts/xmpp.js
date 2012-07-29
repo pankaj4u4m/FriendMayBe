@@ -1,10 +1,12 @@
 (function ($) {
 
     var BOSH_SERVICE = '/bosh';
+    var PRE_BINDING = '/login';
     var connection = null;
-    var jid = null;
+    var me = null;
+    var isAlive = false;
 
-    function onMessage(msg) {
+    var onMessage = function (msg) {
         var to = msg.getAttribute('to');
         var from = msg.getAttribute('from');
         var type = msg.getAttribute('type');
@@ -29,7 +31,8 @@
     }
 
 
-    function onConnect(status) {
+    var onConnect = function (status) {
+        isAlive = false;
         if (status == Strophe.Status.CONNECTING) {
             console.log('Strophe is connecting.');
         } else if (status == Strophe.Status.CONNFAIL) {
@@ -38,33 +41,70 @@
             console.log('Strophe is disconnecting.');
         } else if (status == Strophe.Status.DISCONNECTED) {
             console.log('Strophe is disconnected.');
-            // $.xmppConnect();
         } else if (status == Strophe.Status.CONNECTED) {
             console.log('Strophe is connected.');
-            connection.send($pres().tree());
+            isAlive = true;
         } else if (status === Strophe.Status.ATTACHED) {
             console.log('Strophe is attached.');
             connection.send($pres().tree());
+            isAlive = true;
+        } else if (status == Strophe.Status.AUTHFAIL){
+            console.log('Strophe authentication failed.');
+        } else if (status == Strophe.Status.ERROR){
+            console.log('Strophe has some ERROR .');
         }
 
     }
 
-    function attach(data){
+    var attach = function (data) {
         console.log('Prebind succeeded. Attaching...');
 
         connection = new Strophe.Connection(BOSH_SERVICE);
-        connection.attach(data['jid']['node']+'@' + data['jid']['domain']+'/'+data['jid']['resource'],
-            data['http_sid'],
+        me = data['jid']['node'] + '@' + data['jid']['domain'] + '/' + data['jid']['resource']
+        connection.attach(me, data['http_sid'],
             parseInt(data['http_rid'], 10) + 2,
             onConnect);
         connection.addHandler(onMessage, null, 'message', null, null, null);
     }
-    $.xmppConnect = function () {
+
+    var initiateConnection = function () {
         $.ajax({
-            type: 'post',
-            url:'/login',
-            dataType: 'json',
-            success: attach
+            type:'get',
+            url:PRE_BINDING,
+            dataType:'json',
+            tryCount: 0,
+            retryLimit: 3,
+            success:attach,
+            error:function (xhr, textStatus, errorThrown) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount <= this.retryLimit) {
+                        //try again
+                        $.ajax(this);
+                        return;
+                    }
+                    return;
+                }
+                if (xhr.status == 404) {
+                    //handle error
+                } else {
+                    //handle error
+                }
+
+            }
         })
     }
+
+    $.xmppStart = function () {
+        initiateConnection()
+    }
+
+    $.xmppSend = function(data){
+        if(!isAlive){
+           connection.reset();
+        }
+        var msg = $msg({to:$("#current-user").val().trim(), type:"chat"}).c("body").t(data);
+        connection.send(msg);
+    }
+
 })(jQuery);

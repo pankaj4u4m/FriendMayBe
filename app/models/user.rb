@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -7,7 +8,7 @@ class User < ActiveRecord::Base
          :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :xmpp
   # attr_accessible :title, :body
 
   has_many :user_details
@@ -67,6 +68,7 @@ class User < ActiveRecord::Base
     if !user
       user = save_user(auth)
     end
+    #TODO remove eachtime update put update on time
     detail = user.save_or_update_user_details(auth)
     return detail ? user : nil;
   end
@@ -84,8 +86,10 @@ class User < ActiveRecord::Base
   def self.save_user(auth)
     user = User.create(
         email: auth.info.email,
-        password: Devise.friendly_token[0, 20]
+        password: Devise.friendly_token[0, 20],
+        xmpp: Digest::MD5.hexdigest(auth.info.email)
     )
+    XmppHelper.xmppRegister(user.xmpp, Digest::MD5.hexdigest(user.encrypted_password))
     user
   end
 

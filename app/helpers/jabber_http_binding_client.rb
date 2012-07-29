@@ -1,4 +1,5 @@
 require 'xmpp4r/httpbinding/client'
+
 class JabberHTTPBindingClient < Jabber::HTTPBinding::Client
 
   attr_reader :http_sid
@@ -41,16 +42,16 @@ class JabberHTTPBindingClient < Jabber::HTTPBinding::Client
     receive_elements_with_rid(current_rid, res_body.children)
     @retries = @MAX_RETRIES
   rescue REXML::ParseException
-    if @exception_block
-      Thread.new do
-        Thread.current.abort_on_exception = true
-        close; @exception_block.call(e, self, :parser)
-      end
-    else
+          if @exception_block
+            Thread.new do
+              Thread.current.abort_on_exception = true
+              close; @exception_block.call(e, self, :parser)
+            end
+          else
       Jabber::debuglog "Exception caught when parsing HTTP response!"
       close
       raise
-    end
+          end
   rescue StandardError => e
     Jabber::debuglog("POST error (will retry): #{e.class}: #{e}")
     receive_elements_with_rid(current_rid, [])
