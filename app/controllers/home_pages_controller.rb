@@ -1,5 +1,5 @@
 class HomePagesController < ApplicationController
-  before_filter :authenticate_user!
+  #before_filter :authenticate_user!
 
   include XmppHelper
 
@@ -13,6 +13,10 @@ class HomePagesController < ApplicationController
   end
 
   def login
-    xmpp_login
+  #  client = xmpp_login(@user.email, @user.encrypted_password)
+    client = xmpp_login('metly@metly.com', 'metly')
+    respond_to do |format|
+      format.js { render json: client}
+    end
   end
 end

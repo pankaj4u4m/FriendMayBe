@@ -6,12 +6,7 @@ $(document).ready(function(){
     autohide: $('div.scrollable').hasClass('autohide')
   });
 
-  $.xmppConnect({
-      jid: 'metly@metly.com',
-      //sid: '8d5be090b4880bc70dfe1fcfe5525b60e773fa09',
-      //rid: "1389"
-      pass: 'metly'
-  });
+  $.xmppConnect();
 
   $('.nav').each(function(){
     var currentTab, ul = $(this);

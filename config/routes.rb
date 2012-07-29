@@ -27,9 +27,9 @@ MetlyDevise::Application.routes.draw do
     root to: "home_pages#home"
     match "/remembereds", to: "remembers#remembereds"
     match "/rememberers", to: "remembers#rememberers"
-    match "/login", to: "home_pages#login"
   end
-  match "/logout", to: "home_pages#logout"
+  post "/login", to: "home_pages#login"
+  get "/logout", to: "home_pages#logout"
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
   match "/contact", to: "login_pages#contact"
