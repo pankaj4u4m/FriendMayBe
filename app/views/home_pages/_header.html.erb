@@ -3,9 +3,10 @@
     <%= link_to "metly", '#', id: "logo" %>
     <nav>
       <ul class="nav pull-right">
-        <li class="active">
+        <!--<li class="active">
           <a href="#"><%= @user_name%> </a>
         </li>
+        -->
         <li>
           <a href="#"
              class=" user-icon-setting dropdown-toggle"
@@ -13,10 +14,10 @@
              style="margin-right: 2px;"></a>
           <ul class="dropdown-menu" style="margin-right: 10px;">
               <li>
-                <%= link_to "logout", "/sign_out", style: "padding-top: 10px; padding-bottom: 10px"%>
+                <%= link_to "logout", logout_path, style: "padding-top: 10px; padding-bottom: 10px"%>
               </li>
-              <!--<li>
-                <%= link_to "password", '#', style: "padding-top: 10px; padding-bottom: 10px" %>
+             <!-- <li>
+                <%= link_to "password", "#", style: "padding-top: 10px; padding-bottom: 10px" %>
               </li>
               -->
             </ul>

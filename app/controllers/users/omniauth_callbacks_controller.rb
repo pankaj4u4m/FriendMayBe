@@ -27,4 +27,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_url
     end
   end
+
 end

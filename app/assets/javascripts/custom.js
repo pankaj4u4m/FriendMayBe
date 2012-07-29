@@ -6,6 +6,13 @@ $(document).ready(function(){
     autohide: $('div.scrollable').hasClass('autohide')
   });
 
+  $.xmppConnect({
+      jid: 'metly@metly.com',
+      //sid: '8d5be090b4880bc70dfe1fcfe5525b60e773fa09',
+      //rid: "1389"
+      pass: 'metly'
+  });
+
   $('.nav').each(function(){
     var currentTab, ul = $(this);
     $(this).find('a').each(function(){
@@ -50,4 +57,15 @@ $(document).ready(function(){
       $(this).width($(this).parent().width());
     });
   })
+/*  setInterval(function(){
+      $.get('/remembereds', function(data){
+          $('#remembereds ul').empty();
+          var items = jQuery.parseJSON(data);
+          $(items).each(function(i){
+              $('#remembereds ul').append(' <li class=""><a data-toggle="tab" href="#U1">' + this.user_details.name +  '</a></li>')
+          })
+
+      })
+  }, 3000);
+  */
 });

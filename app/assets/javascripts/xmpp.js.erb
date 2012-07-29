@@ -1,0 +1,89 @@
+(function ($) {
+
+  var BOSH_SERVICE = '/bosh'
+  var connection = null;
+  var jid = null;
+
+  function onMessage(msg) {
+    var to = msg.getAttribute('to');
+    var from = msg.getAttribute('from');
+    var type = msg.getAttribute('type');
+    var elems = msg.getElementsByTagName('body');
+
+    if (type == "chat" && elems.length > 0) {
+      var body = elems[0];
+
+      console.log('ECHOBOT: I got a message from ' + from + ': ' +
+          Strophe.getText(body));
+
+      var reply = $msg({to:from, from:to, type:'chat'})
+          .cnode(Strophe.copyElement(body));
+      connection.send(reply.tree());
+
+      console.log('ECHOBOT: I sent ' + from + ': ' + Strophe.getText(body));
+    }
+
+    // we must return true to keep the handler alive.
+    // returning false would remove it after it finishes.
+    return true;
+  }
+
+  function onAll(msg) {
+    $.cookies.set("sid", connection.sid);
+    $.cookies.set("rid", connection.rid + 1);
+    console.log("bodyreceived");
+    return true;
+  }
+
+  function onConnect(status) {
+    if (status == Strophe.Status.CONNECTING) {
+      console.log('Strophe is connecting.');
+    } else if (status == Strophe.Status.CONNFAIL) {
+      console.log('Strophe failed to connect.');
+    } else if (status == Strophe.Status.DISCONNECTING) {
+      console.log('Strophe is disconnecting.');
+    } else if (status == Strophe.Status.DISCONNECTED) {
+      console.log('Strophe is disconnected.');
+     // $.xmppConnect();
+    } else if (status == Strophe.Status.CONNECTED) {
+      console.log('Strophe is connected.');
+      connection.addHandler(onMessage, null, 'message', null, null, null);
+      connection.send($pres().tree());
+    } else if (status === Strophe.Status.ATTACHED) {
+      console.log('Strophe is attached.');
+    }
+
+  }
+
+  function getNewStropheConnect() {
+    var con = new Strophe.Connection(BOSH_SERVICE);
+    //con.rawInput = console.log;
+    //con.rawOutput = updateCookie;
+    return con;
+  }
+//  function updateCookie(data){
+//    var xml = $.parseXML(data);
+//    $.cookies.set('sid', $(xml).find('body').attr('sid'));
+//    $.cookies.set('rid', $(xml).find('body').attr('rid'));
+//  }
+  $.xmppConnect = function (data) {
+    connection = getNewStropheConnect();
+    if(data != null){
+      jid = data;
+    }
+//    var sid = $.cookies.get("sid");
+//    var rid = (parseInt($.cookies.get("rid")) + 1) + '';
+   // if (sid != null) {
+   //   connection.attach(jid.email, sid, rid, onConnect)
+   //   $.cookies.set("sid", null);
+   // } else {
+    //  console.log("attchement failed");
+   connection.attach(
+       "metly@metly.com",
+       "059c7935dde661df0f5f05efb2db14c58cd2a321",
+       "1310",
+       onConnect);
+//    connection.connect(jid.jid, jid.pass, onConnect);
+   // }
+  }
+})(jQuery);

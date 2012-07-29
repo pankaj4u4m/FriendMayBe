@@ -1971,8 +1971,10 @@ Strophe.Connection.prototype = {
             content: "text/xml; charset=utf-8",
             ver: "1.6",
             "xmpp:version": "1.0",
-            "xmlns:xmpp": Strophe.NS.BOSH
-        });
+            "xmlns:xmpp": Strophe.NS.BOSH,
+            route: "xmpp:localhost:5222",
+            secure: 'true'
+    });
 
         this._changeConnectStatus(Strophe.Status.CONNECTING, null);
 
