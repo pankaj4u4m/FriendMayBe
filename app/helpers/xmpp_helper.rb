@@ -24,6 +24,9 @@ module XmppHelper
     client.close
   end
 
+  def getOnlineUsers
+
+  end
   private
   def connect(jid, pass)
     @client =JabberHTTPBindingClient.new(JID::new("#{jid}@localhost"))
