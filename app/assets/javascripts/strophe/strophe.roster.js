@@ -1,3 +1,4 @@
+//= require ./strophe
 /*
   Copyright 2010, François de Metz <francois@2metz.fr>
 */
@@ -128,6 +129,7 @@ Strophe.addConnectionPlugin('roster',
             attrs.ver = ver || '';
             this.items = items || [];
         }
+
         var iq = $iq({type: 'get',  'id' : this._connection.getUniqueId('roster')}).c('query', attrs);
         return this._connection.sendIQ(iq,
                                 this._onReceiveRosterSuccess.bind(this, userCallback),

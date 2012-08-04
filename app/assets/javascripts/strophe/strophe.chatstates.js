@@ -1,3 +1,4 @@
+//= require ./strophe
 /**
  * Chat state notifications (XEP 0085) plugin
  * @see http://xmpp.org/extensions/xep-0085.html

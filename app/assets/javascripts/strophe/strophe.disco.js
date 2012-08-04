@@ -1,3 +1,4 @@
+//= require ./strophe
 /*
   Copyright 2010, François de Metz <francois@2metz.fr>
 */

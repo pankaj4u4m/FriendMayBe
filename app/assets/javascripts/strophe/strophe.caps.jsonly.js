@@ -1,3 +1,6 @@
+//= require ./strophe
+//= require ./sha1
+//= require ./strophe.disco
 /**
  * Entity Capabilities (XEP-0115)
  *

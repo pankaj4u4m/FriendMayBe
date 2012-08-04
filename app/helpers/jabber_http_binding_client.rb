@@ -103,4 +103,8 @@ class JabberHTTPBindingClient < Jabber::HTTPBinding::Client
 
   end
 
+  def close
+    @status = DISCONNECTED
+    #send(Jabber::Presence.new.set_type(:unavailable))
+  end
 end
