@@ -17,18 +17,12 @@
             }
         },
         jidToId: function (jid) {
-            return Strophe.getBareJidFromJid(jid)
-                .replace(/@/g, "-")
-                .replace(/\./g, "-");
+            return String(jid).replace(/@.*/g, '');
         },
 
         onMessage: function (message) {
             console.log(message);
             return true;
-        },
-        scrollChat: function (jid_id) {
-            var div = $('#chat-' + jid_id + ' .chat-messages').get(0);
-            div.scrollTop = div.scrollHeight;
         },
         startup: function(){
             xmpp.connection.addHandler(xmpp.onMessage, null, 'message', null, null, null);
@@ -36,21 +30,106 @@
             // xmpp.connection.addHandler(xmpp.onPresence, null, "presence");
 
             xmpp.connection.send($pres().tree());
-            //var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
-            //xmpp.connection.sendIQ(iq, ));
-            var millisecondsToWait = 2000;
+            var millisecondsToWait = 100;
             setTimeout(function() {
-                roster = xmpp.connection.roster;
-                roster.get(xmpp.onRosterReceive);
+                xmpp.roster  = xmpp.connection.roster;
+                xmpp.roster.get(xmpp.onRosterReceive);
             }, millisecondsToWait);
 
 
             xmpp.isAlive = true;
         },
         onRosterReceive: function(data){
-            console.log("get called")
-            console.log(data);
+            $(data).each(function(){
+                var jid = this.jid;
+                var name = this.name || jid;
+
+                console.log(jid);
+                console.log(name);
+
+                // transform jid into an id
+                var jid_id = xmpp.jidToId(jid);
+
+                var contact = $("<li>" +
+                    "<a data-toggle='chat' class='roster-contact offline'  href='#"+jid_id +"'>" +
+                    "<div class='roster-jid' style=\"display:none\">" +
+                    jid +
+                    "</div><div class='roster-name'>" +
+                    name +
+                    "</div></a></li>");
+
+                xmpp.insertContact(contact);
+            });
             true;
+        },
+        presenceValue: function (elem) {
+            if (elem.hasClass('online')) {
+                return 2;
+            } else if (elem.hasClass('away')) {
+                return 1;
+            }
+
+            return 0;
+        },
+        insertContact: function (elem) {
+            var jid = elem.find('.roster-jid').text();
+            var pres = xmpp.presenceValue(elem.find('.roster-contact'));
+
+            var contacts = $('#remembereds li');
+            console.log(elem)
+
+            if (contacts.length > 0) {
+                var inserted = false;
+                contacts.each(function () {
+                    var cmp_pres = xmpp.presenceValue(
+                        $(this).find('.roster-contact'));
+                    var cmp_jid = $(this).find('.roster-jid').text();
+
+                    if (pres > cmp_pres) {
+                        $(this).before(elem);
+                        inserted = true;
+                        return false;
+                    } else if (pres === cmp_pres) {
+                        if (jid < cmp_jid) {
+                            $(this).before(elem);
+                            inserted = true;
+                            return false;
+                        }
+                    }
+                });
+
+                if (!inserted) {
+                    $('#remembereds ul').append(elem);
+                }
+            } else {
+                $('#remembereds ul').append(elem);
+            }
+            $("#remembereds a").click( function(e){
+                e.preventDefault();
+                var jid = $(this).find(".roster-jid").text();
+                var id = $(this).attr("href").replace('#', '');
+                var chatbar = "<div id='"+ id + "' class='tab-pane' style='height: 100%;'>" +
+                    "<div class='chat-message'></div></div>";
+
+                var messageBar= $("#chattab");
+                $(messageBar).append(chatbar);
+                //$(chatbar).width($(messageBar).width());
+                $("#current-user").val(id)
+                $(this).tab('show');
+            })
+
+            $('a[data-toggle="chat"]').bind('shown', function (e) {
+                console.log("logged");
+                //$(this).trigger("scrollResize");
+                var currentTab = $(e.target).attr("href");
+                var api = $(currentTab).data('jsp');
+
+                $(currentTab).show().setScrollPane({
+                    scrollToY: api == null?10000:api.getContentPositionY(),
+                    hideFocus: true
+                });
+                //console.log(e.relatedTarget) // previous
+            });
         },
         attach: function (data) {
             console.log('Prebind succeeded. Attaching...');
@@ -114,4 +193,5 @@
         var msg = $msg({to:$("#current-user").val().trim(), type:"chat"}).c("body").t(data);
         xmpp.connection.send(msg);
     }
+
 })(jQuery);

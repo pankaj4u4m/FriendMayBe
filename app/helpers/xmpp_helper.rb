@@ -10,32 +10,78 @@ include Jabber
 module XmppHelper
 
   Jabber::debug = true
+  @domain = nil
+  @my_jid = nil
+  @my_pass = nil
+  @closeCounter = 0
 
-  def xmpp_login(jid, pass)
-    @client = connect(jid, pass)
-    {http_sid: @client.http_sid, http_rid: @client.http_rid, jid: @client.jid,
-    id: jid, pass: pass}
+  def xmppLogin(jid, pass)
+    @domain = "localhost"
+    @my_jid = JID::new("#{jid}@#{@domain}")
+    @my_pass = pass
+    Rails.logger.info "my_jid:#{@my_jid}"
+    #Rails.logger.info "my_pass:#{@my_pass}"
+
+    xmppSocketConnect
+    @client = xmppHttpbindConnect
+
+    t = Thread.new do
+      while true do
+        --@closeCounter
+        if @closeCounter <= 0
+          @socketClient.close
+        end
+        sleep 1000
+      end
+    end
+
+    {http_sid: @client.http_sid, http_rid: @client.http_rid, jid: @client.jid}
   end
 
   def self.xmppRegister(jid, pass)
-    client =JabberHTTPBindingClient.new(JID::new("#{jid}@localhost"))
-    client.connect('http://localhost/bosh', 'localhost', 5222)
+    client =Jabber::Client.new(JID::new("#{jid}@localhost"))
+    client.connect
     client.register(pass)
     client.close
+  end
+
+  def xmppSend(message)
+    @closeCounter = 10
+    begin
+      @socketClient.send(message)
+    rescue
+      begin
+        if @socketClient
+          @socketClient.close
+        end
+      rescue
+      end
+      xmppSocketConnect
+      @socketClient.send(message)
+    end
   end
 
   def getOnlineUsers
 
   end
+
   private
-  def connect(jid, pass)
-    @client =JabberHTTPBindingClient.new(JID::new("#{jid}@localhost"))
-    @client.connect('http://localhost/bosh', 'localhost', 5222)
+  def xmppSocketConnect
+    @closeCounter = 10
+    @socketClient = Jabber::Client.new(@my_jid)
+    @socketClient.connect
     begin
-      @client.auth(pass)
+      @socketClient.auth(@my_pass)
     rescue
-      XmppHelper.xmppRegister(jid, pass)
+      XmppHelper.xmppRegister(@my_jid, @my_pass)
+      @socketClient.auth(@my_pass)
     end
+  end
+
+  def xmppHttpbindConnect
+    @client =JabberHTTPBindingClient.new(@my_jid)
+    @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)
+    @client.auth(@my_pass)
     @client.close
     @client
   end

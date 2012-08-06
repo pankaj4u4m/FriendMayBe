@@ -10,26 +10,10 @@
       var pan = $(this);
       var throttleTimeout;
       $(window).bind('resize',function(){
-
-        if ($.browser.msie) {
-          // IE fires multiple resize events while you are dragging the browser window which
-          // causes it to crash if you try to update the scrollpane on every one. So we need
-          // to throttle it to fire a maximum of once every 50 milliseconds...
-          if (!throttleTimeout) {
-            throttleTimeout = setTimeout( function(){
-              api.reinitialise();
-              throttleTimeout = null;
-            },50);
-          }
-        } else {
-          api.reinitialise();
-        }
-        reFormat(pan, options);
+         $(window).trigger('scrollResize');
       });
 
-      $('#chattypebox').keypress(function(e){
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if(code == 13) { //Enter keycode
+      $(window).bind('scrollResize',function(){
           if ($.browser.msie) {
             // IE fires multiple resize events while you are dragging the browser window which
             // causes it to crash if you try to update the scrollpane on every one. So we need
@@ -44,9 +28,6 @@
             api.reinitialise();
           }
           reFormat(pan, options);
-          return false;
-        }
-        return true;
       });
 
       function reFormat(pan, options){

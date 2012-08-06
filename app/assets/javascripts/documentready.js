@@ -6,49 +6,30 @@ $(document).ready(function(){
     autohide: $('div.scrollable').hasClass('autohide')
   });
 
-  $('.nav').each(function(){
-    var currentTab, ul = $(this);
-    $(this).find('a').each(function(){
-      var a = $(this).bind('click',function(){
-        if (currentTab) {
-          ul.find('a.active').removeClass('active');
-          $(currentTab).hide();
-        }
-        currentTab = $(this).addClass('active')
-        .attr('href');
-        var api = $(currentTab).data('jsp');
-
-        $(currentTab).show().setScrollPane({
-          scrollToY: api == null?10000:api.getContentPositionY(),
-          hideFocus: true
-        });
-        return true;
-      });
-    });
-  });
-
     $("#chattypebox").keypress(function(e){
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code == 13) { //Enter keycode
             var msg = $(this).val().trim();
             if(msg && msg.length){
-                $('#chatmsg').append("<div class=\"message\"><p><strong>Pankaj:</strong>" +
-                    msg + "</p></div>");
+                var chat = "<div class=\"message\"><p class='chat'><strong>Pankaj:</strong>" +
+                    msg + "</p></div>"
+               // $(chat).width($('.tab-content').width());
+                var currentTab = "#"+$("#current-user").val();
+                $(currentTab+ ' .chat-message').append(chat);
                 $.xmppSend(msg);
             }
 
             $(this).val("");
+            //$(window).trigger("scrollResize");
+
             return false;
         }
         return true;
     });
 
-  $('.message').each(function(){
-    $(this).width($('.tab-content').width());
     $(window).bind('resize',function(){
-      $(this).width($(this).parent().width());
+        $(".message").width($(".message").parent().width());
     });
-  })
 /*  setInterval(function(){
       $.get('/remembereds', function(data){
           $('#remembereds ul').empty();
