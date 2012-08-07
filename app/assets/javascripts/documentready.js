@@ -11,10 +11,10 @@ $(document).ready(function(){
         if(code == 13) { //Enter keycode
             var msg = $(this).val().trim();
             if(msg && msg.length){
-                var chat = "<div class=\"message\"><p class='chat'><strong>Pankaj:</strong>" +
+                var chat = "<div class=\"message\"><p class='chat me'><strong>Pankaj:</strong>" +
                     msg + "</p></div>"
                 var currentTab = "#"+$("#current-user").val();
-                $(currentTab +" .chat-message").append(chat);
+                $(currentTab +" .chat-messages").append(chat);
                 $.xmppSend(msg);
             }
 

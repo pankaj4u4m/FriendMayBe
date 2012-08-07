@@ -17,16 +17,65 @@
                 xmpp.startup()
             }
         },
-        jidToId: function (jid) {
-            return String(jid).replace(/@.*/g, '');
-        },
-
         onMessage: function (message) {
             console.log(message);
+            var full_jid = $(message).attr('from');
+            var jid = Strophe.getBareJidFromJid(full_jid);
+            var jid_id = Strophe.getNodeFromJid(jid);
+            var composing = $(message).find('composing');
+            if (composing.length > 0) {
+                $('#' + jid_id + ' .chat-messages').append(
+                    "<div class='chat-event'>" +
+                        Strophe.getNodeFromJid(jid) +
+                        " is typing...</div>");
+
+                xmpp.scrollChat(jid_id);
+            }
+
+            var body = $(message).find("html > body");
+
+            if (body.length === 0) {
+                body = $(message).find('body');
+                if (body.length > 0) {
+                    body = body.text()
+                } else {
+                    body = null;
+                }
+            } else {
+                body = body.contents();
+
+                var span = $("<span></span>");
+                body.each(function () {
+                    if (document.importNode) {
+                        $(document.importNode(this, true)).appendTo(span);
+                    } else {
+                        // IE workaround
+                        span.append(this.xml);
+                    }
+                });
+
+                body = span;
+            }
+            if (body) {
+                // remove notifications since user is now active
+                $('#' + jid_id + ' .chat-event').remove();
+
+                var chat = "<div class=\"message\"><p class='chat me'><strong style='color:#2180D8;'>Stranger:</strong>" +
+                    body + "</p></div>"
+                var currentTab = "#"+$("#current-user").val();
+                $('#' + jid_id + " .chat-messages").append(chat);
+                xmpp.scrollChat(jid_id);
+            }
+
+
+
             return true;
         },
+        scrollChat: function(jid_to){
+            $("#" + jid_to).trigger("scrollResize");
+        },
         startup: function(){
-            xmpp.connection.addHandler(xmpp.onMessage, null, 'message', null, null, null);
+            xmpp.connection.addHandler(xmpp.onMessage, null, 'message', "chat");
             // xmpp.connection.addHandler(xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
             // xmpp.connection.addHandler(xmpp.onPresence, null, "presence");
 
@@ -48,7 +97,7 @@
                 console.log(name);
 
                 // transform jid into an id
-                var jid_id = xmpp.jidToId(jid);
+                var jid_id = Strophe.getNodeFromJid(jid);
 
                 var contact = $("<li>" +
                     "<a data-toggle='chat' class='roster-contact offline'  href='#"+jid_id +"'>" +
@@ -110,7 +159,7 @@
                 var id = $(this).attr("href").replace('#', '');
                 if ($("#"+id).length <= 0){
                     var chatbar = "<div id='"+ id + "' class='tab-pane' style='height:100%;'>" +
-                        "<div class='chat-message'></div></div>";
+                        "<div class='chat-messages'></div></div>";
 
                     var messageBar= $("#messagebar");
                     $(messageBar).append(chatbar);
@@ -128,8 +177,7 @@
 
             $('a[data-toggle="chat"]').bind('shown', function (e) {
                 console.log("logged");
-                $(this).trigger("scrollResize");
-
+                xmpp.scrollChat($(this).attr("href").replace('#', ''));
                 //console.log(e.relatedTarget) // previous
             });
         },

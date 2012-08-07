@@ -142,9 +142,7 @@ footer {
   padding: 10px 0 10px 10px;
   background-color: white;
 }
-#messagebar * {
-  overflow: hidden;
-}
+
 #messagebar{
   height: 100%;
   width: 100%;
@@ -171,5 +169,9 @@ footer {
 }
  .chat{
    white-space:pre-wrap;
+ }
+ .chat-event{
+   position: fixed;
+   bottom: 0;
  }
 
