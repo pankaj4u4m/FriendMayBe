@@ -120,6 +120,7 @@
 	background: #eeeef4;
 	float: left;
 	height: 100%;
+    opacity:0.2;
 }
 
 /* Yuk! CSS Hack for IE6 3 pixel bug :( */

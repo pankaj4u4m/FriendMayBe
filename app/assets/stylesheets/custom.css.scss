@@ -110,7 +110,6 @@ footer {
 /* chat bottom bar */
 .chatbox{
   height: 69px;
-  font-size: 1.3em;
   color: #222;
   width: 100%;
   resize: none;
@@ -140,15 +139,16 @@ footer {
   bottom: 105px;
   z-index: 1020;
   margin-right: 10px;
-  padding: 10px 10px;
-  font-size: 1.2em;
+  padding: 10px 0 10px 10px;
   background-color: white;
 }
-.messagebar-fixed *{
+#messagebar * {
   overflow: hidden;
 }
 #messagebar{
   height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 
 .message{
@@ -170,5 +170,6 @@ footer {
   background: #FFF url("openid_providers_Google.gif") no-repeat center;
 }
  .chat{
-   word-wrap:break-word;
+   white-space:pre-wrap;
  }
+

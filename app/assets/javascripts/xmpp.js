@@ -5,6 +5,7 @@
         connection: null,
         roster: null,
         me: null,
+        domain: null,
         isAlive: false,
         pending_subscriber: null,
 
@@ -30,11 +31,10 @@
             // xmpp.connection.addHandler(xmpp.onPresence, null, "presence");
 
             xmpp.connection.send($pres().tree());
-            var millisecondsToWait = 100;
-            setTimeout(function() {
-                xmpp.roster  = xmpp.connection.roster;
-                xmpp.roster.get(xmpp.onRosterReceive);
-            }, millisecondsToWait);
+
+            xmpp.roster  = xmpp.connection.roster;
+            xmpp.roster.get(xmpp.onRosterReceive);
+
 
 
             xmpp.isAlive = true;
@@ -108,11 +108,19 @@
                 e.preventDefault();
                 var jid = $(this).find(".roster-jid").text();
                 var id = $(this).attr("href").replace('#', '');
-                var chatbar = "<div id='"+ id + "' class='tab-pane' style='height: 100%;'>" +
-                    "<div class='chat-message'></div></div>";
+                if ($("#"+id).length <= 0){
+                    var chatbar = "<div id='"+ id + "' class='tab-pane' style='height:100%;'>" +
+                        "<div class='chat-message'></div></div>";
 
-                var messageBar= $("#chattab");
-                $(messageBar).append(chatbar);
+                    var messageBar= $("#messagebar");
+                    $(messageBar).append(chatbar);
+                    $("#" + id ).setScrollPane({
+                        scrollToY: $(this).data('jsp') == null?10000: $(this).data('jsp').getContentPositionY(),
+                        width: 12,
+                        height: 10,
+                        maintainPosition: false
+                    });
+                }
                 //$(chatbar).width($(messageBar).width());
                 $("#current-user").val(id)
                 $(this).tab('show');
@@ -120,14 +128,8 @@
 
             $('a[data-toggle="chat"]').bind('shown', function (e) {
                 console.log("logged");
-                //$(this).trigger("scrollResize");
-                var currentTab = $(e.target).attr("href");
-                var api = $(currentTab).data('jsp');
+                $(this).trigger("scrollResize");
 
-                $(currentTab).show().setScrollPane({
-                    scrollToY: api == null?10000:api.getContentPositionY(),
-                    hideFocus: true
-                });
                 //console.log(e.relatedTarget) // previous
             });
         },
@@ -139,6 +141,7 @@
             xmpp.connection.attach(xmpp.me, data['http_sid'],
                 parseInt(data['http_rid'], 10) + 2,
                 xmpp.onConnect);
+            xmpp.domain = data['jid']['domain'];
         },
 
         initiateConnection: function () {
@@ -190,7 +193,7 @@
         if(!xmpp.isAlive){
             xmpp.connection.reset();
         }
-        var msg = $msg({to:$("#current-user").val().trim(), type:"chat"}).c("body").t(data);
+        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
         xmpp.connection.send(msg);
     }
 

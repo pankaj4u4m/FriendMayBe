@@ -51,7 +51,6 @@
         }
         if(options.scrollToY){
           var api = $(pan).data('jsp')
-          console.debug(api);
           api.scrollToY(options.scrollToY);
         }
       }
