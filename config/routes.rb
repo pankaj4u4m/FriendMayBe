@@ -5,29 +5,30 @@ MetlyDevise::Application.routes.draw do
     get 'users/sign_in', :to => 'users/sessions#new', :as => :new_user_session
     get 'users/sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
-
-  resources :remembers do
-    member do
-      get :remembereds
-      get :rememberers
-      post :remember
-      post :forget
-      post :block
-    end
-  end
-  resources :messages do
-    member do
-      get :senders
-      get :receivers
-      post :sendmessage
-    end
-  end
+  #
+  #resources :remembers do
+  #  member do
+  #    get :remembereds
+  #    get :rememberers
+  #    post :remember
+  #    post :forget
+  #    post :block
+  #  end
+  #end
+  #resources :chats do
+  #  member do
+  #    get :senders
+  #    get :receivers
+  #    post :sendmessage
+  #  end
+  #end
 
   authenticated :user do
     root to: "home_pages#home"
     match "/remembereds", to: "remembers#remembereds"
     match "/rememberers", to: "remembers#rememberers"
     post "/login", to: "home_pages#login"
+    post "/chats/sendmessage" , to: "chats#sendmessage"
   end
   get "/logout", to: "home_pages#logout"
   root to: "login_pages#login"

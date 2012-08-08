@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20120719184606) do
 
-  create_table "messages", :force => true do |t|
+  create_table "chats", :force => true do |t|
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.datetime "message_time"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(:version => 20120719184606) do
     t.datetime "updated_at",   :null => false
   end
 
-  add_index "messages", ["receiver_id"], :name => "index_messages_on_receiver_id"
-  add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
+  add_index "chats", ["receiver_id"], :name => "index_chats_on_receiver_id"
+  add_index "chats", ["sender_id"], :name => "index_chats_on_sender_id"
 
   create_table "ofExtComponentConf", :primary_key => "subdomain", :force => true do |t|
     t.integer "wildcard",   :limit => 1,  :null => false

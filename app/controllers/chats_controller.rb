@@ -1,6 +1,7 @@
-class MessagesController < ApplicationController
+class ChatsController < ApplicationController
   before_filter :authenticate_user!
 
+  include XmppHelper
 
   def senders
     @senders = current_user.senders
@@ -19,11 +20,14 @@ class MessagesController < ApplicationController
 
 
   def sendmessage
-    @user = User.find(params[:receiver])
-    current_user.sendmessage!(@user, params[:message])
-    redirect_to do |format|
-      format.js
-    end
+    message = params[:message]
+    response = xmppSend(message)
+
+    #@user = User.find(params[:receiver])
+    #current_user.sendmessage!(@user, params[:message])
+    #respond_to do |format|
+    #  format.js
+    #end
   end
 
 end

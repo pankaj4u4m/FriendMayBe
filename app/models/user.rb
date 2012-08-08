@@ -20,11 +20,11 @@ class User < ActiveRecord::Base
   has_many :rememberer_users, through: :reverse_remembers, source: :rememberer
 
 
-  has_many :messages, foreign_key: "sender_id"
-  has_many :reveivers, through: :messages, source: :receiver
-  has_many :reverse_messages, foreign_key: "receiver_id",
-           class_name:  "Message"
-  has_many :senders, through: :reverse_messages, source: :sender
+  has_many :chats, foreign_key: "sender_id"
+  has_many :reveivers, through: :chats, source: :receiver
+  has_many :reverse_chats, foreign_key: "receiver_id",
+           class_name: "Chat"
+  has_many :senders, through: :reverse_chats, source: :sender
 
 
   def remembered?(other_user)
@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
         password: Devise.friendly_token[0, 20],
         xmpp: Digest::MD5.hexdigest(auth.info.email)
     )
-    XmppHelper.xmppRegister(user.xmpp, Digest::MD5.hexdigest(user.encrypted_password))
+    XmppHelper.xmppRegister("#{user.xmpp}@localhost", Digest::MD5.hexdigest(user.encrypted_password))
     user
   end
 

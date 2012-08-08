@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Chat < ActiveRecord::Base
   attr_accessible :message, :message_time, :receiver_id
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"

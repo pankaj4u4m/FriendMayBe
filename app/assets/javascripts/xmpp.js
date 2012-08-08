@@ -24,7 +24,7 @@
             var jid_id = Strophe.getNodeFromJid(jid);
             var composing = $(message).find('composing');
             if (composing.length > 0) {
-                $('#' + jid_id + ' .chat-messages').append(
+                $('#' + jid_id + ' .chat-chats').append(
                     "<div class='chat-event'>" +
                         Strophe.getNodeFromJid(jid) +
                         " is typing...</div>");
@@ -63,7 +63,7 @@
                 var chat = "<div class=\"message\"><p class='chat me'><strong style='color:#2180D8;'>Stranger:</strong>" +
                     body + "</p></div>"
                 var currentTab = "#"+$("#current-user").val();
-                $('#' + jid_id + " .chat-messages").append(chat);
+                $('#' + jid_id + " .chat-chats").append(chat);
                 xmpp.scrollChat(jid_id);
             }
 
@@ -159,7 +159,7 @@
                 var id = $(this).attr("href").replace('#', '');
                 if ($("#"+id).length <= 0){
                     var chatbar = "<div id='"+ id + "' class='tab-pane' style='height:100%;'>" +
-                        "<div class='chat-messages'></div></div>";
+                        "<div class='chat-chats'></div></div>";
 
                     var messageBar= $("#messagebar");
                     $(messageBar).append(chatbar);
@@ -224,6 +224,17 @@
                 }
             })
         },
+        send: function (msg){
+            var token = $('meta[name=csrf-token]').attr('content');
+            var param = $('meta[name=csrf-param]').attr('content');
+            var data = {};
+            data[param] = token;
+            var s = msg.xml;
+            data["msg"] = s;
+            $.post("/chats/sendmessage", data, function(response){
+                xmpp.isAlive = response['status'];
+            })
+        },
         connect: function(){
             xmpp.connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
             xmpp.connection.connect("codegambler@gmail.com", "kim-10vriti", xmpp.onConnect);
@@ -238,11 +249,11 @@
     }
 
     $.xmppSend = function(data){
+        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
+        xmpp.send(msg);
         if(!xmpp.isAlive){
             xmpp.connection.reset();
         }
-        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
-        xmpp.connection.send(msg);
     }
 
 })(jQuery);

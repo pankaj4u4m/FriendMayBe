@@ -19,8 +19,4 @@ class HomePagesController < ApplicationController
     end
   end
 
-  def sendMessage
-    message = params[:message]
-    xmppSend
-  end
 end

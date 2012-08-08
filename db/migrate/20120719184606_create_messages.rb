@@ -1,6 +1,6 @@
 class CreateMessages < ActiveRecord::Migration
   def change
-    create_table :messages do |t|
+    create_table :chats do |t|
       t.integer :sender_id
       t.integer :receiver_id
       t.datetime :message_time
@@ -8,7 +8,7 @@ class CreateMessages < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :messages, :sender_id
-    add_index :messages, :receiver_id
+    add_index :chats, :sender_id
+    add_index :chats, :receiver_id
   end
 end

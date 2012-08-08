@@ -39,26 +39,30 @@ module XmppHelper
   end
 
   def self.xmppRegister(jid, pass)
-    client =Jabber::Client.new(JID::new("#{jid}@localhost"))
-    client.connect
-    client.register(pass)
-    client.close
+    begin
+      client =Jabber::Client.new(JID::new(jid))
+      client.connect
+      client.register(pass)
+      client.close
+    rescue => e
+      Rails.logger.error "Failed to register user #{jid} \n#{e.backtrace.join("\n")}"
+    end
   end
 
   def xmppSend(message)
-    @closeCounter = 10
-    begin
-      @socketClient.send(message)
-    rescue
-      begin
-        if @socketClient
-          @socketClient.close
-        end
-      rescue
-      end
-      xmppSocketConnect
-      @socketClient.send(message)
-    end
+    #@closeCounter = 10
+    #begin
+    #  @socketClient.send(message)
+    #rescue
+    #  begin
+    #    if @socketClient
+    #      @socketClient.close
+    #    end
+    #  rescue
+    #  end
+    #  xmppSocketConnect
+    #  @socketClient.send(message)
+    #end
   end
 
   def getOnlineUsers
@@ -74,6 +78,8 @@ module XmppHelper
       @socketClient.auth(@my_pass)
     rescue
       XmppHelper.xmppRegister(@my_jid, @my_pass)
+      @socketClient = Jabber::Client.new(@my_jid)
+      @socketClient.connect
       @socketClient.auth(@my_pass)
     end
   end
