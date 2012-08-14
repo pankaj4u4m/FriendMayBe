@@ -20,5 +20,5 @@ log4r_config:
     file: "metly.log" # this will be overrided by rails' config.
     formatter:
       date_pattern: '%H:%M:%S'
-      pattern     : '%d %l [%h]: %m '
+      pattern     : '%d %l %t [%h]: %m '
       type        : PatternFormatter

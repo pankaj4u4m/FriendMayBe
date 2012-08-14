@@ -60,7 +60,7 @@ module XmppHelper
     else
       stranger = userconnect(me, stranger)
     end
-    return {stranger: stranger}
+    return {stranger: stranger.nil? ? nil : stranger.connected_user}
   end
   private
 
@@ -85,7 +85,7 @@ module XmppHelper
     counter = 0;
     stranger = Stranger.connected(me)
     while stranger.nil?
-      break if counter > 40
+      break if counter > 10
       sleep(0.5);
       counter +=1;
       stranger = Stranger.connected(me)

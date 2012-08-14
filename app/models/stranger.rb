@@ -29,13 +29,15 @@ class Stranger < ActiveRecord::Base
   end
 
   def self.connected(user)
-    stranger = Stranger.find_by_user_id(user);
-    Rails.logger.debug("connecting found #{stranger.user_id} #{stranger.connected_user} #{stranger.connection_status}")
-    if stranger.connection_status.equal?('CONNECTING')
-      stranger.connection_status = 'CONNECTED'
-      stranger.updated_time = Time.now;
-      stranger.save
-      return stranger
+    str = Stranger.find_by_user_id(user);
+
+    Rails.logger.debug("connecting found #{str.user_id} #{str.connected_user} #{str.connection_status}")
+
+    if str.connection_status == 'CONNECTING'
+      str.connection_status = 'CONNECTED'
+      str.updated_time = Time.now;
+      str.save
+      return str
     end
     return nil;
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120719184606) do
+ActiveRecord::Schema.define(:version => 20120813103005) do
 
   create_table "chats", :force => true do |t|
     t.integer  "sender_id"
@@ -351,6 +351,18 @@ ActiveRecord::Schema.define(:version => 20120719184606) do
   add_index "remembers", ["rememberer_id", "remembered_id"], :name => "index_remembers_on_rememberer_id_and_remembered_id", :unique => true
   add_index "remembers", ["rememberer_id"], :name => "index_remembers_on_rememberer_id"
 
+  create_table "strangers", :force => true do |t|
+    t.string   "user_id"
+    t.string   "connection_status"
+    t.string   "connected_user"
+    t.datetime "updated_time"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "strangers", ["user_id", "connection_status"], :name => "index_strangers_on_user_id_and_connection_status", :unique => true
+  add_index "strangers", ["user_id"], :name => "index_strangers_on_user_id", :unique => true
+
   create_table "user_details", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.string   "provider",   :null => false
@@ -379,6 +391,8 @@ ActiveRecord::Schema.define(:version => 20120719184606) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "provider"
+    t.string   "uid"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -1,5 +1,7 @@
+//= require ./chatUI
+//= require ./scrollbar
 (function ($) {
-    var xmpp = {
+    var Xmpp = {
         BOSH_SERVICE: '/bosh',
         PRE_BINDING: '/login',
         connection: null,
@@ -11,10 +13,10 @@
 
 
         onConnect: function (status) {
-            xmpp.isAlive = false;
+            Xmpp.isAlive = false;
             if (status == Strophe.Status.CONNECTED || status === Strophe.Status.ATTACHED) {
                 console.log('Strophe is attached.');
-                xmpp.startup()
+                Xmpp.startup()
             }
         },
         onMessage: function (message) {
@@ -29,7 +31,7 @@
                         Strophe.getNodeFromJid(jid) +
                         " is typing...</div>");
 
-                xmpp.scrollChat(jid_id);
+                Xmpp.scrollChat(jid_id);
             }
 
             var body = $(message).find("html > body");
@@ -64,7 +66,7 @@
                     body + "</p></div>"
                 var currentTab = "#"+$("#current-user").val();
                 $('#' + jid_id + " .chat-chats").append(chat);
-                xmpp.scrollChat(jid_id);
+                Xmpp.scrollChat(jid_id);
             }
 
 
@@ -75,18 +77,29 @@
             $("#" + jid_to).trigger("scrollResize");
         },
         startup: function(){
-            xmpp.connection.addHandler(xmpp.onMessage, null, 'message', "chat");
-            // xmpp.connection.addHandler(xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
-            // xmpp.connection.addHandler(xmpp.onPresence, null, "presence");
+            Xmpp.connection.addHandler(Xmpp.onMessage, null, 'message', "chat");
+            // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
+            // Xmpp.connection.addHandler(Xmpp.onPresence, null, "presence");
 
-            xmpp.connection.send($pres().tree());
+            Xmpp.connection.send($pres().tree());
 
-            xmpp.roster  = xmpp.connection.roster;
-            xmpp.roster.get(xmpp.onRosterReceive);
+            Xmpp.roster  = Xmpp.connection.roster;
+            Xmpp.roster.get(Xmpp.onRosterReceive);
 
 
 
-            xmpp.isAlive = true;
+            Xmpp.isAlive = true;
+        },
+        rosterStatus: function(data){
+            var status = 'offline';
+            for (var k in this.resources) {
+                if (status != 'online' && this.resources[k].show === "online") {
+                    status = 'online'
+                } else if (status != 'online' && status != 'away' && this.resources[k].show === "away"){
+                    status = 'away';
+                }
+            }
+            status;
         },
         onRosterReceive: function(data){
             $(data).each(function(){
@@ -105,9 +118,11 @@
                     jid +
                     "</div><div class='roster-name'>" +
                     name +
-                    "</div></a></li>");
+                    "</div><div class='" + Xmpp.rosterStatus(data) + "'>" +
 
-                xmpp.insertContact(contact);
+                    "</a></li>");
+
+                Xmpp.insertContact(contact);
             });
             true;
         },
@@ -122,7 +137,7 @@
         },
         insertContact: function (elem) {
             var jid = elem.find('.roster-jid').text();
-            var pres = xmpp.presenceValue(elem.find('.roster-contact'));
+            var pres = Xmpp.presenceValue(elem.find('.roster-contact'));
 
             var contacts = $('#remembereds li');
             console.log(elem)
@@ -130,7 +145,7 @@
             if (contacts.length > 0) {
                 var inserted = false;
                 contacts.each(function () {
-                    var cmp_pres = xmpp.presenceValue(
+                    var cmp_pres = Xmpp.presenceValue(
                         $(this).find('.roster-contact'));
                     var cmp_jid = $(this).find('.roster-jid').text();
 
@@ -177,19 +192,19 @@
 
             $('a[data-toggle="chat"]').bind('shown', function (e) {
                 console.log("logged");
-                xmpp.scrollChat($(this).attr("href").replace('#', ''));
+                Xmpp.scrollChat($(this).attr("href").replace('#', ''));
                 //console.log(e.relatedTarget) // previous
             });
         },
         attach: function (data) {
             console.log('Prebind succeeded. Attaching...');
 
-            xmpp.connection = new Strophe.Connection(xmpp.BOSH_SERVICE);
-            xmpp.me = data['jid']['node'] + '@' + data['jid']['domain'] + '/' + data['jid']['resource'];
-            xmpp.connection.attach(xmpp.me, data['http_sid'],
+            Xmpp.connection = new Strophe.Connection(Xmpp.BOSH_SERVICE);
+            Xmpp.me = data['jid']['node'] + '@' + data['jid']['domain'] + '/' + data['jid']['resource'];
+            Xmpp.connection.attach(Xmpp.me, data['http_sid'],
                 parseInt(data['http_rid'], 10) + 2,
-                xmpp.onConnect);
-            xmpp.domain = data['jid']['domain'];
+                Xmpp.onConnect);
+            Xmpp.domain = data['jid']['domain'];
         },
 
         initiateConnection: function () {
@@ -199,11 +214,11 @@
             data[param] = token;
             $.ajax({
                 type:'post',
-                url:xmpp.PRE_BINDING,
+                url:Xmpp.PRE_BINDING,
                 dataType:'json',
                 tryCount: 0,
                 retryLimit: 3,
-                success:xmpp.attach,
+                success:Xmpp.attach,
                 data: data,
                 error:function (xhr, textStatus, errorThrown) {
                     if (textStatus == 'timeout') {
@@ -237,48 +252,61 @@
 //                dataType: 'json',
 //                data: data,
 //                success: function(response){
-//                    xmpp.isAlive = response['status'];
+//                    Xmpp.isAlive = response['status'];
 //                }
 //            })
 //        },
-        getStranger: function(){
+        getStranger: function(element){
             var token = $('meta[name=csrf-token]').attr('content');
             var param = $('meta[name=csrf-param]').attr('content');
             var data = {};
             data[param] = token;
-            data["me"] = xmpp.me
+            data["me"] = Xmpp.me
             $.ajax({
                 type: "POST",
                 url: "/chats/stranger",
                 dataType: 'json',
                 data: data,
                 success: function(response){
-                    console.log(response)
+                    if(response['stranger'] != null){
+                        $(element).changeChatStatusChanged({status: ChatButtonStatus.DISCONNECT, jid: response['stranger']});
+                    } else {
+                        $(element).changeChatStatusChanged({status: ChatButtonStatus.HANGOUT, jid: null});
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    $(this).changeChatStatusChanged({status: ChatButtonStatus.HANGOUT, jid: null});
                 }
             })
         },
+        disconnect: function(){
+
+        },
         connect: function(){
-            xmpp.connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
-            xmpp.connection.connect("codegambler@gmail.com", "kim-10vriti", xmpp.onConnect);
+            Xmpp.connection = new Strophe.Connection('http://bosh.metajack.im:5280/Xmpp-httpbind');
+            Xmpp.connection.connect("codegambler@gmail.com", "kim-10vriti", Xmpp.onConnect);
         }
     }
 
 
 
     $.xmppStart = function () {
-        xmpp.initiateConnection()
-        //xmpp.connect();
+        Xmpp.initiateConnection()
+        //Xmpp.connect();
     }
 
     $.xmppSend = function(data){
-        if(!xmpp.isAlive){
-            xmpp.connection.reset();
+        if(!Xmpp.isAlive){
+            Xmpp.connection.reset();
         }
-        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
-        xmpp.connection.send(msg);
+        var msg = $msg({to:$("#current-user").val().trim()+"@" + Xmpp.domain, type:"chat"}).c("body").t(data);
+        Xmpp.connection.send(msg);
     }
-    $.xmppStranger = function(){
-        xmpp.getStranger();
+    $.xmppStranger = function(element){
+        Xmpp.getStranger(element);
+    }
+    $.xmppStrangerDisconnect = function(element){
+        Xmpp.disconnect(element);
     }
 
 })(jQuery);

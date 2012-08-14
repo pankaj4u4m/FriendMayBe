@@ -14,5 +14,6 @@
 //= require_directory ./strophe
 // require_directory ./jquery_ui
 //= require_directory ./bootstrap
+//= require_directory ./metly
 //= require_self
 //= require_directory .
