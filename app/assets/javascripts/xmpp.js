@@ -224,15 +224,37 @@
                 }
             })
         },
-        send: function (msg){
+//        send: function (msg){
+//            var token = $('meta[name=csrf-token]').attr('content');
+//            var param = $('meta[name=csrf-param]').attr('content');
+//            var data = {};
+//            data[param] = token;
+//            var s = msg.toString()
+//            data["msg"] = s;
+//            $.ajax({
+//                type: "POST",
+//                url: "/chats/sendmessage",
+//                dataType: 'json',
+//                data: data,
+//                success: function(response){
+//                    xmpp.isAlive = response['status'];
+//                }
+//            })
+//        },
+        getStranger: function(){
             var token = $('meta[name=csrf-token]').attr('content');
             var param = $('meta[name=csrf-param]').attr('content');
             var data = {};
             data[param] = token;
-            var s = msg.xml;
-            data["msg"] = s;
-            $.post("/chats/sendmessage", data, function(response){
-                xmpp.isAlive = response['status'];
+            data["me"] = xmpp.me
+            $.ajax({
+                type: "POST",
+                url: "/chats/stranger",
+                dataType: 'json',
+                data: data,
+                success: function(response){
+                    console.log(response)
+                }
             })
         },
         connect: function(){
@@ -249,11 +271,14 @@
     }
 
     $.xmppSend = function(data){
-        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
-        xmpp.send(msg);
         if(!xmpp.isAlive){
             xmpp.connection.reset();
         }
+        var msg = $msg({to:$("#current-user").val().trim()+"@" + xmpp.domain, type:"chat"}).c("body").t(data);
+        xmpp.connection.send(msg);
+    }
+    $.xmppStranger = function(){
+        xmpp.getStranger();
     }
 
 })(jQuery);

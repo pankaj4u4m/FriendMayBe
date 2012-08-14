@@ -18,16 +18,11 @@ class ChatsController < ApplicationController
     end
   end
 
-
-  def sendmessage
-    message = params[:message]
-    response = xmppSend(message)
-
-    #@user = User.find(params[:receiver])
-    #current_user.sendmessage!(@user, params[:message])
-    #respond_to do |format|
-    #  format.js
-    #end
+  def stranger
+    stranger = XmppHelper.getStranger(params[:me])
+    respond_to do |format|
+      format.js { render json: stranger }
+    end
   end
 
 end

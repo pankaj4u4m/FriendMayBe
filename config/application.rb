@@ -7,12 +7,20 @@ require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
+# add these line for log4r
+require 'log4r'
+require 'log4r/yamlconfigurator'
+require 'log4r/outputter/datefileoutputter'
+include Log4r
+
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
+  Bundler.require(:default, Rails.env)
+
 end
 
 module MetlyDevise
@@ -64,6 +72,11 @@ module MetlyDevise
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    log4r_config= YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
+    YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
+    config.logger = Log4r::Logger[Rails.env]
+
 
     #TODO for heruko config.assets.initialize_on_precompile = false
     #config.force_ssl = true

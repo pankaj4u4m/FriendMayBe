@@ -25,7 +25,9 @@ $(document).ready(function(){
         }
         return true;
     });
-
+    $("#stranger").click(function(){
+        $.xmppStranger();
+    })
 //    $('#chattab').bind('resize',function(){
 //        $(this).width($(this).parent().width());
 //    })
