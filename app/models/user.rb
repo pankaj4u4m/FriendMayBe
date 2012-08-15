@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :user_details
+  has_many :login_histories
 
   has_many :remembers, foreign_key: "rememberer_id"
   has_many :remembered_users, through: :remembers, source: :remembered

@@ -1,7 +1,4 @@
 MetlyDevise::Application.routes.draw do
-  get "people/home"
-
-  get "people/search"
 
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
 
@@ -33,6 +30,8 @@ MetlyDevise::Application.routes.draw do
     match "/rememberers", to: "remembers#rememberers"
     post "/login", to: "home_pages#login"
     post "/chats/stranger" , to: "chats#stranger"
+    match "/people", to: "people#home"
+    post "people/search"
   end
   get "/logout", to: "home_pages#logout"
   root to: "login_pages#login"

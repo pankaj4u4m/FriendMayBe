@@ -1,2 +1,9 @@
-<h1>People#home</h1>
-<p>Find me in app/views/people/home.html.erb</p>
+<%= render 'people/header' %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+       <%= render 'people/searchbox' %>
+       <%= render 'people/search_results' %>
+    </div>
+  </div>
+</div>

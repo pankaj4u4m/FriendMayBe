@@ -5,6 +5,9 @@ $(document).ready(function(){
     hideFocus:true,
     autohide: $('div.scrollable').hasClass('autohide')
   });
+  $('#search-scroll').setScrollPane({
+        width: 12
+    });
 
     $("#chattypebox").keypress(function(e){
         var code = (e.keyCode ? e.keyCode : e.which);

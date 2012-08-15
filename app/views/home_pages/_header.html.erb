@@ -3,10 +3,10 @@
     $.xmppStart();
   </script>
   <div class="navbar-inner" >
-    <%= link_to "metly", '#', id: "logo" %>
+    <%= link_to "metly", root_path, id: "logo" %>
     <nav>
       <ul class="nav pull-right">
-        <li><%= link_to "#{@user.user_details[0].name}", root_path, style: "padding-top: 10px; padding-bottom: 10px", id: "username"%></li>
+        <li><%= link_to "I just saw", people_path, style: "padding-top: 10px; padding-bottom: 10px", id: "search"%></li>
         <li><%= link_to "logout", logout_path, style: "padding-top: 10px; padding-bottom: 10px"%></li>
 
         <!--<li>-->

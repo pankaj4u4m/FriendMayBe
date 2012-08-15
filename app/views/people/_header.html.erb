@@ -1,0 +1,27 @@
+<header class="navbar-fixed-top navbar">
+  <div class="navbar-inner" >
+    <%= link_to "metly", root_path, id: "logo" %>
+    <nav>
+      <ul class="nav pull-right">
+        <li><%= link_to "#{@user.user_details[0].name}", root_path, style: "padding-top: 10px; padding-bottom: 10px", id: "username"%></li>
+        <li><%= link_to "logout", logout_path, style: "padding-top: 10px; padding-bottom: 10px"%></li>
+
+        <!--<li>-->
+        <!--<a href="#"-->
+        <!--class=" user-icon-setting dropdown-toggle"-->
+        <!--data-toggle="dropdown"-->
+        <!--style="margin-right: 2px;"></a>-->
+        <!--<ul class="dropdown-menu" style="margin-right: 10px;">-->
+        <!--<li>-->
+        <!--<%= link_to "logout", logout_path, style: "padding-top: 10px; padding-bottom: 10px"%>-->
+        <!--</li>-->
+        <!--&lt;!&ndash; <li>-->
+        <!--<%= link_to "password", "#", style: "padding-top: 10px; padding-bottom: 10px" %>-->
+        <!--</li>-->
+        <!--&ndash;&gt;-->
+        <!--</ul>-->
+        <!--</li>-->
+      </ul>
+    </nav>
+  </div>
+</header>
