@@ -15,6 +15,14 @@
 body{
   background-color: #F7F8FA;
 }
+a {
+  color:#555555 !important;
+}
+
+a:hover{
+  color: #000000 !important;
+}
+
 .debug_dump {
   position: absolute;
   width: 100%;
@@ -40,12 +48,13 @@ body{
 #logo:hover {
   text-decoration: none;
 }
-#remembereds a{
-  color: #555;
-}
+//#remembereds a{
+//  color: #555;
+//}
 #remembereds .active a{
-  color: #fff;
+  font-weight: bold;
 }
+
 .x-large{
   font-size: x-large;
 }
@@ -101,16 +110,81 @@ footer {
   position: fixed;
   right: 0;
   top: 50px;
-  bottom: 105px;
+  bottom: 135px;
   z-index: 1020;
   width: 219px;
   overflow: hidden;
   background-color: white;
 }
-
+.sidebar-search-fixed{
+  border-color: #D5D5D5;
+  border-radius: 0 0 0 0;
+  border-width: 0 0 1px;
+  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  left: 0;
+  position: fixed;
+  right: 0;
+  bottom: 105px;
+  z-index: 1025;
+  width: 219px;
+  background-color: white;
+}
+.side-drop-menu {
+  right: 0;
+  left: 100px;
+  margin:0;
+  padding: 0;
+  border-radius:0;
+  min-width: 100px;
+}
+.side-drop-menu  a {
+  padding-left: 2px;
+}
 #sidebar{
   overflow: hidden;
   height: 100%;
+}
+.sidebar-search-fixed > .input-append {
+  margin-bottom: 0;
+}
+.sidebar-search-fixed > .input-append input[type="text"] {
+  border-radius: 0;
+  width: 170px;
+  box-shadow: none;
+  border: 0;
+  padding: 0;
+}
+.sidebar-search-fixed > .input-append input[type="text"]:focus {
+  box-shadow: none;
+}
+
+.online{
+  background-image: url("presence.png");
+  background-position: -1px -15px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 10px;
+  float: right;
+
+}
+.offline{
+  background-image: url("presence.png");
+  background-position: -1px 1px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 10px;
+  float: right;
+}
+.away{
+  background-image: url("presence.png");
+  background-position: -1px -30px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 10px;
+  float: right;
 }
 
 /* chat bottom bar */

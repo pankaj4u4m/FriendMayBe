@@ -99,7 +99,7 @@
                     status = 'away';
                 }
             }
-            status;
+            return status;
         },
         onRosterReceive: function(data){
             $(data).each(function(){
@@ -113,14 +113,13 @@
                 var jid_id = Strophe.getNodeFromJid(jid);
 
                 var contact = $("<li>" +
-                    "<a data-toggle='chat' class='roster-contact offline'  href='#"+jid_id +"'>" +
+                    "<a data-toggle='chat' class='roster-contact'  href='#"+jid_id +"'>" +
                     "<div class='roster-jid' style=\"display:none\">" +
                     jid +
+                    "</div><div class='"+ Xmpp.rosterStatus(data)+ "'> "+
                     "</div><div class='roster-name'>" +
                     name +
-                    "</div><div class='" + Xmpp.rosterStatus(data) + "'>" +
-
-                    "</a></li>");
+                    "</div></a></li>");
 
                 Xmpp.insertContact(contact);
             });
@@ -168,6 +167,9 @@
             } else {
                 $('#remembereds ul').append(elem);
             }
+            Xmpp.contactEventBind();
+        },
+        contactEventBind: function(){
             $("#remembereds a").click( function(e){
                 e.preventDefault();
                 var jid = $(this).find(".roster-jid").text();

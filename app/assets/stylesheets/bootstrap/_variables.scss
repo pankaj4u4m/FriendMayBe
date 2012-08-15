@@ -39,7 +39,7 @@ $textColor:             $grayDark !default;
 
 // Links
 // -------------------------
-$linkColor:             #2180D8 !default;
+$linkColor:             #D8DFEA !default;
 $linkColorHover:        darken($linkColor, 15%) !default;
 
 
@@ -73,7 +73,7 @@ $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
 $btnBorder:                         #ccc !default;
 
-$btnPrimaryBackground:              $linkColor !default;
+$btnPrimaryBackground:              #2180D8 !default;
 $btnPrimaryBackgroundHighlight:     adjust-hue($btnPrimaryBackground, 15%) !default;
 
 $btnInfoBackground:                 #5bc0de !default;
