@@ -64,8 +64,8 @@
 
                 var chat = "<div class=\"message\"><p class='chat me'><strong style='color:#2180D8;'>Stranger:</strong>" +
                     body + "</p></div>"
-                var currentTab = "#"+$("#current-user").val();
-                $('#' + jid_id + " .chat-chats").append(chat);
+                var currentTab = $("#chattypebox").data('id');
+                $(currentTab + " .chat-chats").append(chat);
                 Xmpp.scrollChat(jid_id);
             }
 
@@ -174,26 +174,37 @@
                 e.preventDefault();
                 var jid = $(this).find(".roster-jid").text();
                 var id = $(this).attr("href").replace('#', '');
-                if ($("#"+id).length <= 0){
-                    var chatbar = "<div id='"+ id + "' class='tab-pane' style='height:100%;'>" +
-                        "<div class='chat-chats'></div></div>";
+                Xmpp._new_message_box.call(this, id, jid, true);
 
-                    var messageBar= $("#messagebar");
-                    $(messageBar).append(chatbar);
-                    $("#" + id ).setScrollPane({
-                        scrollToY: $(this).data('jsp') == null?10000: $(this).data('jsp').getContentPositionY(),
-                        width: 12,
-                        height: 10,
-                        maintainPosition: false
-                    });
-                }
-                //$(chatbar).width($(messageBar).width());
-                $("#current-user").val(id)
-                $(this).tab('show');
             })
+        },
+        _new_message_box: function(id, jid, isRoster){
+            console.log("parameter id:" + id + "jid:" + jid);
+            if ($("#"+id).length <= 0){
+                var chatbar = "<div id='"+ id + "' class='tab-pane' style='height:100%;'>" +
+                    "<div class='chat-chats'></div></div>";
 
-            $('a[data-toggle="chat"]').bind('shown', function (e) {
-                console.log("logged");
+                var messageBar= $("#messagebar");
+                $(messageBar).append(chatbar);
+                $("#" + id ).setScrollPane({
+                    scrollToY: $(this).data('jsp') == null?10000: $(this).data('jsp').getContentPositionY(),
+                    width: 12,
+                    height: 10,
+                    maintainPosition: false
+                });
+            }
+            //$(chatbar).width($(messageBar).width());
+            $("#chattypebox").data('id', '#'+id);
+            $("#chattypebox").data('jid', jid);
+            $("#buddy-name").text($(this).find(".roster-name").text())
+            $('#buddy-options').css('visibility', 'visible');
+            if(!isRoster){
+                $('#remember').removeClass('remove').addClass('add').text('Remember')
+            } else{
+                $('#remember').removeClass('add').addClass('remove').text('Remove')
+            }
+            $(this).tab('show');
+            $(this).bind('shown', function (e) {
                 Xmpp.scrollChat($(this).attr("href").replace('#', ''));
                 //console.log(e.relatedTarget) // previous
             });
@@ -271,7 +282,10 @@
                 data: data,
                 success: function(response){
                     if(response['stranger'] != null){
-                        $(element).changeChatStatusChanged({status: ChatButtonStatus.DISCONNECT, jid: response['stranger']});
+                        var jid = response['stranger'];
+                        $(element).changeChatStatusChanged({status: ChatButtonStatus.DISCONNECT, jid: jid});
+                        Xmpp._new_message_box.call($('<a class="roster-contact" href="#'+ Strophe.getNodeFromJid(jid) +'" data-toggle="chat">'),
+                            Strophe.getNodeFromJid(jid), jid, false);
                     } else {
                         $(element).changeChatStatusChanged({status: ChatButtonStatus.HANGOUT, jid: null});
                     }
@@ -301,7 +315,7 @@
         if(!Xmpp.isAlive){
             Xmpp.connection.reset();
         }
-        var msg = $msg({to:$("#current-user").val().trim()+"@" + Xmpp.domain, type:"chat"}).c("body").t(data);
+        var msg = $msg({to:$("#chattypebox").data('jid'), type:"chat"}).c("body").t(data);
         Xmpp.connection.send(msg);
     }
     $.xmppStranger = function(element){

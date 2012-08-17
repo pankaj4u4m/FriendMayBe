@@ -120,43 +120,30 @@ footer {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 0 #D8DFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 0;
   position: fixed;
-  right: 0;
   bottom: 105px;
   z-index: 1025;
   width: 219px;
-  background-color: white;
+  background-color: #D8DFEA;
 }
-.side-drop-menu {
-  right: 0;
-  left: 100px;
-  margin:0;
-  padding: 0;
-  border-radius:0;
-  min-width: 100px;
-}
-.side-drop-menu  a {
-  padding-left: 2px;
-}
+
 #sidebar{
   overflow: hidden;
   height: 100%;
 }
-.sidebar-search-fixed > .input-append {
-  margin-bottom: 0;
-}
-.sidebar-search-fixed > .input-append input[type="text"] {
+
+.sidebar-search-fixed input[type="text"] {
   border-radius: 0;
-  width: 170px;
-  box-shadow: none;
-  border: 0;
-  padding: 0;
+  width: 185px;
+  margin: 0;
+//  box-shadow: none;
+//  border: 0;
 }
-.sidebar-search-fixed > .input-append input[type="text"]:focus {
-  box-shadow: none;
-}
+//.sidebar-search-fixed > .input-append input[type="text"]:focus {
+//  box-shadow: none;
+//}
 
 .online{
   background-image: url("presence.png");
@@ -207,6 +194,19 @@ footer {
 
 
 /* chat message content */
+.optionbar-fixed{
+  background-color: #D8DFEA;
+  top: 50px;
+  border-radius: 0 0 0 0;
+  border-width: 0 0 1px;
+  box-shadow: 0 1px 0 #DBDFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  left: 230px;
+  right: 0;
+  position: fixed;
+  z-index: 1025;
+  padding-left: 10px;
+  height: 40px;
+}
 .messagebar-fixed{
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
@@ -215,7 +215,7 @@ footer {
   left: 230px;
   right: 0;
   position: fixed;
-  top: 50px;
+  top: 90px;
   bottom: 105px;
   z-index: 1020;
   padding-left: 10px;

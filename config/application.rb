@@ -80,5 +80,10 @@ module MetlyDevise
 
     #TODO for heruko config.assets.initialize_on_precompile = false
     #config.force_ssl = true
+
+    #memcache store
+    config.cache_store = :mem_cache_store, 'localhost:20020'
+
+
   end
 end

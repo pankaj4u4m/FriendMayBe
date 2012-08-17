@@ -24,16 +24,16 @@ ChatButtonStatus = {
 
         if(data.status == ChatButtonStatus.CONNECTING){
             $(this).data({status:ChatButtonStatus.CONNECTING})
-            $(this).text("Connecting..");
+            $(this).text("Connecting..").addClass('disabled').attr("disabled", true);
         } else if(data.status == ChatButtonStatus.CONFIRM_DISCONNECT){
             $(this).data( {status:ChatButtonStatus.CONFIRM_DISCONNECT});
-            $(this).text("Disconnect?");
+            $(this).text("Are you sure?").removeClass('disabled').removeAttr("disabled");
         } else if(data.status == ChatButtonStatus.DISCONNECT){
             $(this).data({status: ChatButtonStatus.DISCONNECT});
-            $(this).text("Disconnect");
+            $(this).text("Disconnect").removeClass('disabled').removeAttr("disabled");;
         } else if(data.status == ChatButtonStatus.HANGOUT) {
             $(this).data({status:ChatButtonStatus.HANGOUT});
-            $(this).text("Hang Out");
+            $(this).text("Hang Out").removeClass('disabled').removeAttr("disabled");;
         }
         $('#current-user').val(data.jid);
     }

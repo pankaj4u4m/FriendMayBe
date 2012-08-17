@@ -60,7 +60,7 @@ module XmppHelper
     else
       stranger = userconnect(me, stranger)
     end
-    return {stranger: stranger.nil? ? nil : stranger.connected_user}
+    return {stranger: stranger}
   end
   private
 
@@ -83,12 +83,12 @@ module XmppHelper
     Rails.logger.debug("waiting #{me}")
     Stranger.waiting(me);
     counter = 0;
-    stranger = Stranger.connected(me)
+    stranger = Rails.cache.read(me)
     while stranger.nil?
-      break if counter > 10
+      break if counter > 20
       sleep(0.5);
       counter +=1;
-      stranger = Stranger.connected(me)
+      stranger = Rails.cache.read(me)
     end
     return stranger
   end
@@ -96,16 +96,16 @@ module XmppHelper
   def self.userconnect(me, stranger)
     withuser = stranger
     Rails.logger.debug("me #{me} stranger #{withuser.user_id} updateed_time #{withuser.updated_time} timenow=#{Time.now}")
-    while !withuser.nil? && ((withuser.user_id == me ) || (withuser.updated_time + 20 < Time.now))
+    while !withuser.nil? && ( withuser.user_id.equal?(me) || (withuser.updated_time + 20 < Time.now))
       withuser.destroy;
       withuser = Stranger.tryConnect(me);
       Rails.logger.debug("me #{me} stranger #{withuser.user_id} updateed_time #{withuser.updated_time} timenow=#{Time.now}") if !withuser.nil?
     end
-    if withuser.nil?
+    if withuser.nil? || (withuser.user_id.equal?(me) )
       return userwait(me)
     else
-      Stranger.connecting(me, withuser)
-      return withuser
+      Rails.cache.write(withuser.user_id, me, expires_in: 20.seconds)
+      return withuser.user_id
     end
   end
 

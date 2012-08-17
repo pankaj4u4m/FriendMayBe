@@ -14,6 +14,7 @@ gem 'execjs'
 gem 'log4r'
 
 gem 'therubyracer'
+gem 'memcache-client'
 
 
 

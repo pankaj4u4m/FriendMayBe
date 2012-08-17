@@ -19,9 +19,9 @@ class ChatsController < ApplicationController
   end
 
   def stranger
-    stranger = XmppHelper.getStranger(params[:me])
+    #stranger = XmppHelper.getStranger(params[:me])
     respond_to do |format|
-      format.js { render json: stranger }
+      format.js { render json: {stranger: 'pankaj@localhost'} }
     end
   end
 
