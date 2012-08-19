@@ -147,32 +147,40 @@ footer {
 
 .online{
   background-image: url("presence.png");
-  background-position: -1px -15px;
+  background-position: -1px -13px;
   background-repeat: no-repeat;
   display: inline-block;
   height: 16px;
   width: 10px;
-  float: right;
+  position: absolute;
 
 }
 .offline{
   background-image: url("presence.png");
-  background-position: -1px 1px;
+  background-position: -1px 2px;
   background-repeat: no-repeat;
   display: inline-block;
   height: 16px;
   width: 10px;
-  float: right;
+  position: absolute;
 }
 .away{
   background-image: url("presence.png");
-  background-position: -1px -30px;
+  background-position: -1px -28px;
   background-repeat: no-repeat;
   display: inline-block;
   height: 16px;
   width: 10px;
-  float: right;
+  position: absolute;
 }
+.roster-contact {
+  position: relative;
+  padding-left: 2px !important;
+}
+.roster-name{
+  margin-left: 15px;
+}
+
 
 /* chat bottom bar */
 .chatbox{
