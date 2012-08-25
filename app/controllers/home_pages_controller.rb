@@ -7,15 +7,19 @@ class HomePagesController < ApplicationController
     @user = current_user
   end
 
-  def logout
-    redirect_to destroy_user_session_path method: :delete
-  end
-
   def login
     @user = current_user
     client = xmppLogin(@user.xmpp, Digest::MD5.hexdigest(@user.encrypted_password))
     respond_to do |format|
       format.js { render json: client}
+    end
+  end
+
+  def location
+    @user = current_user
+    @user.save_login_locations(params[:latitude], params[:longitude], params[:resource])
+    respond_to do |format|
+      format.js { render json: {status: 'saved'}}
     end
   end
 

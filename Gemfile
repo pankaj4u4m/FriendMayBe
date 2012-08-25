@@ -15,7 +15,8 @@ gem 'log4r'
 
 gem 'therubyracer'
 gem 'memcache-client'
-
+gem 'rgeo'
+gem 'activerecord-mysql2spatial-adapter'
 
 
 # Gems used only for assets and not required

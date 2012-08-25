@@ -11,19 +11,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120813103005) do
+ActiveRecord::Schema.define(:version => 20120825200157) do
 
-  create_table "chats", :force => true do |t|
-    t.integer  "sender_id"
-    t.integer  "receiver_id"
-    t.datetime "message_time"
-    t.text     "message"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+  create_table "blocked_users", :force => true do |t|
+    t.integer  "blocker_id"
+    t.integer  "blocked_id"
+    t.string   "reason"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "chats", ["receiver_id"], :name => "index_chats_on_receiver_id"
-  add_index "chats", ["sender_id"], :name => "index_chats_on_sender_id"
+  add_index "blocked_users", ["blocked_id"], :name => "index_blocked_users_on_blocked_id"
+  add_index "blocked_users", ["blocker_id"], :name => "index_blocked_users_on_blocker_id"
+
+  create_table "login_locations", :force => true do |t|
+    t.integer  "login_id"
+    t.spatial  "location",   :limit => {:type=>"point"}
+    t.string   "resource"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "login_locations", ["login_id", "resource"], :name => "index_login_locations_on_login_id_and_resource"
+  add_index "login_locations", ["login_id"], :name => "index_login_locations_on_login_id"
+
+  create_table "message_archives", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.text     "body"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "message_archives", ["receiver_id"], :name => "index_message_archives_on_receiver_id"
+  add_index "message_archives", ["sender_id"], :name => "index_message_archives_on_sender_id"
 
   create_table "ofExtComponentConf", :primary_key => "subdomain", :force => true do |t|
     t.integer "wildcard",   :limit => 1,  :null => false
@@ -339,29 +360,16 @@ ActiveRecord::Schema.define(:version => 20120813103005) do
     t.integer "version", :null => false
   end
 
-  create_table "remembers", :force => true do |t|
-    t.integer  "rememberer_id"
-    t.integer  "remembered_id"
-    t.string   "status"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+  create_table "stanza_archives", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.string   "stanza_type"
+    t.text     "stanza"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "remembers", ["remembered_id"], :name => "index_remembers_on_remembered_id"
-  add_index "remembers", ["rememberer_id", "remembered_id"], :name => "index_remembers_on_rememberer_id_and_remembered_id", :unique => true
-  add_index "remembers", ["rememberer_id"], :name => "index_remembers_on_rememberer_id"
-
-  create_table "strangers", :force => true do |t|
-    t.string   "user_id"
-    t.string   "connection_status"
-    t.string   "connected_user"
-    t.datetime "updated_time"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-  end
-
-  add_index "strangers", ["user_id", "connection_status"], :name => "index_strangers_on_user_id_and_connection_status", :unique => true
-  add_index "strangers", ["user_id"], :name => "index_strangers_on_user_id", :unique => true
+  add_index "stanza_archives", ["sender_id"], :name => "index_stanza_archives_on_sender_id"
 
   create_table "user_details", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -391,8 +399,6 @@ ActiveRecord::Schema.define(:version => 20120813103005) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
-    t.string   "provider"
-    t.string   "uid"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

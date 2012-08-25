@@ -15,7 +15,7 @@ $(document).ready(function () {
             msg + "</p></div>"
         var currentTab = $(this).data('id');
         $(currentTab + " .chat-chats").append(chat);
-        $.xmppSend(msg);
+        $.xmppSendMessage(msg);
       }
 
       $(this).val("");
@@ -27,7 +27,7 @@ $(document).ready(function () {
   });
 
   $("#stranger").click(function () {
-    $(this).startChat();
+    $.startChat();
   })
 
   $('#remember').click(function(){

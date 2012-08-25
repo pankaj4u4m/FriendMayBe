@@ -12,48 +12,29 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :user_details
-  has_many :login_histories
 
-  has_many :remembers, foreign_key: "rememberer_id"
-  has_many :remembered_users, through: :remembers, source: :remembered
-  has_many :reverse_remembers, foreign_key: "remembered_id",
-           class_name:  "Remember"
-  has_many :rememberer_users, through: :reverse_remembers, source: :rememberer
+  has_many :login_locations, foreign_key: "login_id"
 
 
-  has_many :chats, foreign_key: "sender_id"
-  has_many :reveivers, through: :chats, source: :receiver
-  has_many :reverse_chats, foreign_key: "receiver_id",
-           class_name: "Chat"
-  has_many :senders, through: :reverse_chats, source: :sender
+  has_many :blocked_users, foreign_key: "blocker_id"
+  has_many :blockeds, through: :blocked_users, source: :blocked
+  has_many :reverse_blocked_users, foreign_key: "blocked_id",
+           class_name:  "BlockedUser"
+  has_many :blockers, through: :reverse_blocked_users, source: :blocker
+
+  has_many :message_archives, foreign_key: "sender_id"
+  has_many :reveivers, through: :message_archives, source: :receiver
+  has_many :reverse_message_archives, foreign_key: "receiver_id",
+           class_name: "MessageArchive"
+  has_many :senders, through: :reverse_message_archives, source: :sender
+
+  has_many :stanza_archives, foreign_key: "sender_id"
+  has_many :reveivers, through: :stanza_archives, source: :receiver
+  has_many :reverse_stanza_archives, foreign_key: "receiver_id",
+           class_name: "StanzaArchive"
+  has_many :senders, through: :reverse_stanza_archives, source: :sender
 
 
-  def remembered?(other_user)
-    remembers.where(remembered_id: other_user.id, status: 'A')
-  end
-
-  def remember!(other_user)
-    remembers.create!(remembered_id: other_user.id, status: 'A')
-  end
-
-  def forget!(other_user)
-    remember = remembers.find_by_remembered_id(other_user.id).first
-    if remember
-      remember.status = 'I'
-    end
-    #reverse_remembers.find_by_user_id_by(self.id).destroy
-  end
-
-  def block!(other_user)
-    remember = remembers.find_by_remembered_id(other_user.id).first
-    if remember
-      remember.status = 'B'
-    end
-  end
-
-  def sendmessage!(other_user, mesage)
-    messages.create!(receiver_id: other_user.id, message: mesage, message_time: Time.now)
-  end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:email => auth.info.email).first
@@ -117,4 +98,12 @@ class User < ActiveRecord::Base
     return detail
   end
 
+  def save_login_locations(lat, lon, resource)
+    loginLocation = LoginLocation.new(
+        location: RGeo::Cartesian.factory.point(lat, lon),
+        resource: resource
+    )
+    self.login_locations << loginLocation
+    self.save;
+  end
 end

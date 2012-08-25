@@ -71,8 +71,8 @@ module XmppHelper
       @client.auth(@my_pass)
     rescue
       XmppHelper.xmppRegister(@my_jid, @my_pass)
-      @client = Jabber::Client.new(@my_jid)
-      @client.connect
+      @client = JabberHTTPBindingClient.new(@my_jid)
+      @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)
       @client.auth(@my_pass)
     end
     @client.close

@@ -3,8 +3,8 @@ MetlyDevise::Application.routes.draw do
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
 
   devise_scope :user do
-    get 'users/sign_in', :to => 'users/sessions#new', :as => :new_user_session
-    get 'users/sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
+    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
+    get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
   #
   #resources :remembers do
@@ -29,11 +29,8 @@ MetlyDevise::Application.routes.draw do
     match "/remembereds", to: "remembers#remembereds"
     match "/rememberers", to: "remembers#rememberers"
     post "/login", to: "home_pages#login"
-    post "/chats/stranger" , to: "chats#stranger"
-    match "/people", to: "people#home"
-    post "people/search"
+    post "/location" , to: "home_pages#location"
   end
-  get "/logout", to: "home_pages#logout"
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
   match "/contact", to: "login_pages#contact"

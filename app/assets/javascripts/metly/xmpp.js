@@ -1,14 +1,13 @@
-//= require ./chatUI
+//= require ./constants
 //= require ./scrollbar
 //= require ./XmppUtils
 (function ($) {
-  var BOSH_SERVICE = '/bosh',
-      PRE_BINDING = '/login',
-      connection = null,
+  var connection = null,
       roster = null,
       me = null,
       domain = null,
       isAlive = false,
+      systemjid = 'metly',
       Xmpp = {
         onConnect:function (status) {
           isAlive = false;
@@ -176,8 +175,8 @@
 
         attach:function (data) {
           console.log('Prebind succeeded. Attaching...');
-
-          connection = new Strophe.Connection(BOSH_SERVICE);
+          $.getUserLocation(data['jid']['resource']);
+          connection = new Strophe.Connection(Constants.BOSH_SERVICE);
           me = data['jid']['node'] + '@' + data['jid']['domain'] + '/' + data['jid']['resource'];
           connection.attach(me, data['http_sid'],
               parseInt(data['http_rid'], 10) + 2,
@@ -192,7 +191,7 @@
           data[param] = token;
           $.ajax({
             type:'post',
-            url:PRE_BINDING,
+            url:Constants.PRE_BINDING,
             dataType:'json',
             tryCount:0,
             retryLimit:3,
@@ -218,84 +217,84 @@
           })
         },
 
-        getStranger:function (element) {
-          var token = $('meta[name=csrf-token]').attr('content');
-          var param = $('meta[name=csrf-param]').attr('content');
-          var data = {};
-          data[param] = token;
-          data["me"] = Xmpp.me
-          $.ajax({
-            type:"POST",
-            url:"/chats/stranger",
-            dataType:'json',
-            data:data,
-            success:function (response) {
-              if (response['stranger'] != null) {
-                var jid = response['stranger'];
-                $(element).changeChatStatusChanged({status:ChatButtonStatus.DISCONNECT, jid:jid});
-                Xmpp._new_message_box.call($('<a class="roster-contact" href="#' + Strophe.getNodeFromJid(jid) + '" data-toggle="chat">'),
-                    Strophe.getNodeFromJid(jid), jid, response['name'], false);
-              } else {
-                $(element).changeChatStatusChanged({status:ChatButtonStatus.HANGOUT, jid:null});
-              }
-            },
-            error:function (xhr, textStatus, errorThrown) {
-              $(this).changeChatStatusChanged({status:ChatButtonStatus.HANGOUT, jid:null});
-            }
-          })
-        },
-
-        disconnect:function () {
-
-        },
-
         connect:function () {
           connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
           connection.connect("codegambler@gmail.com", "kim-10vriti", Xmpp.onConnect);
-        },
-
-        removeUser: function(){
-          var jid = $("#chattypebox").data('jid');
-          roster.remove(jid, Xmpp.onRosterRemoved);
-        },
-
-        addUser : function (){
-          var jid = $("#chattypebox").data('jid');
-          var name = $("#chattypebox").data('name');
-          name = name || null;
-          roster.add(jid, name, [], Xmpp.onRosterAdded);
-
         }
       }
 
 
   $.xmppStart = function () {
-    //Xmpp.initiateConnection()
-    Xmpp.connect();
+    Xmpp.initiateConnection();
+    //Xmpp.connect();
   }
 
-  $.xmppSend = function (data) {
+  $.xmppSendMessage = function (data) {
     if (!isAlive) {
       connection.reset();
     }
-    var msg = $msg({to:$("#chattypebox").data('jid'), type:"chat"}).c("body").t(data);
+    var jid = $("#chattypebox").data('jid') ||  systemjid + '@' + domain;
+    var msg = $msg({to:jid, type:"chat"}).c("body").t(data);
     connection.send(msg);
   }
 
-  $.xmppStranger = function (element) {
-    Xmpp.getStranger(element);
+  $.xmppStranger = function () {
+    $("#chattypebox").data('jid', systemjid + '@' + domain);
+    $.xmppSendMessage("\\c");
   }
 
-  $.xmppStrangerDisconnect = function (element) {
-    Xmpp.disconnect(element);
+  $.xmppStrangerDisconnect = function () {
+    $.xmppSendMessage("\\d");
   }
 
   $.xmppRemoveUser = function(){
-    Xmpp.removeUser();
+    roster.remove($("#chattypebox").data('jid'), Xmpp.onRosterRemoved);
   }
 
   $.xmppAddUser = function(){
-    Xmpp.addUser();
+    var jid = $("#chattypebox").data('jid');
+    var name = $("#chattypebox").data('name');
+
+    name = name || null;
+    roster.add(jid, name, [], Xmpp.onRosterAdded);
   }
 
+  $.xmppBlockUser = function(){
+    var jid = $("#chattypebox").data('jid');
+    var reason = $("#chattypebox").data('reason');
+    $.xmppSendMessage("\\b:" + reason);
+    roster.remove($("#chattypebox").data('jid'), Xmpp.onRosterRemoved);
+  }
+
+  $.startChat = function(){
+    console.log($("#stranger").data());
+    var status = $("#stranger").data().status;
+    if(status == null || status == ChatButtonStatus.HANGOUT){
+      $.changeChatStatusChanged({status:ChatButtonStatus.CONNECTING, jid: null});
+      $.xmppStranger();
+    } else if(status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT){
+      $.changeChatStatusChanged({status:ChatButtonStatus.CONFIRM_DISCONNECT, jid: null});
+    } else if(status == ChatButtonStatus.CONFIRM_DISCONNECT){
+      $.changeChatStatusChanged({status:ChatButtonStatus.HANGOUT, jid: null});
+      $.xmppStrangerDisconnect();
+    }
+
+  }
+
+  $.changeChatStatusChanged = function(data){
+
+    if(data.status == ChatButtonStatus.CONNECTING){
+      $("#stranger").data({status:ChatButtonStatus.CONNECTING})
+      $("#stranger").text("Connecting..");
+    } else if(data.status == ChatButtonStatus.CONFIRM_DISCONNECT){
+      $("#stranger").data( {status:ChatButtonStatus.CONFIRM_DISCONNECT});
+      $("#stranger").text("Are you sure?");
+    } else if(data.status == ChatButtonStatus.DISCONNECT){
+      $("#stranger").data({status: ChatButtonStatus.DISCONNECT});
+      $("#stranger").text("Disconnect");
+    } else if(data.status == ChatButtonStatus.HANGOUT) {
+      $("#stranger").data({status:ChatButtonStatus.HANGOUT});
+      $("#stranger").text("Hang Out");
+    }
+  }
 })(jQuery);

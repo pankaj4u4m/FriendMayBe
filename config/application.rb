@@ -11,6 +11,7 @@ require "sprockets/railtie"
 require 'log4r'
 require 'log4r/yamlconfigurator'
 require 'log4r/outputter/datefileoutputter'
+#require 'active_record/connection_adapters/mysql2_adapter'
 include Log4r
 
 
