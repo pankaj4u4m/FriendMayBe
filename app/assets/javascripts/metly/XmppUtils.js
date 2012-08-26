@@ -10,9 +10,9 @@
     jidToId:function (jid) {
       return Strophe.getBareJidFromJid(jid)
           .replace(/@/g, "-")
-          .replace(/\./g, "-");
+          .replace(/\./g, "-")
+          .replace(/\/.*/g, "");
     },
-
     rosterStatus:function (resources) {
       var status = 'offline';
 //      console.log(resources);
@@ -20,7 +20,7 @@
 //        console.log(value);
         if (value.show === "online" || value.show === "") {
           status = 'online'
-        } else if (status != 'online' && value.show === "away") {
+        } else if (status != 'online' && value.show === "away" ) {
           status = 'away';
         }
       })

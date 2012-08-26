@@ -1,7 +1,10 @@
 (function ($) {
   var resource;
+  var status = null;
   $.getUserLocation = function (res) {
-    resource = res
+    if (status) return;
+
+    resource = res;
     //Check if browser supports W3C Geolocation API
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
@@ -23,6 +26,9 @@
       tryCount:0,
       retryLimit:3,
       data:data,
+      success: function(data){
+        status = data.status;
+      },
       error:function (xhr, textStatus, errorThrown) {
         if (textStatus == 'timeout') {
           this.tryCount++;

@@ -11,15 +11,10 @@ $(document).ready(function () {
     if (code == 13) { //Enter keycode
       var msg = $(this).val().trim();
       if (msg && msg.length) {
-        var chat = "<div class=\"chat\"><p class='chat me'><strong>Pankaj:</strong>" +
-            msg + "</p></div>"
-        var currentTab = $(this).data('id');
-        $(currentTab + " .chat-chats").append(chat);
         $.xmppSendMessage(msg);
       }
 
       $(this).val("");
-      $(window).trigger("scrollResize");
 
       return false;
     }
@@ -27,7 +22,7 @@ $(document).ready(function () {
   });
 
   $("#stranger").click(function () {
-    $.startChat();
+    $.startStrangerChat();
   })
 
   $('#remember').click(function(){

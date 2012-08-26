@@ -34,6 +34,11 @@ class User < ActiveRecord::Base
            class_name: "StanzaArchive"
   has_many :senders, through: :reverse_stanza_archives, source: :sender
 
+  has_many :user_connection_statuses, foreign_key: "user_id"
+  has_many :strangers, through: :user_connection_statuses, source: :user
+  has_many :reverse_user_connection_statuses, foreign_key: "stranger_id",
+           class_name:  "UserConnectionStatus"
+  has_many :users, through: :reverse_user_connection_statuses, source: :stranger
 
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)

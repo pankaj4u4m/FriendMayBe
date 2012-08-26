@@ -1,8 +1,8 @@
 class CreateMessageArchives < ActiveRecord::Migration
   def change
-    create_table :message_archives do |t|
-      t.integer :sender_id
-      t.integer :receiver_id
+    create_table :message_archives  do |t|
+      t.integer :sender_id, :limit => 8
+      t.integer :receiver_id, :limit => 8
       t.text :body
 
       t.timestamps

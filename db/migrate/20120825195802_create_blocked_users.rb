@@ -1,8 +1,8 @@
 class CreateBlockedUsers < ActiveRecord::Migration
   def change
-    create_table :blocked_users do |t|
-      t.integer :blocker_id
-      t.integer :blocked_id
+    create_table :blocked_users  do |t|
+      t.integer :blocker_id, :limit => 8
+      t.integer :blocked_id, :limit => 8
       t.string :reason
 
       t.timestamps

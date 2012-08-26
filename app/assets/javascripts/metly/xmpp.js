@@ -2,33 +2,52 @@
 //= require ./scrollbar
 //= require ./XmppUtils
 (function ($) {
+  var currentUser = {
+    node:null,
+    jid:null,
+    status:null,
+    id:null
+  }
+  var my = {
+    node:null,
+    domain: null,
+    resource: null,
+    jid:null,
+    roster:null
+  }
   var connection = null,
-      roster = null,
-      me = null,
-      domain = null,
       isAlive = false,
-      systemjid = 'metly',
-      Xmpp = {
+      XmppOnFunctions = {
         onConnect:function (status) {
           isAlive = false;
           if (status == Strophe.Status.CONNECTED || status === Strophe.Status.ATTACHED) {
             console.debug('Strophe is attached.');
-            Xmpp.startup()
+            connection.addHandler(XmppOnFunctions.onMessage, null, 'message', "chat");
+            // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
+//          connection.addHandler(Xmpp.onPresence, null, "presence");
+
+            connection.send($pres().tree());
+            my.roster = connection.roster;
+            my.roster.registerCallback(XmppOnFunctions.onPresence)
+            my.roster.get(XmppOnFunctions.onRosterReceive);
+
+            isAlive = true;
           }
         },
         onMessage:function (message) {
-          console.log(message);
+
           var full_jid = $(message).attr('from');
           var jid = Strophe.getBareJidFromJid(full_jid);
-          var jid_id = Strophe.getNodeFromJid(jid);
+          var id = $.XmppUtils.jidToId(jid);
+
+          if(!my.roster.findItem(Strophe.getBareJidFromJid(jid)) && currentUser.jid != full_jid){
+            return true;
+          }
+          console.log(message);
           var composing = $(message).find('composing');
           if (composing.length > 0) {
-            $('#' + jid_id + ' .chat-chats').append(
-                "<div class='chat-event'>" +
-                    Strophe.getNodeFromJid(jid) +
-                    " is typing...</div>");
-
-            $("#" + jid_id).trigger("scrollResize");
+            $.eventMessage(id, Strophe.getNodeFromJid(jid) + " is typing...");
+            return true;
           }
 
           var body = $(message).find("html > body");
@@ -52,53 +71,38 @@
                 span.append(this.xml);
               }
             });
-
             body = span;
           }
           if (body) {
             // remove notifications since user is now active
-            $('#' + jid_id + ' .chat-event').remove();
+            $('#' + id + ' .chat-footer').empty();
 
-            var chat = "<div class=\"message\"><p class='chat me'><strong style='color:#2180D8;'>Stranger:</strong>" +
-                body + "</p></div>"
-            var currentTab = $("#chattypebox").data('id');
-            $(currentTab + " .chat-chats").append(chat);
-            $("#" + jid_id).trigger("scrollResize");
+            $.strangerInlineMessage(id, currentUser.name, body);
           }
-
-
           return true;
         },
-        startup:function () {
-          connection.addHandler(Xmpp.onMessage, null, 'message', "chat");
-          // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
-//          connection.addHandler(Xmpp.onPresence, null, "presence");
 
-          connection.send($pres().tree());
-          roster = connection.roster;
-          roster.get(Xmpp.onRosterReceive);
-          roster.registerCallback(Xmpp.onPresence)
-          isAlive = true;
-        },
-        onPresence: function(list, item){
-          if(item){
+        onPresence:function (list, item) {
+          if (item) {
             var contacts = $('#remembereds li');
             if (contacts.length > 0) {
               $.XmppUtils.updateContact(contacts, item);
             } else {
               var element = $.XmppUtils.getRosterElement(item);
               $('#remembereds ul').append(element);
-              Xmpp.contactEventBind(element);
+              XmppOnFunctions.contactEventBind(element);
             }
+          } else {
+            XmppOnFunctions.onRosterReceive(list);
           }
           return true;
         },
         onRosterReceive:function (data) {
 //          console.log(data);
-          data.sort(function(a, b){
-            var r = $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(b.resources))- $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(a.resources)) ;
-            if(r == 0){
-              return (a.name || a.jid).localeCompare((b.name|| b.jid));
+          data.sort(function (a, b) {
+            var r = $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(b.resources)) - $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(a.resources));
+            if (r == 0) {
+              return (a.name || a.jid).localeCompare((b.name || b.jid));
             }
 
             return r;
@@ -106,21 +110,24 @@
           $('#remembereds ul').empty();
           $(data).each(function () {
 //            if(Strophe.getDomainFromJid(this.jid) == domain){
-              var element = $.XmppUtils.getRosterElement(this);
-              $('#remembereds ul').append(element);
+            var element = $.XmppUtils.getRosterElement(this);
+            $('#remembereds ul').append(element);
 //            }
           });
-          Xmpp.contactEventBind($("#remembereds a"));
+          XmppOnFunctions.contactEventBind($("#remembereds a"));
           return true;
         },
-        onRosterRemoved:function(stanza){
+        onRosterRemoved:function (stanza) {
           $('#remember').removeClass('remove').addClass('add').text('Remember');
-          Xmpp.onRosterReceive(roster.items);
+          my.roster.unsubscribe(currentUser.jid)
+          XmppOnFunctions.onRosterReceive(my.roster.items);
+          $.eventMessage(currentUser.node, "You are disconnected");
+          $.disableTextBox();
         },
-        onRosterAdded:function(stanza){
+        onRosterAdded:function (stanza) {
           $('#remember').removeClass('add').addClass('remove').text('Remove');
-          roster.subscribe($("#chattypebox").data('jid'));
-          Xmpp.onRosterReceive(roster.items);
+          my.roster.subscribe(currentUser.jid);
+          XmppOnFunctions.onRosterReceive(my.roster.items);
         },
         contactEventBind:function (element) {
           $(element).click(function (e) {
@@ -128,60 +135,58 @@
             var jid = $(this).find(".roster-jid").text();
             var id = $(this).attr("href").replace('#', '');
             var name = $(this).find('.roster-name').text();
-            Xmpp._new_message_box.call(this, id, jid, name, true);
 
-          })
+            currentUser.name = name;
+            currentUser.jid = jid;
+            currentUser.node = Strophe.getNodeFromJid(currentUser.jid );
+            currentUser.id = id;
+            console.log(currentUser);
+            $.new_message_box.call(this, currentUser, false);
+          });
           $('div.scrollable').trigger('scrollResize');
           $('input#searchTerm').quicksearch('#remembereds li', {
-            'delay': 300,
-            'selector': '.roster-name',
-            'onAfter': function () {
+            'delay':200,
+            'selector':'.roster-name',
+            'onAfter':function () {
               $('div.scrollable').trigger('scrollResize');
-             }
+            }
           })
+        }
+      },
+
+      Xmpp = {
+        sendMessage:function (message) {
+          if (!isAlive) {
+            connection.reset();
+          }
+          if (!currentUser.jid) {
+            currentUser.node = Constants.SYSTEM_NODE;
+            currentUser.resource = Math.floor((Math.random() * 1000000) + 1)
+            currentUser.jid = currentUser.node + '@' + my.domain + '/' + currentUser.resource;
+            currentUser.id = $.XmppUtils.jidToId(currentUser.jid);
+
+            $.eventMessage(currentUser.id, "You haven't selected any user. Connection to stranger...");
+          }
+          var msg = $msg({to:currentUser.jid, type:"chat"}).c("body").t(message);
+          connection.send(msg);
         },
 
-        _new_message_box:function (id, jid, name, isRoster) {
-          console.log("parameter id:" + id + "jid:" + jid);
-          if ($("#" + id).length <= 0) {
-            var chatbar = "<div id='" + id + "' class='tab-pane' style='height:100%;'>" +
-                "<div class='chat-chats'></div></div>";
-
-            var messageBar = $("#messagebar");
-            $(messageBar).append(chatbar);
-            $("#" + id).setScrollPane({
-              scrollToY:$(this).data('jsp') == null ? 10000 : $(this).data('jsp').getContentPositionY(),
-              width:12,
-              height:10,
-              maintainPosition:false
-            });
-          }
-
-          $("#chattypebox").data('id', '#' + id);
-          $("#chattypebox").data('jid', jid);
-          $('#chattypebox').data('name', name)
-          $("#buddy-name").text(name)
-          $('#buddy-options').css('visibility', 'visible');
-          if (!isRoster) {
-            $('#remember').removeClass('remove').addClass('add').text('Remember')
-          } else {
-            $('#remember').removeClass('add').addClass('remove').text('Remove')
-          }
-          $(this).tab('show');
-          $(this).bind('shown', function (e) {
-            $(this).trigger("scrollResize");
-          });
-        },
 
         attach:function (data) {
           console.log('Prebind succeeded. Attaching...');
-          $.getUserLocation(data['jid']['resource']);
+
+          my.node = data['jid']['node'];
+          my.domain = data['jid']['domain'];
+          my.resource = data['jid']['resource'];
+
+          $.getUserLocation(my.resource);
+
+          my.jid =  my.node+ '@' + my.domain + '/' + my.resource;
+
           connection = new Strophe.Connection(Constants.BOSH_SERVICE);
-          me = data['jid']['node'] + '@' + data['jid']['domain'] + '/' + data['jid']['resource'];
-          connection.attach(me, data['http_sid'],
+          connection.attach(my.jid, data['http_sid'],
               parseInt(data['http_rid'], 10) + 2,
-              Xmpp.onConnect);
-          domain = data['jid']['domain'];
+              XmppOnFunctions.onConnect);
         },
 
         initiateConnection:function () {
@@ -189,6 +194,7 @@
           var param = $('meta[name=csrf-param]').attr('content');
           var data = {};
           data[param] = token;
+
           $.ajax({
             type:'post',
             url:Constants.PRE_BINDING,
@@ -229,71 +235,76 @@
     //Xmpp.connect();
   }
 
-  $.xmppSendMessage = function (data) {
-    if (!isAlive) {
-      connection.reset();
-    }
-    var jid = $("#chattypebox").data('jid') ||  systemjid + '@' + domain;
-    var msg = $msg({to:jid, type:"chat"}).c("body").t(data);
-    connection.send(msg);
+  $.xmppSendMessage = function (msg) {
+    Xmpp.sendMessage(msg);
+    console.log(currentUser);
+    $.myInlineMessage(currentUser.id, msg);
   }
 
   $.xmppStranger = function () {
-    $("#chattypebox").data('jid', systemjid + '@' + domain);
-    $.xmppSendMessage("\\c");
+    currentUser.node = Constants.SYSTEM_NODE;
+    currentUser.resource = Math.floor((Math.random() * 1000000) + 1)
+    currentUser.jid = currentUser.node + '@' + my.domain + '/' + currentUser.resource;
+    currentUser.id = $.XmppUtils.jidToId(currentUser.jid);
+    currentUser.name = Constants.SYSTEM_NAME;
+
+    $.new_message_box.call($("<a data-toggle='chat' class='roster-contact'  href='#" + currentUser.id + "'></a>"),
+        currentUser, true);
+    $.eventMessage(currentUser.id, "Connecting to a Stranger...");
+    Xmpp.sendMessage("\\c");
   }
 
   $.xmppStrangerDisconnect = function () {
     $.xmppSendMessage("\\d");
+    currentUser.node= null;
+    currentUser.jid = null;
+    currentUser.name = null;
+
   }
 
-  $.xmppRemoveUser = function(){
-    roster.remove($("#chattypebox").data('jid'), Xmpp.onRosterRemoved);
+  $.xmppRemoveUser = function () {
+    my.roster.remove(currentUser.jid, XmppOnFunctions.onRosterRemoved);
   }
 
-  $.xmppAddUser = function(){
-    var jid = $("#chattypebox").data('jid');
-    var name = $("#chattypebox").data('name');
+  $.xmppAddUser = function () {
+    var jid = currentUser.jid;
+    var name = currentUser.name;
 
     name = name || null;
-    roster.add(jid, name, [], Xmpp.onRosterAdded);
+    my.roster.add(jid, name, [], Xmpp.onRosterAdded);
   }
 
-  $.xmppBlockUser = function(){
-    var jid = $("#chattypebox").data('jid');
+  $.xmppBlockUser = function () {
+    var jid = currentUser.jid;
     var reason = $("#chattypebox").data('reason');
     $.xmppSendMessage("\\b:" + reason);
-    roster.remove($("#chattypebox").data('jid'), Xmpp.onRosterRemoved);
+    my.roster.remove(jid, Xmpp.onRosterRemoved);
   }
 
-  $.startChat = function(){
-    console.log($("#stranger").data());
-    var status = $("#stranger").data().status;
-    if(status == null || status == ChatButtonStatus.HANGOUT){
-      $.changeChatStatusChanged({status:ChatButtonStatus.CONNECTING, jid: null});
+  $.startStrangerChat = function () {
+    console.log(currentUser.status);
+    var status = currentUser.status;
+    if (status == null || status == ChatButtonStatus.HANGOUT) {
+      $.changeChatStatusChanged(ChatButtonStatus.CONNECTING);
       $.xmppStranger();
-    } else if(status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT){
-      $.changeChatStatusChanged({status:ChatButtonStatus.CONFIRM_DISCONNECT, jid: null});
-    } else if(status == ChatButtonStatus.CONFIRM_DISCONNECT){
-      $.changeChatStatusChanged({status:ChatButtonStatus.HANGOUT, jid: null});
+    } else if (status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT) {
+      $.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
+    } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
+      $.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
       $.xmppStrangerDisconnect();
     }
 
   }
 
-  $.changeChatStatusChanged = function(data){
-
-    if(data.status == ChatButtonStatus.CONNECTING){
-      $("#stranger").data({status:ChatButtonStatus.CONNECTING})
+  $.changeChatStatusChanged = function (status) {
+    currentUser.status = status;
+    if (status == ChatButtonStatus.CONNECTING) {
       $("#stranger").text("Connecting..");
-    } else if(data.status == ChatButtonStatus.CONFIRM_DISCONNECT){
-      $("#stranger").data( {status:ChatButtonStatus.CONFIRM_DISCONNECT});
+    } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
       $("#stranger").text("Are you sure?");
-    } else if(data.status == ChatButtonStatus.DISCONNECT){
-      $("#stranger").data({status: ChatButtonStatus.DISCONNECT});
+    } else if (status == ChatButtonStatus.DISCONNECT) {
       $("#stranger").text("Disconnect");
-    } else if(data.status == ChatButtonStatus.HANGOUT) {
-      $("#stranger").data({status:ChatButtonStatus.HANGOUT});
+    } else if (status == ChatButtonStatus.HANGOUT) {
       $("#stranger").text("Hang Out");
     }
   }

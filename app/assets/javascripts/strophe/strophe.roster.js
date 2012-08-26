@@ -39,6 +39,10 @@ Strophe.addConnectionPlugin('roster',
      * ]
      */
     items : [],
+     /*
+      * temperory list of presence for jid when presence comes ort of order wrt roster
+      */
+    _presence: {},
     /** Property: ver
      * current roster revision
      * always null if server doesn't support xep 237
@@ -323,12 +327,21 @@ Strophe.addConnectionPlugin('roster',
         var jid = presence.getAttribute('from');
         var from = Strophe.getBareJidFromJid(jid);
         var item = this.findItem(from);
+        var type = presence.getAttribute('type');
         // not in roster
         if (!item)
         {
+            if(!type) {
+              this._presence[from] = this._presence[from] || {}
+              this._presence[from][Strophe.getResourceFromJid(jid)] = {
+                show     : (presence.getElementsByTagName('show').length != 0) ? Strophe.getText(presence.getElementsByTagName('show')[0]) : "",
+                status   : (presence.getElementsByTagName('status').length != 0) ? Strophe.getText(presence.getElementsByTagName('status')[0]) : "",
+                priority : (presence.getElementsByTagName('priority').length != 0) ? Strophe.getText(presence.getElementsByTagName('priority')[0]) : ""
+              };
+            }
             return true;
         }
-        var type = presence.getAttribute('type');
+
         if (type == 'unavailable')
         {
             delete item.resources[Strophe.getResourceFromJid(jid)];
@@ -420,13 +433,18 @@ Strophe.addConnectionPlugin('roster',
         var item = this.findItem(jid);
         if (!item)
         {
+            var res = {};
+          if(this._presence[Strophe.getBareJidFromJid(jid)]){
+           res =  this._presence[Strophe.getBareJidFromJid(jid)];
+           delete this._presence[Strophe.getBareJidFromJid(jid)];
+          }
             this.items.push({
                 name         : name,
                 jid          : jid,
                 subscription : subscription,
                 ask          : ask,
                 groups       : groups,
-                resources    : {}
+                resources    : res
             });
         }
         else
