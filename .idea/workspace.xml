@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a715b2d1-f260-4426-b136-6550e797c3c5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/messagebox.js" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/controllers/chats_controller.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/controllers/people_controller.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/controllers/remembers_controller.rb" afterPath="" />
@@ -28,22 +27,8 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20120814224538_create_locations.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20120814224755_create_login_histories.rb" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/constants.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/userLocation.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/userLocation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/xmpp.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/xmpp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/strophe/strophe.roster.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/strophe/strophe.roster.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user.rb" afterPath="$PROJECT_DIR$/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_header.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_header.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environment.rb" afterPath="$PROJECT_DIR$/config/environment.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb" afterPath="$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb" afterPath="$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120825195802_create_blocked_users.rb" afterPath="$PROJECT_DIR$/db/migrate/20120825195802_create_blocked_users.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120825195922_create_login_locations.rb" afterPath="$PROJECT_DIR$/db/migrate/20120825195922_create_login_locations.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120825200108_create_stanza_archives.rb" afterPath="$PROJECT_DIR$/db/migrate/20120825200108_create_stanza_archives.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120825200157_create_message_archives.rb" afterPath="$PROJECT_DIR$/db/migrate/20120825200157_create_message_archives.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user_connection_status.rb" afterPath="$PROJECT_DIR$/app/models/user_connection_status.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb" afterPath="$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="metly_devise.iws" />
@@ -67,42 +52,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="environment.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/environment.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="68" selection-start="224" selection-end="224" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20120825195922_create_login_locations.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20120825195922_create_login_locations.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="24" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main_adapter.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-mysql2spatial-adapter-0.4.3/lib/active_record/connection_adapters/mysql2spatial_adapter/main_adapter.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="50" selection-start="1994" selection-end="1994" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysql2_adapter.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-3.2.6/lib/active_record/connection_adapters/mysql2_adapter.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="10" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="20120718184513_create_user_details.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb">
           <provider selected="true" editor-type-id="text-editor">
@@ -115,7 +64,25 @@
       <file leaf-file-name="20120826143747_create_user_connection_statuses.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="53" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0">
+            <state line="6" column="18" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XmppUtils.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schema.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/schema.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="27" selection-start="4246" selection-end="4246" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -124,7 +91,16 @@
       <file leaf-file-name="user_connection_status.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/user_connection_status.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="38" selection-start="131" selection-end="131" vertical-scroll-proportion="0.046153847">
+            <state line="4" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="0.11070111">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xmpp_helper.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/helpers/xmpp_helper.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="70" column="28" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -157,6 +133,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="20120825195922_create_login_locations.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20120825195922_create_login_locations.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="24" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -183,9 +168,9 @@
         <option value="$PROJECT_DIR$/config/environment.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20120825195922_create_login_locations.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb" />
+        <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb" />
         <option value="$PROJECT_DIR$/app/models/user_connection_status.rb" />
-        <option value="$PROJECT_DIR$/app/models/user.rb" />
       </list>
     </option>
   </component>
@@ -197,10 +182,9 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
     <option name="y" value="24" />
-    <option name="width" value="1602" />
-    <option name="height" value="877" />
+    <option name="width" value="801" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -272,6 +256,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="RailsProjectView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -631,23 +616,22 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="RailsProjectView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="51" />
     <property name="JdbcConsole.Extract.Separator" value="'" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="51" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="78" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="JdbcConsole.Connection.Autocommit" value="true" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="147" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="66" />
-    <property name="JdbcConsole.ResultInNewTab" value="true" />
     <property name="RakeTaksPopup.undocumentedIncluded" value="false" />
+    <property name="JdbcConsole.ResultInNewTab" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="66" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="364" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="608" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="147" />
@@ -662,16 +646,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode.SCSS" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="JdbcConsole.Extract.OpeningQuote" value="'" />
     <property name="JdbcConsole.Extract.ClosingQuote" value="'" />
-    <property name="JdbcConsole.EnableParameterPattern" value="false" />
     <property name="JdbcConsole.Extract.IncludeHeader" value="false" />
+    <property name="JdbcConsole.EnableParameterPattern" value="false" />
     <property name="JdbcConsole.ParameterPattern" value="(\?\d*|\:\w+|\@\w+|\$\{[^$\{\}]*\}|\$\w+\$|\#\w+\#)" />
     <property name="JdbcConsole.ResultPageSize" value="1000" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -887,13 +871,6 @@
       <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="false" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Remote">
-      <JSRemoteDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSRemoteDebuggerConfigurationSettings>
-      <method />
-    </configuration>
     <configuration default="true" type="CucumberRunConfigurationType" factoryName="Cucumber">
       <predefined_log_file id="RUBY_CUCUMBER" enabled="true" />
       <module name="" />
@@ -925,6 +902,13 @@
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Remote">
+      <JSRemoteDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSRemoteDebuggerConfigurationSettings>
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
@@ -1104,14 +1088,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1602" height="877" extended-state="6" />
+    <frame x="0" y="24" width="801" height="876" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34714004" sideWeight="0.6712707" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26640928" sideWeight="0.6800554" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4422311" sideWeight="0.99866134" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25896415" sideWeight="0.32320443" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275401" sideWeight="0.5006435" order="7" side_tool="true" content_ui="tabs" />
@@ -1184,51 +1168,24 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120825200108_create_stanza_archives.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="40" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-mysql2spatial-adapter-0.4.3/lib/active_record/connection_adapters/mysql2spatial_adapter.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="11" selection-start="2907" selection-end="2907" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/application.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="3624" selection-end="3624" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="24" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="2" column="24" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-3.2.6/lib/active_record/connection_adapters/abstract_mysql_adapter.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="31" selection-start="3599" selection-end="3599" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="110" column="31" selection-start="3599" selection-end="3599" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-3.2.6/lib/active_record/connection_adapters/postgresql_adapter.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="6" selection-start="7774" selection-end="7774" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="222" column="6" selection-start="7774" selection-end="7774" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-3.2.6/lib/active_record/connection_adapters/mysql2_adapter.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="10" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="22" column="10" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.gem/ruby/1.9.1/gems/activerecord-mysql2spatial-adapter-0.4.3/lib/active_record/connection_adapters/mysql2spatial_adapter/main_adapter.rb">
@@ -1266,13 +1223,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="53" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message_archive.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="40" selection-start="83" selection-end="245" vertical-scroll-proportion="0.0">
@@ -1287,9 +1237,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/xmpp_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="28" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="27" selection-start="4246" selection-end="4246" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20120826143747_create_user_connection_statuses.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="18" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/user_connection_status.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="38" selection-start="131" selection-end="131" vertical-scroll-proportion="0.046153847">
+        <state line="4" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="0.11070111">
           <folding />
         </state>
       </provider>

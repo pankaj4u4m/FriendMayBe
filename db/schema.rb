@@ -376,10 +376,12 @@ ActiveRecord::Schema.define(:version => 20120826143747) do
     t.integer  "user_id",     :limit => 8
     t.integer  "stranger_id", :limit => 8
     t.string   "user_status"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.string   "match_key",   :limit => 100
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
+  add_index "user_connection_statuses", ["match_key"], :name => "index_user_connection_statuses_on_match_key"
   add_index "user_connection_statuses", ["stranger_id"], :name => "index_user_connection_statuses_on_stranger_id"
   add_index "user_connection_statuses", ["user_id"], :name => "index_user_connection_statuses_on_user_id"
 

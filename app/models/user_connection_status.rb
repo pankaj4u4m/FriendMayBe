@@ -1,5 +1,5 @@
 class UserConnectionStatus < ActiveRecord::Base
-  attr_accessible :stranger_id, :user_status
+  attr_accessible :stranger_id, :user_status, :match_key
   belongs_to :user, class_name: 'User'
   belongs_to :stranger, class_name: 'User'
 
