@@ -161,8 +161,8 @@
           }
           if (!currentUser.jid) {
             currentUser.node = Constants.SYSTEM_NODE;
-            currentUser.resource = Math.floor((Math.random() * 1000000) + 1)
-            currentUser.jid = currentUser.node + '@' + my.domain + '/' + currentUser.resource;
+            currentUser.resource = null;
+            currentUser.jid = currentUser.node + '@' + my.domain;
             currentUser.id = $.XmppUtils.jidToId(currentUser.jid);
 
             $.eventMessage(currentUser.id, "You haven't selected any user. Connection to stranger...");
@@ -243,8 +243,8 @@
 
   $.xmppStranger = function () {
     currentUser.node = Constants.SYSTEM_NODE;
-    currentUser.resource = Math.floor((Math.random() * 1000000) + 1)
-    currentUser.jid = currentUser.node + '@' + my.domain + '/' + currentUser.resource;
+    currentUser.resource = null;
+    currentUser.jid = currentUser.node + '@' + my.domain ;
     currentUser.id = $.XmppUtils.jidToId(currentUser.jid);
     currentUser.name = Constants.SYSTEM_NAME;
 

@@ -373,17 +373,19 @@ ActiveRecord::Schema.define(:version => 20120826143747) do
   add_index "stanza_archives", ["sender_id"], :name => "index_stanza_archives_on_sender_id"
 
   create_table "user_connection_statuses", :force => true do |t|
-    t.integer  "user_id",     :limit => 8
-    t.integer  "stranger_id", :limit => 8
+    t.integer  "user_id",      :limit => 8
+    t.string   "user_jid"
+    t.integer  "stranger_id",  :limit => 8
+    t.string   "stranger_jid"
     t.string   "user_status"
-    t.string   "match_key",   :limit => 100
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
-  add_index "user_connection_statuses", ["match_key"], :name => "index_user_connection_statuses_on_match_key"
   add_index "user_connection_statuses", ["stranger_id"], :name => "index_user_connection_statuses_on_stranger_id"
+  add_index "user_connection_statuses", ["stranger_jid"], :name => "index_user_connection_statuses_on_stranger_jid"
   add_index "user_connection_statuses", ["user_id"], :name => "index_user_connection_statuses_on_user_id"
+  add_index "user_connection_statuses", ["user_jid"], :name => "index_user_connection_statuses_on_user_jid"
 
   create_table "user_details", :force => true do |t|
     t.integer  "user_id",    :limit => 8, :null => false
