@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
   $('div.scrollable').setScrollPane({
     hideFocus:true
@@ -22,7 +23,7 @@ $(document).ready(function () {
   });
 
   $("#stranger").click(function () {
-    $.startStrangerChat();
+    $.strangerChat();
   })
 
   $('#remember').click(function(){

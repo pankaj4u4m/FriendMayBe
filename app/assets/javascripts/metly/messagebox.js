@@ -1,11 +1,5 @@
 (function ($) {
 
-  function isCommand(msg){
-    if(msg == '\\c') return 'Connecting to a Stranger..';
-    if(msg == '\\d') return 'Disconnecting..';
-    return false;
-  }
-
   $.eventMessage = function (messageBoxID, message) {
 
     $('#' + messageBoxID + ' .chat-chats').append(
@@ -14,8 +8,12 @@
   }
 
   $.strangerInlineMessage = function(messageBoxID, name, message){
+    var event = $('#' + messageBoxID + ' > div:last-child');
+    if(event.hasClass(".chat-event")){
+      event.parent().remove();
+    }
     var chat = $("<div class='chat'></div>");
-    var command = isCommand(message)
+    var command = $.XmppUtils.isCommand(message)
     if(command){
       $.eventMessage(messageBoxID, message);
     } else {
@@ -29,8 +27,11 @@
   $.myInlineMessage = function (messageBoxID, message) {
     console.log(messageBoxID);
     var chat = $("<div class='chat'></div>");
-    var command = isCommand(message)
+    var command = $.XmppUtils.isCommand(message)
     if(command){
+      if(message == '\\c' && messageBoxID == Constants.SYSTEM_NODE){
+        $('#' + messageBoxID + "  div.chat-chats").empty();
+      }
       $.eventMessage(messageBoxID, command);
     } else {
       $(chat).append("<p class='chat me'><strong>You:</strong>" +

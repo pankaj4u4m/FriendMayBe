@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
         password: Devise.friendly_token[0, 20],
         xmpp: Digest::MD5.hexdigest(auth.info.email)
     )
-    XmppHelper.xmppRegister("#{user.xmpp}@localhost", Digest::MD5.hexdigest(user.encrypted_password))
+    XmppHelper.xmppRegister("#{user.xmpp}@localhost", Digest::MD5.hexdigest(user.encrypted_password), auth.info.name)
     user
   end
 

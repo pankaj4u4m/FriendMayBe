@@ -7,11 +7,14 @@
  */
 (function ($) {
   $.XmppUtils = {
+
+    isCommand:function (msg) {
+      if (msg == '\\c') return 'Connecting to a Stranger..';
+      if (msg == '\\d') return 'Disconnected!';
+      return false;
+    },
     jidToId:function (jid) {
-      return Strophe.getBareJidFromJid(jid)
-          .replace(/@/g, "-")
-          .replace(/\./g, "-")
-          .replace(/\/.*/g, "");
+      return Strophe.getNodeFromJid(jid);
     },
     rosterStatus:function (resources) {
       var status = 'offline';
@@ -20,7 +23,7 @@
 //        console.log(value);
         if (value.show === "online" || value.show === "") {
           status = 'online'
-        } else if (status != 'online' && value.show === "away" ) {
+        } else if (status != 'online' && value.show === "away") {
           status = 'away';
         }
       })
@@ -61,7 +64,7 @@
       var inserted = false;
       var element = $(list).parent().find('.' + jid)
 
-      if(!element){
+      if (!element) {
         element = $.XmppUtils.getRosterElement(roster)
       } else {
         element.detach();
@@ -108,7 +111,7 @@
       // transform jid into an id
       var id = $.XmppUtils.jidToId(jid);
 
-      var element = $("<li class=" + id +  "></li>");
+      var element = $("<li class=" + id + "></li>");
       $("<a data-toggle='chat' class='roster-contact'  href='#" + id + "'></a>")
           .append("<div class='roster-jid' style=\"display:none\">" + jid + "</div>")
           .append("<div class='roster-status " + $.XmppUtils.rosterStatus(roster.resources) + "'> </div>")

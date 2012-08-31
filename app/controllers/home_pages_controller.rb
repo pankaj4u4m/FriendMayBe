@@ -9,7 +9,7 @@ class HomePagesController < ApplicationController
 
   def login
     @user = current_user
-    client = xmppLogin(@user.xmpp, Digest::MD5.hexdigest(@user.encrypted_password))
+    client = xmppLogin(@user.xmpp, Digest::MD5.hexdigest(@user.encrypted_password), @user)
     respond_to do |format|
       format.js { render json: client}
     end

@@ -14,12 +14,14 @@ module XmppHelper
   @domain = nil
   @my_jid = nil
   @my_pass = nil
+  @user = nil;
   #@closeCounter = 0
 
-  def xmppLogin(jid, pass)
+  def xmppLogin(jid, pass, user)
     @domain = "localhost"
     @my_jid = JID::new("#{jid}@#{@domain}")
     @my_pass = pass
+    @user = user;
     Rails.logger.info "my_jid:#{@my_jid}"
     Rails.logger.info "my_pass:#{@my_pass}"
 
@@ -38,11 +40,16 @@ module XmppHelper
     {http_sid: @client.http_sid, http_rid: @client.http_rid, jid: @client.jid}
   end
 
-  def self.xmppRegister(jid, pass)
+  def self.xmppRegister(jid, pass, name)
     begin
       client =Jabber::Client.new(JID::new(jid))
       client.connect
       client.register(pass)
+      client.auth(pass);
+      vcard_helper = Vcard::Helper.new(client);
+      vcard = vcard_helper.get;
+      vcard["NICKNAME"] = name;
+      vcard_helper.set(vcard)
       client.close
     rescue => e
       Rails.logger.error "Failed to register user #{jid} \n#{e.backtrace.join("\n")}"
@@ -70,7 +77,7 @@ module XmppHelper
     begin
       @client.auth(@my_pass)
     rescue
-      XmppHelper.xmppRegister(@my_jid, @my_pass)
+      XmppHelper.xmppRegister(@my_jid, @my_pass, @user.user_details[0].name)
       @client = JabberHTTPBindingClient.new(@my_jid)
       @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)
       @client.auth(@my_pass)

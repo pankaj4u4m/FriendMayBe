@@ -1,6 +1,7 @@
 //= require ./constants
 //= require ./scrollbar
 //= require ./XmppUtils
+//=require ./userLocation
 (function ($) {
   var currentUser = {
     node:null,
@@ -22,7 +23,7 @@
           isAlive = false;
           if (status == Strophe.Status.CONNECTED || status === Strophe.Status.ATTACHED) {
             console.debug('Strophe is attached.');
-            connection.addHandler(XmppOnFunctions.onMessage, null, 'message', "chat");
+            connection.addHandler(XmppOnFunctions.onMessage, null, 'message', null);
             // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
 //          connection.addHandler(Xmpp.onPresence, null, "presence");
 
@@ -35,8 +36,9 @@
           }
         },
         onMessage:function (message) {
-
+          console.log(message);
           var full_jid = $(message).attr('from');
+          var type = $(message).attr('type');
           var jid = Strophe.getBareJidFromJid(full_jid);
           var id = $.XmppUtils.jidToId(jid);
 
@@ -54,6 +56,7 @@
 
           if (body.length === 0) {
             body = $(message).find('body');
+
             if (body.length > 0) {
               body = body.text()
             } else {
@@ -74,10 +77,17 @@
             body = span;
           }
           if (body) {
-            // remove notifications since user is now active
-            $('#' + id + ' .chat-footer').empty();
-
-            $.strangerInlineMessage(id, currentUser.name, body);
+            if(type == 'error'){
+              $.eventMessage(id, body);
+              if (currentUser.status == ChatButtonStatus.CONNECTING ){
+                $.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+              }
+            }else {
+              if (currentUser.status == ChatButtonStatus.CONNECTING ){
+                $.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
+              }
+              $.strangerInlineMessage(id, currentUser.name, body);
+            }
           }
           return true;
         },
@@ -121,13 +131,13 @@
           $('#remember').removeClass('remove').addClass('add').text('Remember');
           my.roster.unsubscribe(currentUser.jid)
           XmppOnFunctions.onRosterReceive(my.roster.items);
-          $.eventMessage(currentUser.node, "You are disconnected");
-          $.disableTextBox();
+          $.eventMessage(currentUser.node, "Forgotten!");
         },
         onRosterAdded:function (stanza) {
           $('#remember').removeClass('add').addClass('remove').text('Remove');
           my.roster.subscribe(currentUser.jid);
           XmppOnFunctions.onRosterReceive(my.roster.items);
+          $.eventMessage(currentUser.node, "Remember request Sent!");
         },
         contactEventBind:function (element) {
           $(element).click(function (e) {
@@ -179,7 +189,7 @@
           my.domain = data['jid']['domain'];
           my.resource = data['jid']['resource'];
 
-          $.getUserLocation(my.resource);
+          $.setUserLocation(my.resource);
 
           my.jid =  my.node+ '@' + my.domain + '/' + my.resource;
 
@@ -237,7 +247,7 @@
 
   $.xmppSendMessage = function (msg) {
     Xmpp.sendMessage(msg);
-    console.log(currentUser);
+
     $.myInlineMessage(currentUser.id, msg);
   }
 
@@ -250,8 +260,8 @@
 
     $.new_message_box.call($("<a data-toggle='chat' class='roster-contact'  href='#" + currentUser.id + "'></a>"),
         currentUser, true);
-    $.eventMessage(currentUser.id, "Connecting to a Stranger...");
     Xmpp.sendMessage("\\c");
+    $.myInlineMessage(currentUser.id, "\\c");
   }
 
   $.xmppStrangerDisconnect = function () {
@@ -271,17 +281,17 @@
     var name = currentUser.name;
 
     name = name || null;
-    my.roster.add(jid, name, [], Xmpp.onRosterAdded);
+    my.roster.add(jid, name, [], XmppOnFunctions.onRosterAdded);
   }
 
   $.xmppBlockUser = function () {
     var jid = currentUser.jid;
     var reason = $("#chattypebox").data('reason');
     $.xmppSendMessage("\\b:" + reason);
-    my.roster.remove(jid, Xmpp.onRosterRemoved);
+    my.roster.remove(jid, XmppOnFunctions.onRosterRemoved);
   }
 
-  $.startStrangerChat = function () {
+  $.strangerChat = function () {
     console.log(currentUser.status);
     var status = currentUser.status;
     if (status == null || status == ChatButtonStatus.HANGOUT) {
@@ -299,7 +309,7 @@
   $.changeChatStatusChanged = function (status) {
     currentUser.status = status;
     if (status == ChatButtonStatus.CONNECTING) {
-      $("#stranger").text("Connecting..");
+      $("#stranger").text("Connecting");
     } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
       $("#stranger").text("Are you sure?");
     } else if (status == ChatButtonStatus.DISCONNECT) {

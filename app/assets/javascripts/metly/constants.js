@@ -4,7 +4,7 @@ Constants = {
   PRE_BINDING:'/login',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger'
-}
+};
 ChatButtonStatus = {
   HANGOUT:0,
   CONNECTING:1,
