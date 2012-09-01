@@ -1,9 +1,10 @@
+//= require ./XmppUtils
 (function ($) {
 
   $.eventMessage = function (messageBoxID, message) {
 
     $('#' + messageBoxID + ' .chat-chats').append(
-        "<div class='chat-event'>" + message + "</div>");
+        "<div class='chat-event'>-" + message + "</div>");
     $('#' + messageBoxID ).trigger("scrollResize");
   }
 
@@ -21,6 +22,7 @@
           message + "</p></div>")
       $('#' + messageBoxID + " .chat-chats").append(chat);
       $('#' + messageBoxID ).trigger("scrollResize");
+      $(chat).emoticonize();
     }
 
   }
@@ -34,11 +36,12 @@
       }
       $.eventMessage(messageBoxID, command);
     } else {
-      $(chat).append("<p class='chat me'><strong>You:</strong>" +
+      $(chat).append("<p class='chat me'><strong>You: </strong>" +
           message + "</p></div>")
     }
     $('#' + messageBoxID + " .chat-chats").append(chat);
     $('#' + messageBoxID ).trigger("scrollResize");
+    $(chat).emoticonize();
   }
 
   $.new_message_box = function (user, isStranger) {
@@ -54,9 +57,11 @@
         scrollToY:$("#" + user.id).data('jsp') == null ? 10000 : $("#" + user.id).data('jsp').getContentPositionY(),
         width:12,
         height:10,
-        maintainPosition:false
+        maintainPosition:false,
+        outer:true
       });
     }
+    $.XmppUtils.setPresence($('#buddy-status'), $.XmppUtils.presenceValue(user.pres));
 
     $("#buddy-name").text(user.name || Constants.SYSTEM_NAME)
     $('#buddy-options').css('visibility', 'visible');
@@ -70,6 +75,11 @@
     $(this).bind('shown', function (e) {
       $(this).trigger("scrollResize");
     });
+  }
+
+  $.authorizationPopup = function(){
+    console.log("authorization popup");
+    return true;
   }
 
 })(jQuery);

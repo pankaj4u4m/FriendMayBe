@@ -1,7 +1,8 @@
 
 $(document).ready(function () {
   $('div.scrollable').setScrollPane({
-    hideFocus:true
+    hideFocus:true,
+    autohide:true
   });
   $('#search-scroll').setScrollPane({
     width:12
@@ -33,6 +34,7 @@ $(document).ready(function () {
       $.xmppAddUser();
     }
   })
+  $('input[textholder], textarea[textholder]').placeholder();
 //
 //  $('#searchTerm').keypress(function(e){
 //    var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);

@@ -31,18 +31,6 @@
       });
 
       function reFormat(pan, options){
-        var vPan = $(pan).find('.jspVerticalBar').get(0);
-        if(vPan != null){
-          $(pan).find('.jspPane').width(
-            $(this).width()+$(vPan).width()
-            )
-        }
-        var hPan = $(pan).find('.jspHorizontalBar').get(0);
-        if(hPan != null){
-          $(pan).find('.jspPane').width(
-            $(this).height()+$(hPan).height()
-            )
-        }
         if(options.width != null){
           $(pan).find('.jspVerticalBar').width(options.width);
         }
@@ -53,6 +41,26 @@
           var api = $(pan).data('jsp')
           api.scrollToY(options.scrollToY);
         }
+
+        if(options.outer){
+          return;
+        }
+
+        var vPan = $(pan).find('.jspVerticalBar').get(0);
+
+        if(vPan != null){
+          $(pan).find('.jspPane').width(
+              $(this).width()+$(vPan).width()
+          )
+        }
+        var hPan = $(pan).find('.jspHorizontalBar').get(0);
+        if(hPan != null){
+          $(pan).find('.jspPane').width(
+              $(this).height()+$(hPan).height()
+          )
+        }
+
+
       }
       return this;
     });

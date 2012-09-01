@@ -15,11 +15,11 @@
 body{
   background-color: #F7F8FA;
 }
-a {
+li>a {
   color:#555555 !important;
 }
 
-a:hover{
+li>a:hover{
   color: #000000 !important;
 }
 
@@ -31,6 +31,9 @@ a:hover{
   z-index: 2000;
   display: none;
 
+}
+.placeholder{
+  color: #999 !important;
 }
 /* header */
 
@@ -117,16 +120,16 @@ footer {
   background-color: white;
 }
 .sidebar-search-fixed{
-  border-color: #D5D5D5;
+  border-color: #F1F1F1;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #D8DFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 0 #F1F1F1 inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 0;
   position: fixed;
   bottom: 105px;
   z-index: 1025;
   width: 219px;
-  background-color: #D8DFEA;
+  background-color: #F1F1F1;
 }
 
 #sidebar{
@@ -136,7 +139,7 @@ footer {
 
 .sidebar-search-fixed input[type="text"] {
   border-radius: 0;
-  width: 185px;
+  width: 190px;
   margin: 0;
 //  box-shadow: none;
 //  border: 0;
@@ -175,7 +178,7 @@ footer {
 }
 .roster-contact {
   position: relative;
-  padding-left: 2px !important;
+  background-color: #FFFFFF;
 }
 .roster-name{
   margin-left: 15px;
@@ -203,10 +206,11 @@ footer {
 
 /* chat message content */
 .optionbar-fixed{
-  background-color: #D8DFEA;
+  background-color: #F1F1F1;
+  background-color: #F1F1F1;
+  border: 1px solid #D7D7D7;
   top: 50px;
-  border-radius: 0 0 0 0;
-  border-width: 0 0 1px;
+
   box-shadow: 0 1px 0 #DBDFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 230px;
   right: 0;
@@ -214,6 +218,12 @@ footer {
   z-index: 1025;
   padding-left: 10px;
   height: 40px;
+}
+
+#buddy-status {
+  float:left;
+  left:5px;
+  top:10px
 }
 .messagebar-fixed{
   border-color: #D5D5D5;
@@ -308,5 +318,24 @@ footer {
   font-size: 19px;
   float: left;
   width: 50%;
+}
+
+/*dropdown notification */
+.notification-header{
+  background-color: #FFFFFF;
+  background-image: -moz-linear-gradient(center top , #FFFFFF, #F5F5F5);
+  height: 35px;
+  padding: 0 15px;
+  vertical-align: middle;
+}
+#notification{
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 35px;
+  max-height: 35px;
+}
+.notification-menu{
+  width: 400px;
 }
 

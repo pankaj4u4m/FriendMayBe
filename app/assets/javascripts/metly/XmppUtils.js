@@ -7,14 +7,13 @@
  */
 (function ($) {
   $.XmppUtils = {
-
     isCommand:function (msg) {
       if (msg == '\\c') return 'Connecting to a Stranger..';
       if (msg == '\\d') return 'Disconnected!';
       return false;
     },
     jidToId:function (jid) {
-      return Strophe.getNodeFromJid(jid);
+      return Strophe.getNodeFromJid(jid).replace(/\./g, "-");
     },
     rosterStatus:function (resources) {
       var status = 'offline';
@@ -45,7 +44,6 @@
       return 0;
     },
     setPresence:function (element, pres) {
-      element = $(element).find('.roster-status');
       $(element).removeAttr('class');
       $(element).addClass('roster-status')
       if (pres == 2) {
@@ -68,7 +66,7 @@
         element = $.XmppUtils.getRosterElement(roster)
       } else {
         element.detach();
-        $.XmppUtils.setPresence(element, pres)
+        $.XmppUtils.setPresence($(element).find('.roster-status'), pres);
       }
 
       $(list).each(function () {
@@ -94,16 +92,16 @@
       }
 
     },
-    searchContacts:function (list, searchTerm) {
-      $(list).each(function () {
-        var name = $(this).find('.roster-name').text();
-        if (searchTerm.length > 0 && name.match(/searchTerm+/i) == null) {
-          $(this).css({'visibility':'hidden'})
-        } else {
-          $(this).css({'visibility':'visible'})
-        }
-      })
-    },
+//    searchContacts:function (list, searchTerm) {
+//      $(list).each(function () {
+//        var name = $(this).find('.roster-name').text();
+//        if (searchTerm.length > 0 && name.match(/searchTerm+/i) == null) {
+//          $(this).css({'visibility':'hidden'})
+//        } else {
+//          $(this).css({'visibility':'visible'})
+//        }
+//      })
+//    },
     getRosterElement:function (roster) {
       var jid = roster.jid;
       var name = roster.name || jid;

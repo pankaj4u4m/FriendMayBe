@@ -2,12 +2,27 @@
   <script type="text/javascript">
     $.xmppStart();
   </script>
-  <div class="navbar-inner" >
+  <div class="navbar-inner">
     <%= link_to "metly", root_path, id: "logo" %>
     <nav>
       <ul class="nav pull-right">
-        <li><%= link_to "#{@user.user_details[0].name}", root_path ,style: "padding-top: 10px; padding-bottom: 10px", id: "search"%></li>
-        <li><%= link_to "logout", destroy_user_session_path, style: "padding-top: 10px; padding-bottom: 10px"%></li>
+
+        <li class="btn-group">
+          <button id='notification-btn' class="btn dropdown-toggle" data-toggle="dropdown" href="#">0
+          </button>
+          <ul class="dropdown-menu notification-menu">
+            <div class="notification-header">
+              <div class="all-notification"><a href="#notification" style="color: #3366CC;">View all notifications</a></div>
+            </div>
+            <div class="notification-contents">
+            <li><a href="/" id="search" style="padding-top: 10px; padding-bottom: 10px">pankaj the coder</a></li>
+            <li><a href="/sign_out" style="padding-top: 10px; padding-bottom: 10px">logout</a></li>
+             </div>
+          </ul>
+        </li>
+
+        <li><%= link_to "#{@user.user_details[0].name}", root_path, style: "padding-top: 10px; padding-bottom: 10px", id: "search" %></li>
+        <li><%= link_to "logout", destroy_user_session_path, style: "padding-top: 10px; padding-bottom: 10px" %></li>
       </ul>
     </nav>
   </div>

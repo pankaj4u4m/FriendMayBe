@@ -1,7 +1,7 @@
 (function($, window, document, undefined) {
   $.fn.quicksearch = function (target, opt) {
 
-    var timeout, cache, rowcache, jq_results, val = '', e = this, options = $.extend({
+    var firsttime=true, timeout, cache, rowcache, jq_results, val = '', e = this, options = $.extend({
       delay: 100,
       selector: null,
       stripeRows: null,
@@ -22,7 +22,7 @@
         this.style.display = "none";
       },
       prepareQuery: function (val) {
-        return val.toLowerCase().split(' ');
+        return val.toLowerCase().trim().split(' ');
       },
       testQuery: function (query, txt, _row) {
         for (var i = 0; i < query.length; i += 1) {
@@ -40,13 +40,15 @@
           numMatchedRows = 0,
           noresults = true,
           query = options.prepareQuery(val),
-          val_empty = (val.replace(' ', '').length === 0);
+          val_empty = (val.trim().length == 0),
+          documentFirstTimeLoaded = firsttime;
 
       for (var i = 0, len = rowcache.length; i < len; i++) {
-        if (val_empty || options.testQuery(query, cache[i], rowcache[i])) {
+        if (documentFirstTimeLoaded || val_empty || options.testQuery(query, cache[i], rowcache[i])) {
           options.show.apply(rowcache[i]);
           noresults = false;
           numMatchedRows++;
+          firsttime = false;
         } else {
           options.hide.apply(rowcache[i]);
         }
@@ -142,7 +144,7 @@
        * Modified fix for sync-ing "val".
        * Original fix https://github.com/michaellwest/quicksearch/commit/4ace4008d079298a01f97f885ba8fa956a9703d1
        * */
-      val = val || this.val() || "";
+      val = (val || this.val() || "").trim();
 
       return this.go();
     };

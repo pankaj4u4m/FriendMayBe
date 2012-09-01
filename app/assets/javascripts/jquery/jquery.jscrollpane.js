@@ -279,26 +279,61 @@
                             verticalTrackHeight -= $(this).outerHeight();
                         }
                     );
+           //edited
+          if(settings.autohide){
+            if(verticalTrack ){
+              verticalTrack.fadeOut(1000); //edited
+            }
+            if(horizontalTrack ){
+              horizontalTrack.fadeOut(1000); //edited
+            }
+            container.hover(function(){
+                container.addClass('jspHover');
+                if(verticalTrack){
+                  verticalTrack.fadeIn(200); //edited
+                }
+                if(horizontalTrack){
+                  horizontalTrack.fadeIn(200); //edited
+                }
+              },function(){
+                if(verticalTrack && !verticalDrag.hasClass('jspActive')){
+                  verticalTrack.fadeOut(1000); //edited
+                }
+                if(horizontalTrack && !horizontalDrag.hasClass('jspActive')){
+                  horizontalTrack.fadeOut(1000); //edited
+                }
+                container.removeClass('jspHover');
+              })
+          }
+          //end edited
 
 
                     verticalDrag.hover(
                         function()
                         {
                             verticalDrag.addClass('jspHover');
+              if(settings.autohide){
+                verticalTrack.fadeIn(200); //edited
+              }
                         },
                         function()
                         {
-                            verticalDrag.removeClass('jspHover');
-                        }
-                    ).bind(
-                        'mousedown.jsp',
-                        function(e)
-                        {
-// Stop IE from allowing text selection
-                            $('html').bind('dragstart.jsp selectstart.jsp', nil);
+              if(settings.autohide && !container.hasClass('jspHover')){
+                verticalTrack.fadeOut(1000); //edited
+              }
+              verticalDrag.removeClass('jspHover');
+            }
+            ).bind(
+            'mousedown.jsp',
+            function(e)
+            {
+              // Stop IE from allowing text selection
+              $('html').bind('dragstart.jsp selectstart.jsp', nil);
 
                             verticalDrag.addClass('jspActive');
-
+              if(settings.autohide){
+                verticalTrack.fadeIn(200); //edited
+              }
                             var startY = e.pageY - verticalDrag.position().top;
 
                             $('html').bind(
@@ -373,10 +408,16 @@
                         function()
                         {
                             horizontalDrag.addClass('jspHover');
+              if(settings.autohide){//edited
+                horizontalTrack.fadeIn(200); //edited
+              }//edited
                         },
                         function()
                         {
                             horizontalDrag.removeClass('jspHover');
+              if(settings.autohide && !container.hasClass('jspHover')){//edited
+                horizontalTrack.fadeOut(1000); //edited
+              }//edited
                         }
                     ).bind(
                         'mousedown.jsp',
@@ -654,9 +695,15 @@
                 $('html').unbind('dragstart.jsp selectstart.jsp mousemove.jsp mouseup.jsp mouseleave.jsp');
 
                 if (verticalDrag) {
+          if(settings.autohide && !container.hasClass('jspHover')){//edited
+            verticalTrack.fadeOut(1000); //edited
+          }//edited
                     verticalDrag.removeClass('jspActive');
                 }
                 if (horizontalDrag) {
+          if(settings.autohide && !container.hasClass('jspHover')){//edited
+            horizontalTrack.fadeOut(1000); //edited
+          }//edited
                     horizontalDrag.removeClass('jspActive');
                 }
             }
@@ -1398,6 +1445,7 @@
     };
 
     $.fn.jScrollPane.defaults = {
+    autohide            :false,   //edited
         showArrows	: false,
         maintainPosition	: true,
         stickToBottom	: false,

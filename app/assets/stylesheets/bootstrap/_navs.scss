@@ -8,7 +8,7 @@
 
 .nav {
   margin-left: 0;
-  margin-bottom: $baseLineHeight;
+  //margin-bottom: $baseLineHeight;
   list-style: none;
 }
 
@@ -182,7 +182,7 @@
 
 // Pills
 .nav-pills.nav-stacked > li > a {
-  margin-bottom: 3px;
+  margin-bottom: 1px;
 }
 .nav-pills.nav-stacked > li:last-child > a {
   margin-bottom: 1px; // decrease margin to match sizing of stacked tabs
@@ -321,13 +321,14 @@
 .tabs-right > .nav-tabs > li > a {
   min-width: 74px;
   margin-right: 0;
-  margin-bottom: 3px;
+  margin-bottom: 1px;
 }
 
 // Tabs on the left
 .tabs-left > .nav-tabs {
   float: left;
-  margin-right: 19px;
+//  margin-right: 19px;
+  margin-right: 0;
   //border-right: 1px solid #ddd;
 }
 .tabs-left > .nav-tabs > li > a {
@@ -346,7 +347,8 @@
 // Tabs on the right
 .tabs-right > .nav-tabs {
   float: right;
-  margin-left: 19px;
+  //margin-left: 19px;
+  margin-left: 0;
   border-left: 1px solid #ddd;
 }
 .tabs-right > .nav-tabs > li > a {

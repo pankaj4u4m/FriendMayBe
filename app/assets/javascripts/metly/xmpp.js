@@ -7,7 +7,8 @@
     node:null,
     jid:null,
     status:null,
-    id:null
+    id:null,
+    pres:null
   }
   var my = {
     node:null,
@@ -24,6 +25,7 @@
           if (status == Strophe.Status.CONNECTED || status === Strophe.Status.ATTACHED) {
             console.debug('Strophe is attached.');
             connection.addHandler(XmppOnFunctions.onMessage, null, 'message', null);
+            connection.addHandler(XmppOnFunctions.onSubscribe, null, 'presence', 'subscribe');
             // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
 //          connection.addHandler(Xmpp.onPresence, null, "presence");
 
@@ -35,8 +37,19 @@
             isAlive = true;
           }
         },
+        onSubscribe:function(stanza){
+          console.log(stanza);
+          var from = $(stanza).attr('from');
+          var accepted = $.authorizationPopup();
+          if(accepted){
+            my.roster.authorize(from);
+          } else {
+            my.roster.unauthorize(from);
+          }
+          return true;
+        },
         onMessage:function (message) {
-          console.log(message);
+//          console.log(message);
           var full_jid = $(message).attr('from');
           var type = $(message).attr('type');
           var jid = Strophe.getBareJidFromJid(full_jid);
@@ -45,7 +58,7 @@
           if(!my.roster.findItem(Strophe.getBareJidFromJid(jid)) && currentUser.jid != full_jid){
             return true;
           }
-          console.log(message);
+//          console.log(message);
           var composing = $(message).find('composing');
           if (composing.length > 0) {
             $.eventMessage(id, Strophe.getNodeFromJid(jid) + " is typing...");
@@ -93,6 +106,7 @@
         },
 
         onPresence:function (list, item) {
+          console.log(item);
           if (item) {
             var contacts = $('#remembereds li');
             if (contacts.length > 0) {
@@ -108,7 +122,7 @@
           return true;
         },
         onRosterReceive:function (data) {
-//          console.log(data);
+          console.log(data);
           data.sort(function (a, b) {
             var r = $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(b.resources)) - $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(a.resources));
             if (r == 0) {
@@ -134,7 +148,7 @@
           $.eventMessage(currentUser.node, "Forgotten!");
         },
         onRosterAdded:function (stanza) {
-          $('#remember').removeClass('add').addClass('remove').text('Remove');
+          $('#remember').removeClass('add').addClass('remove').text('Forget');
           my.roster.subscribe(currentUser.jid);
           XmppOnFunctions.onRosterReceive(my.roster.items);
           $.eventMessage(currentUser.node, "Remember request Sent!");
@@ -145,17 +159,17 @@
             var jid = $(this).find(".roster-jid").text();
             var id = $(this).attr("href").replace('#', '');
             var name = $(this).find('.roster-name').text();
-
+            var pres = $(this).find('.roster-status');
             currentUser.name = name;
             currentUser.jid = jid;
             currentUser.node = Strophe.getNodeFromJid(currentUser.jid );
             currentUser.id = id;
-            console.log(currentUser);
+            currentUser.pres = pres;
+//            console.log(currentUser);
             $.new_message_box.call(this, currentUser, false);
           });
           $('div.scrollable').trigger('scrollResize');
           $('input#searchTerm').quicksearch('#remembereds li', {
-            'delay':200,
             'selector':'.roster-name',
             'onAfter':function () {
               $('div.scrollable').trigger('scrollResize');
@@ -235,14 +249,13 @@
 
         connect:function () {
           connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
-          connection.connect("codegambler@gmail.com", "kim-10vriti", Xmpp.onConnect);
+          connection.connect("codegambler@gmail.com", "kim-10vriti", XmppOnFunctions.onConnect);
         }
       }
 
-
   $.xmppStart = function () {
-    Xmpp.initiateConnection();
-    //Xmpp.connect();
+   // Xmpp.initiateConnection();
+    Xmpp.connect();
   }
 
   $.xmppSendMessage = function (msg) {
