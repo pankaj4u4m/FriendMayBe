@@ -35,6 +35,7 @@ $(document).ready(function () {
     }
   })
   $('input[textholder], textarea[textholder]').placeholder();
+  $.initNotificationMenu();
 //
 //  $('#searchTerm').keypress(function(e){
 //    var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);

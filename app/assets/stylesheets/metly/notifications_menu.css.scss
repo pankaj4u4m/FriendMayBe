@@ -1,0 +1,51 @@
+/*dropdown notification */
+#notification-btn{
+  border: 1px solid #D7D7D7;
+}
+.notification-header{
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D7D7D7;
+}
+.notification-contents{
+  overflow: hidden;
+}
+
+.notification-menu{
+  opacity: 0.9;
+  width: 350px;
+}
+.notification-item {
+  background-color: #F7F7F7;
+  padding: 5px;
+  border-bottom: 1px solid #D7D7D7;
+  position: relative;
+  width: 340px;
+}
+.notification-user {
+  font-weight: bold;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+  overflow: hidden;
+  width: 230px;
+}
+
+.notification-accept-bnt{
+  position: absolute;
+  right: 15px;
+  top: 10px;
+
+}
+.notification-text-user {
+  font-weight: bold;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  overflow: hidden;
+  width: 230px;
+}
+
+.notification-text {
+  padding-left: 20px;
+  color: #808080;
+  font-size: 12px;
+}
+

@@ -11,6 +11,7 @@
  *= require_directory ./jquery
  * require_directory ./jquery_ui
  *= require ./bootstrap/bootstrap
+ *= require_directory ./metly
  *= require_self
  *= require_directory .
  */

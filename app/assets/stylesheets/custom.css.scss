@@ -215,7 +215,7 @@ footer {
   left: 230px;
   right: 0;
   position: fixed;
-  z-index: 1025;
+  //z-index: 1025;
   padding-left: 10px;
   height: 40px;
 }
@@ -235,7 +235,7 @@ footer {
   position: fixed;
   top: 90px;
   bottom: 105px;
-  z-index: 1020;
+  //z-index: 1020;
   padding-left: 10px;
   background-color: white;
 }
@@ -318,24 +318,5 @@ footer {
   font-size: 19px;
   float: left;
   width: 50%;
-}
-
-/*dropdown notification */
-.notification-header{
-  background-color: #FFFFFF;
-  background-image: -moz-linear-gradient(center top , #FFFFFF, #F5F5F5);
-  height: 35px;
-  padding: 0 15px;
-  vertical-align: middle;
-}
-#notification{
-  float: left;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 35px;
-  max-height: 35px;
-}
-.notification-menu{
-  width: 400px;
 }
 

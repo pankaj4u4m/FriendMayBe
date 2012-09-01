@@ -1,16 +1,21 @@
+<!-- header start -->
 <%= render 'home_pages/header' %>
+<!-- header end -->
 
+<!-- container start -->
 <div class="container-fluid">
   <div class="row-fluid">
     <div  class="span3" >
       <%= render 'home_pages/sidebar' %>
-      <%= render 'home_pages/sidebar_search' %>
     </div>
     <div class="span9" >
       <%= render 'home_pages/messagebox' %>
     </div>
   </div>
-  <div class="navbar-fixed-bottom">
-    <%= render 'home_pages/chatbox' %>
-  </div>
 </div>
+<!-- container end -->
+<!-- footer start -->
+<div class="navbar-fixed-bottom">
+  <%= render 'home_pages/chatbox' %>
+</div>
+<!-- footer end -->
