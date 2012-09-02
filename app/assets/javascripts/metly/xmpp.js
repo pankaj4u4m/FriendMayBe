@@ -142,13 +142,13 @@
           return true;
         },
         onRosterRemoved:function (stanza) {
-          $('#remember').removeClass('remove').addClass('add').text('Remember');
+          $('#' + currentUser.id + ' button.remember').removeClass('remove').addClass('add').text('Remember');
           my.roster.unsubscribe(currentUser.jid)
           XmppOnFunctions.onRosterReceive(my.roster.items);
           $.eventMessage(currentUser.node, "Forgotten!");
         },
         onRosterAdded:function (stanza) {
-          $('#remember').removeClass('add').addClass('remove').text('Forget');
+          $('#' + currentUser.id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
           my.roster.subscribe(currentUser.jid);
           XmppOnFunctions.onRosterReceive(my.roster.items);
           $.eventMessage(currentUser.node, "Remember request Sent!");
@@ -166,7 +166,7 @@
             currentUser.id = id;
             currentUser.pres = pres;
 //            console.log(currentUser);
-            $.new_message_box.call(this, currentUser, false);
+            $.new_message_box.call( this, currentUser.id, currentUser, false);
           });
           $('div.scrollable').trigger('scrollResize');
           $('input#searchTerm').quicksearch('#remembereds li', {
@@ -254,8 +254,8 @@
       }
 
   $.xmppStart = function () {
-   // Xmpp.initiateConnection();
-    Xmpp.connect();
+     Xmpp.initiateConnection();
+    //Xmpp.connect();
   }
 
   $.xmppSendMessage = function (msg) {
@@ -272,7 +272,7 @@
     currentUser.name = Constants.SYSTEM_NAME;
 
     $.new_message_box.call($("<a data-toggle='chat' class='roster-contact'  href='#" + currentUser.id + "'></a>"),
-        currentUser, true);
+        currentUser.id, currentUser, true);
     Xmpp.sendMessage("\\c");
     $.myInlineMessage(currentUser.id, "\\c");
   }

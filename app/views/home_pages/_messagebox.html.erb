@@ -1,22 +1,7 @@
-<div class="optionbar-fixed">
-  <div id="buddy-status"> </div>
-  <div id="buddy-name" style="float:left; padding: 10px;">Notifications(2)</div>
-  <div id="buddy-options" style="float:right;padding: 6px; visibility:hidden;margin-right: 10px;">
-    <!--<button class="btn btn-danger dropdown-toggle block" data-toggle="dropdown">Block</button>-->
-    <button id="remember" class="btn btn-primary add">Remember</button>
-    <ul class="dropdown-menu preserve" style="left: auto !important;right: 30px;">
-      <li class="input-append" style="margin-bottom: 0; padding-right: 5px">
-
-        <input type="text" />
-        <button class="btn btn-primary">Ok</button>
-      </li>
-    </ul>
-  </div>
-
-</div>
-
 <div class="messagebar-fixed">
   <div id="messagebar" class="tab-content">
-
+    <script type="text/javascript">
+      $.new_message_box.call($("<a data-toggle='chat' class='roster-contact'  href='#notification'></a>"), 'notification');
+    </script>
   </div>
 </div>

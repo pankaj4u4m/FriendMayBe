@@ -15,11 +15,11 @@
 body{
   background-color: #F7F8FA;
 }
-li>a {
+li a {
   color:#555555 !important;
 }
 
-li>a:hover{
+li a:hover{
   color: #000000 !important;
 }
 
@@ -141,8 +141,8 @@ footer {
   border-radius: 0;
   width: 190px;
   margin: 0;
-//  box-shadow: none;
-//  border: 0;
+  //  box-shadow: none;
+  //  border: 0;
 }
 //.sidebar-search-fixed > .input-append input[type="text"]:focus {
 //  box-shadow: none;
@@ -204,57 +204,6 @@ footer {
 }
 
 
-/* chat message content */
-.optionbar-fixed{
-  background-color: #F1F1F1;
-  background-color: #F1F1F1;
-  border: 1px solid #D7D7D7;
-  top: 50px;
-
-  box-shadow: 0 1px 0 #DBDFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
-  left: 230px;
-  right: 0;
-  position: fixed;
-  //z-index: 1025;
-  padding-left: 10px;
-  height: 40px;
-}
-
-#buddy-status {
-  float:left;
-  left:5px;
-  top:10px
-}
-.messagebar-fixed{
-  border-color: #D5D5D5;
-  border-radius: 0 0 0 0;
-  border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
-  left: 230px;
-  right: 0;
-  position: fixed;
-  top: 90px;
-  bottom: 105px;
-  //z-index: 1020;
-  padding-left: 10px;
-  background-color: white;
-}
-
-#messagebar{
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-}
-
-.message{
-  /*border-bottom: 1px dotted #F5F6F7;*/
-  padding-top: 4px;
-
-}
-
-.chat-event {
-  color:#999999;
-}
 .user-icon-setting{
   background: url("Black_Settings_60.png") left no-repeat;
   height: 19px;
@@ -267,11 +216,11 @@ footer {
 .google{
   background: #FFF url("openid_providers_Google.gif") no-repeat center;
 }
- .chat{
-   white-space:pre-wrap;
- }
+.chat{
+  white-space:pre-wrap;
+}
 
- /*search page*/
+/*search page*/
 .search-box-fixed{
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;

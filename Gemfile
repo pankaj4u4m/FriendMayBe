@@ -17,8 +17,8 @@ gem 'therubyracer'
 gem 'memcache-client'
 gem 'rgeo'
 gem 'activerecord-mysql2spatial-adapter'
-
-
+gem 'composite_primary_keys'
+gem 'minitest'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

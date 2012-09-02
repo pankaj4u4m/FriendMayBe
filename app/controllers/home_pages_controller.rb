@@ -22,5 +22,13 @@ class HomePagesController < ApplicationController
       format.js { render json: {status: 'saved'}}
     end
   end
-
+  def notification
+    @user = current_user;
+    request = OfRoster.getRequestedUsers(@user);
+    messages = MessageArchive.getUniqueMessages(@user);
+    count = OfOffline.getCount(@user);
+    respond_to do |format|
+      format.js { render json: {requests: request, messages: messages, count:count}}
+    end
+  end
 end

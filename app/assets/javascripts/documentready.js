@@ -27,13 +27,6 @@ $(document).ready(function () {
     $.strangerChat();
   })
 
-  $('#remember').click(function(){
-    if($(this).hasClass('remove')){
-      $.xmppRemoveUser();
-    } else if ($(this).hasClass('add')){
-      $.xmppAddUser();
-    }
-  })
   $('input[textholder], textarea[textholder]').placeholder();
   $.initNotificationMenu();
 //

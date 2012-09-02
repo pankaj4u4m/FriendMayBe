@@ -6,46 +6,121 @@
   background-color: #FFFFFF;
   border-bottom: 1px solid #D7D7D7;
 }
-.notification-contents{
+.notification-scroll-menu{
   overflow: hidden;
+  max-height: 400px;
 }
-
-.notification-menu{
+.notification-scroll-page{
+  overflow: hidden;
+  height: 100%;
+}
+.notification-list-menu{
   opacity: 0.9;
   width: 350px;
 }
-.notification-item {
+.notread{
   background-color: #F7F7F7;
+}
+.notification-item-menu {
   padding: 5px;
   border-bottom: 1px solid #D7D7D7;
   position: relative;
   width: 340px;
 }
-.notification-user {
-  font-weight: bold;
+.notification-item-page {
+  padding: 5px;
+  border-bottom: 1px solid #D7D7D7;
+  position: relative;
+}
+.notification-user-menu {
+  //font-weight: bold;
   padding-bottom: 10px !important;
   padding-top: 10px !important;
   overflow: hidden;
-  width: 230px;
+  margin-right: 100px;
 }
+.notification-user-page{
+  //font-weight: bold;
+  clear: both;
+  color: #333333;
+  display: block;
+  font-weight: normal;
+  line-height: 20px;
+  padding: 3px 15px;
+  white-space: nowrap;
 
-.notification-accept-bnt{
+
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+  overflow: hidden;
+  margin-right: 100px;
+}
+.notification-accept-bnt-menu{
+  position: absolute;
+  right: 60px;
+  top: 13px;
+  padding: 2px 5px !important;
+  font-size: 12px;
+}
+.notification-accept-bnt-page{
+  position: absolute;
+  right: 80px;
+  top: 12px;
+}
+.notification-reject-bnt-menu{
   position: absolute;
   right: 15px;
-  top: 10px;
-
+  top: 13px;
+  padding: 2px 5px !important;
+  font-size: 12px;
 }
-.notification-text-user {
-  font-weight: bold;
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
+.notification-reject-bnt-page{
+  position: absolute;
+  right: 15px;
+  top: 12px;
+}
+.notification-text-user-menu {
+  //font-weight: bold;
+  //padding-bottom: 0 !important;
+  //padding-top: 0 !important;
   overflow: hidden;
-  width: 230px;
 }
+.notification-text-user-page {
+  //font-weight: bold;
+  //padding-bottom: 0 !important;
+  //padding-top: 0 !important;
+  clear: both;
+  color: #333333;
+  display: block;
+  font-weight: normal;
+  line-height: 20px;
+  padding: 3px 15px;
+  white-space: nowrap;
 
-.notification-text {
+  overflow: hidden;
+}
+.notification-text-menu {
   padding-left: 20px;
   color: #808080;
   font-size: 12px;
 }
-
+.notification-text-page {
+  padding-left: 20px;
+  color: #808080;
+  font-size: 12px;
+}
+.notification-buddy-menu{
+  top: 15px;
+}
+.notification-buddy-page{
+  top: 15px;
+}
+.notification-text-buddy-menu{
+  top: 8px;
+}
+.notification-text-buddy-page{
+  top: 8px;
+}
+.notification-contents li {
+  list-style: none;
+}

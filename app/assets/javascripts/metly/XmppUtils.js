@@ -44,8 +44,9 @@
       return 0;
     },
     setPresence:function (element, pres) {
-      $(element).removeAttr('class');
-      $(element).addClass('roster-status')
+      $(element).removeClass('online');
+      $(element).removeClass('away');
+      $(element).removeClass('offline');
       if (pres == 2) {
         $(element).addClass('online');
       } else if (pres == 1) {
