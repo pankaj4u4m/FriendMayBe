@@ -2,6 +2,7 @@ Constants = {
   USER_LOCATION:'/location',
   BOSH_SERVICE:'/bosh',
   PRE_BINDING:'/login',
+  NOTIFICATION_SERVICE: '/notification',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger'
 };

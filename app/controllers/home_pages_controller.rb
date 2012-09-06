@@ -24,11 +24,11 @@ class HomePagesController < ApplicationController
   end
   def notification
     @user = current_user;
-    request = OfRoster.getRequestedUsers(@user);
+    #request = OfRoster.getRequestedUsers(@user);
     messages = MessageArchive.getUniqueMessages(@user);
-    count = OfOffline.getCount(@user);
+    #count = OfOffline.getCount(@user);
     respond_to do |format|
-      format.js { render json: {requests: request, messages: messages, count:count}}
+      format.js { render json: {messages: messages}}
     end
   end
 end

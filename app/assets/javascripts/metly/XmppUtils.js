@@ -6,16 +6,17 @@
  * To change this template use File | Settings | File Templates.
  */
 (function ($) {
-  $.XmppUtils = {
-    isCommand:function (msg) {
+  function XmppUtils(){
+    var self = this;
+    this.isCommand = function (msg) {
       if (msg == '\\c') return 'Connecting to a Stranger..';
       if (msg == '\\d') return 'Disconnected!';
       return false;
-    },
-    jidToId:function (jid) {
+    };
+    this.jidToId = function (jid) {
       return Strophe.getNodeFromJid(jid).replace(/\./g, "-");
-    },
-    rosterStatus:function (resources) {
+    };
+    this.rosterStatus = function (resources) {
       var status = 'offline';
 //      console.log(resources);
       $.each(resources, function (key, value) {
@@ -25,10 +26,10 @@
         } else if (status != 'online' && value.show === "away") {
           status = 'away';
         }
-      })
+      });
       return status;
-    },
-    presenceValue:function (elem) {
+    };
+    this.presenceValue = function (elem) {
       if (elem == 'online') {
         return 2;
       } else if (elem == 'away') {
@@ -42,8 +43,8 @@
       }
 
       return 0;
-    },
-    setPresence:function (element, pres) {
+    };
+    this.setPresence = function (element, pres) {
       $(element).removeClass('online');
       $(element).removeClass('away');
       $(element).removeClass('offline');
@@ -54,24 +55,24 @@
       } else {
         $(element).addClass('offline');
       }
-    },
-    updateContact:function (list, roster) {
-      var jid = $.XmppUtils.jidToId(roster.jid);
+    };
+    this.updateContact = function (list, roster) {
+      var jid = self.jidToId(roster.jid);
       var name = roster.name;
-      var pres = $.XmppUtils.presenceValue($.XmppUtils.rosterStatus(roster.resources));
+      var pres = self.presenceValue(self.rosterStatus(roster.resources));
 
       var inserted = false;
-      var element = $(list).parent().find('.' + jid)
+      var element = $(list).parent().find('.' + jid);
 
       if (!element) {
-        element = $.XmppUtils.getRosterElement(roster)
+        element = self.getRosterElement(roster)
       } else {
         element.detach();
-        $.XmppUtils.setPresence($(element).find('.roster-status'), pres);
+        self.setPresence($(element).find('.roster-status'), pres);
       }
 
       $(list).each(function () {
-        var cmp_pres = $.XmppUtils.presenceValue(
+        var cmp_pres = self.presenceValue(
             $(this).find('.roster-status'));
         var cmp_name = $(this).find('.roster-name').text();
 
@@ -92,32 +93,27 @@
         $(list).parent().append(element);
       }
 
-    },
-//    searchContacts:function (list, searchTerm) {
-//      $(list).each(function () {
-//        var name = $(this).find('.roster-name').text();
-//        if (searchTerm.length > 0 && name.match(/searchTerm+/i) == null) {
-//          $(this).css({'visibility':'hidden'})
-//        } else {
-//          $(this).css({'visibility':'visible'})
-//        }
-//      })
-//    },
-    getRosterElement:function (roster) {
+    };
+    this.getRosterElement = function (roster) {
       var jid = roster.jid;
       var name = roster.name || jid;
 
       // transform jid into an id
-      var id = $.XmppUtils.jidToId(jid);
+      var id = self.jidToId(jid);
 
       var element = $("<li class=" + id + "></li>");
       $("<a data-toggle='chat' class='roster-contact'  href='#" + id + "'></a>")
           .append("<div class='roster-jid' style=\"display:none\">" + jid + "</div>")
-          .append("<div class='roster-status " + $.XmppUtils.rosterStatus(roster.resources) + "'> </div>")
+          .append("<div class='roster-status " + self.rosterStatus(roster.resources) + "'> </div>")
           .append("<div class='roster-name'>" + name + "</div>")
           .appendTo(element);
 
       return element;
-    }
+    };
+  }
+  var _INSTANCE = new XmppUtils();
+
+  $.getXmppUtils = function(){
+    return _INSTANCE;
   }
 })(jQuery);
