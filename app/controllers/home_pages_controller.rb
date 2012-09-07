@@ -25,7 +25,15 @@ class HomePagesController < ApplicationController
   def notification
     @user = current_user;
     #request = OfRoster.getRequestedUsers(@user);
-    messages = MessageArchive.getUniqueMessages(@user);
+    minMessageId = params['minMessageId'];
+    if(! minMessageId.is_a? Integer )
+       minMessageId = minMessageId.to_i;
+    end
+
+    if(minMessageId == nil || minMessageId < 0 || minMessageId > 2**63)
+      minMessageId = 2**63 -1;
+    end
+    messages = MessageArchive.getUniqueMessages(@user, minMessageId);
     #count = OfOffline.getCount(@user);
     respond_to do |format|
       format.js { render json: {messages: messages}}

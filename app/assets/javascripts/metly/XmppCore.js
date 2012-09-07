@@ -12,19 +12,6 @@
      */
     var currentUser = {};
     /**
-     *  my = {
-           node:"",
-           domain:"",
-           resource:"",
-           jid:"",
-           roster:"",
-           requests:"",
-           messages:"",
-         };
-     * @type {Object}
-     */
-    var my = {};
-    /**
      * requests = [
      *  {
            jid:"",
@@ -47,10 +34,36 @@
      * @type {Object}
      */
     var messages = [];
+    var minMessageId = Math.pow(2,63) -1 ;
+
+    /**
+     *  my = {
+     node:"",
+     domain:"",
+     resource:"",
+     jid:"",
+     roster:"",
+     requests:"",
+     messages:"",
+     };
+     * @type {Object}
+     */
+    var my = {
+      requests: requests,
+      messages: messages
+    };
 
     var connection = null;
     var alive = false;
+    var _rosterStatus = null;
+    var self = this;
 
+    this.init = function(rosterStatus){
+        self.setRosterStatus(rosterStatus);
+    };
+    this.setRosterStatus = function(rosterStatus){
+      _rosterStatus = rosterStatus;
+    };
     this.getCurrentUser = function () {
       return currentUser;
     };
@@ -86,25 +99,84 @@
     this.getRequests = function(){
       return requests;
     };
-    this.addRequest = function(jid, name){
-      requests.push({
+    this.addReplaceRequests = function(jid, name){
+      var action = Action.ADD;
+      for (var i = 0; i < requests.length; i++) {
+        if (requests[i] && requests[i].jid == jid) {
+          messages.splice(i, 1);
+          action = Action.REPLACE;
+          break;
+        }
+      }
+      var item = {
         jid: jid,
         name: name
-      });
+      };
+      requests.push(item);
+      return {item: item, action: action};;
     };
 
     this.getMessages = function(){
       return messages;
     };
 
-    this.addMessages = function(body, id, sender, receiver){
-      messages.push({
-          body: body,
-          id: id,
-          sender: sender,
-          receiver: receiver
-      });
+    this.getMinMessageId = function(){
+      return minMessageId;
     };
+
+    this.addReplaceMessages = function(id, body, sender, receiver){
+      var type = MessageType.RECEIVED;
+      var action = Action.ADD;
+      if(sender == my.node) {
+         sender = receiver;
+         type = MessageType.SENT;
+      }
+      for (var i = 0; i < messages.length; i++) {
+        if (messages[i] && messages[i].sender == sender) {
+          messages.splice(i, 1);
+          action = Action.REPLACE;
+          break;
+        }
+      }
+      var item = {
+        body: body,
+        sender: sender,
+        type: type
+      };
+      messages.push(item);
+      if(id < minMessageId){
+        minMessageId = id;
+      }
+      return {item: item, action: action};
+    };
+
+    this.getRosterName = function(jid){
+      var item = my.roster.findItem(jid + '@' + my.domain);
+      if(item){
+        return item.name;
+      } else {
+        return Constants.SYSTEM_NAME;
+      }
+    };
+
+    this.getRosterStatus = function(jid){
+      var item = my.roster.findItem(jid + '@' + my.domain);
+      if(item){
+        _rosterStatus(item.resources);
+      } else {
+        return _rosterStatus(item);
+      }
+    };
+
+    this.acceptRequest = function(jid, name) {
+      //TODO
+      console.log(jid + " : " + name);
+    }
+
+    this.rejectRequest = function(jid, name) {
+      //TODO
+      console.log(jid + " : " + name);
+    }
   }
 
   var _INSTANCE = new XmppCore();

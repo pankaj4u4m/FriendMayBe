@@ -102,7 +102,7 @@
       var id = self.jidToId(jid);
 
       var element = $("<li class=" + id + "></li>");
-      $("<a data-toggle='chat' class='roster-contact'  href='#" + id + "'></a>")
+      $("<a data-toggle='tab' class='roster-contact'  href='#" + id + "'></a>")
           .append("<div class='roster-jid' style=\"display:none\">" + jid + "</div>")
           .append("<div class='roster-status " + self.rosterStatus(roster.resources) + "'> </div>")
           .append("<div class='roster-name'>" + name + "</div>")

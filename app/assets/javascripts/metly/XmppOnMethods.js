@@ -92,6 +92,7 @@
         _getMy().roster.registerCallback(self.onPresence);
         _getMy().roster.get(self.onRosterReceive);
         _setAlive(true);
+        _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#notification'></a>"), 'notification');
       }
     };
     this.onSubscribe = function (stanza) {

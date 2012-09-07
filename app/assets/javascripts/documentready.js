@@ -40,12 +40,16 @@ $(document).ready(function () {
   messageBox.init(notifications.notificationBox, xmppUtils.isCommand, xmppActivity.xmppRemoveUser,
       xmppActivity.xmppAddUser, xmppUtils.setPresence, xmppUtils.presenceValue);
 
-  notifications.init(messageBox.newMessageBox);
+  notifications.init(messageBox.newMessageBox, xmppCore.getMy, xmppCore.getRosterStatus, xmppCore.getRosterName,
+      xmppCore.addReplaceMessages, xmppCore.getMinMessageId, xmppCore.getRequests, xmppCore.addReplaceRequests,
+      xmppCore.acceptRequest, xmppCore.rejectRequest);
 
   xmppActivity.init(xmppCore.isAlive, xmppCore.getCurrentUser, xmppCore.setCurrentUser, xmppCore.getConnection,
       xmppCore.setConnection, xmppUtils.jidToId, xmppCore.getMy, messageBox.myInlineMessage, xmppActivity.xmppSendMessage,
       messageBox.newMessageBox, xmppOnMethods.onRosterRemoved, xmppOnMethods.onRosterAdded, messageBox.eventMessage,
       userLocation.setUserLocation, xmppOnMethods.onConnect);
+
+  xmppCore.init(xmppUtils.rosterStatus);
 
   xmppOnMethods.init(xmppCore.getConnection, xmppCore.getMy, xmppCore.setAlive, messageBox.authorizationPopup,
       xmppUtils.jidToId, xmppCore.getCurrentUser, messageBox.eventMessage, xmppActivity.changeChatStatusChanged,

@@ -180,7 +180,7 @@
       _getCurrentUser().id = _jidToId(_getCurrentUser().jid);
       _getCurrentUser().name = Constants.SYSTEM_NAME;
 
-      _newMessageBox.call($("<a data-toggle='chat' class='roster-contact'  href='#" + _getCurrentUser().id + "'></a>"),
+      _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + _getCurrentUser().id + "'></a>"),
           _getCurrentUser().id, _getCurrentUser(), true);
       _sendMessage("\\c");
       _myInlineMessage(_getCurrentUser().id, "\\c");

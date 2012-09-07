@@ -16,8 +16,6 @@
       self.setXmppAddUserCallback(xmppAddUser);
       self.setSetPresenceCallback(setPresence);
       self.setPresenceValueCallback(presenceValue);
-
-      self.newMessageBox.call($("<a data-toggle='chat' class='roster-contact'  href='#notification'></a>"), 'notification');
     };
     this.setNotificationBoxCallback = function(notificationBox){
       console.log(notificationBox);
@@ -43,6 +41,16 @@
       $('#' + messageBoxID + ' .chat-chats').append(
           "<div class='chat-event'>-" + message + "</div>");
       $('#' + messageBoxID).trigger("scrollResize");
+    };
+
+    this.chatEvent = function(messageBoxID, message) {
+      $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
+      $('#' + messageBoxID + ' .chat-chats').append(
+          "<div class='chat-temp-event'>-" + message + "</div>");
+      $('#' + messageBoxID).trigger("scrollResize");
+      setTimeout(function(){
+        $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
+      }, 5000)
     };
 
     this.strangerInlineMessage = function (messageBoxID, name, message) {
@@ -84,12 +92,12 @@
     };
 
     this.newMessageBox = function (selector, user, isStranger) {
-      if (selector == 'notification') {
+      if (selector == Constants.NOTIFICATION) {
         _notificationBox(selector);
       } else {
         chatBox(selector, user, isStranger);
       }
-
+      $('#remembereds li').removeClass('active');
       $(this).tab('show');
       $(this).bind('shown', function (e) {
         $(this).trigger("scrollResize");
@@ -110,7 +118,7 @@
         var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
         chatbar.append("<div class='optionbar-fixed'>"
             + "<div class='buddy-status'> </div>"
-            + "<div class='buddy-name'><a data-toggle='chat' href='#" + selector + "' style='color: #3366CC;'>" + (user.name || Constants.SYSTEM_NAME) + "</a> </div>"
+            + "<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'>" + (user.name || Constants.SYSTEM_NAME) + "</a> </div>"
             + "<div class='buddy-options'>"
             + "<button class='remember btn btn-primary " + (isStranger ? "add" : "remove") + "'>(isStranger?Remember:Forget)</button>"
             + "</div>"
