@@ -45,10 +45,11 @@ module XmppHelper
       client =Jabber::Client.new(JID::new(jid))
       client.connect
       client.register(pass)
-      client.auth(pass);
-      vcard_helper = Vcard::Helper.new(client);
-      vcard = vcard_helper.get;
-      vcard["NICKNAME"] = name;
+      client.connect
+      client.auth(pass)
+      vcard_helper = Vcard::Helper.new(client)
+      vcard = vcard_helper.get
+      vcard["NICKNAME"] = name
       vcard_helper.set(vcard)
       client.close
     rescue => e

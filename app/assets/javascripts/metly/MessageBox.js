@@ -7,34 +7,26 @@
     var _xmppAddUser = null;
     var _setPresence = null;
     var _presenceValue = null;
-    var self = this;
+    var _changeChatStatusChanged = null;
 
-    this.init = function(notificationBox, isCommand, xmppRemoveUser, xmppAddUser, setPresence, presenceValue){
-      self.setNotificationBoxCallback(notificationBox);
-      self.setIsCommandCallback(isCommand);
-      self.setXmppRemoveUserCallback(xmppRemoveUser);
-      self.setXmppAddUserCallback(xmppAddUser);
-      self.setSetPresenceCallback(setPresence);
-      self.setPresenceValueCallback(presenceValue);
-    };
-    this.setNotificationBoxCallback = function(notificationBox){
-      console.log(notificationBox);
+    var self = this;
+    var currentTab = null;
+
+    this.Constructor = function (notificationBox, isCommand, xmppRemoveUser, xmppAddUser, setPresence, presenceValue,
+                                 changeChatStatusChanged) {
       _notificationBox = notificationBox;
-    };
-    this.setIsCommandCallback = function(isCommand){
       _isCommand = isCommand;
-    };
-    this.setXmppRemoveUserCallback = function(xmppRemoveUser){
       _xmppRemoveUser = xmppRemoveUser;
-    };
-    this.setXmppAddUserCallback = function(xmppAddUser){
       _xmppAddUser = xmppAddUser;
-    };
-    this.setSetPresenceCallback = function(setPresence){
       _setPresence = setPresence;
-    };
-    this.setPresenceValueCallback = function(presenceValue){
       _presenceValue = presenceValue;
+      _changeChatStatusChanged = changeChatStatusChanged;
+    };
+    this.init = function(){
+      $('#modal-yes').click(function(){
+         self.newMessageBox.call(this, Constants.NOTIFICATION)
+      });
+      self.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#"+ Constants.NOTIFICATION +"'></a>"), Constants.NOTIFICATION);
     };
 
     this.eventMessage = function (messageBoxID, message) {
@@ -43,12 +35,12 @@
       $('#' + messageBoxID).trigger("scrollResize");
     };
 
-    this.chatEvent = function(messageBoxID, message) {
+    this.chatEvent = function (messageBoxID, message) {
       $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
       $('#' + messageBoxID + ' .chat-chats').append(
           "<div class='chat-temp-event'>-" + message + "</div>");
       $('#' + messageBoxID).trigger("scrollResize");
-      setTimeout(function(){
+      setTimeout(function () {
         $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
       }, 5000)
     };
@@ -75,12 +67,10 @@
       console.log(messageBoxID);
       var chat = $("<div class='chat'></div>");
       var command = _isCommand(message);
-      console.log(self);
       if (command) {
         if (message == '\\c' && messageBoxID == Constants.SYSTEM_NODE) {
           $('#' + messageBoxID + "  div.chat-chats").empty();
         }
-        console.log(self);
         self.eventMessage(messageBoxID, command);
       } else {
         $(chat).append("<p class='chat me'><strong>You: </strong>" +
@@ -92,23 +82,24 @@
     };
 
     this.newMessageBox = function (selector, user, isStranger) {
-      if (selector == Constants.NOTIFICATION) {
-        _notificationBox(selector);
+      console.log(selector);
+      if (selector == Constants.NOTIFICATION && currentTab == Constants.SYSTEM_NODE) {
+        $('#myModal').modal();
       } else {
-        chatBox(selector, user, isStranger);
+        if (selector == Constants.NOTIFICATION) {
+          _notificationBox(selector);
+          _changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+        } else {
+          chatBox(selector, user, isStranger);
+        }
+        $('#remembereds li').removeClass('active');
+        $(this).tab('show');
+        $(this).bind('shown', function (e) {
+          $(this).trigger("scrollResize");
+        });
       }
-      $('#remembereds li').removeClass('active');
-      $(this).tab('show');
-      $(this).bind('shown', function (e) {
-        $(this).trigger("scrollResize");
-      });
+      currentTab = selector;
     };
-
-    this.authorizationPopup = function () {
-      console.log("authorization popup");
-      return true;
-    };
-
 
     var chatBox = function (selector, user, isStranger) {
       user.id = user.id || Constants.SYSTEM_NODE;
@@ -130,14 +121,15 @@
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
         $("#" + selector + ' .chat-scroll').setScrollPane({
-          scrollToY:$("#" + selector + ' .chat-scroll').data('jsp') == null ? 10000 : $("#" + selector + ' .chat-scroll').data('jsp').getContentPositionY(),
-          width:12,
-          height:10,
+          scrollToY       :$("#" + selector + ' .chat-scroll').data('jsp') == null ? 10000 : $("#" + selector + ' .chat-scroll').data('jsp').getContentPositionY(),
+          width           :12,
+          height          :10,
           maintainPosition:false,
-          outer:true
+          outer           :true
         });
-        $('#' + selector + ' button.remember').click(function () {
-          console.log('clicked');
+        $('#' + selector + ' button.remember').click(function (e) {
+          e.preventDefault();
+          console.log(this);
           if ($(this).hasClass('remove')) {
             _xmppRemoveUser();
           } else if ($(this).hasClass('add')) {
@@ -145,21 +137,21 @@
           }
         })
       }
-      _setPresence($('#' + selector + '  .buddy-status'), _presenceValue(user.pres));
-
-      chatOptions(selector, isStranger);
+      chatOptions(selector, user, isStranger);
     };
-    var chatOptions = function (selector, isStranger) {
+    var chatOptions = function (selector, user, isStranger) {
       if (isStranger) {
         $('#' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
+        _setPresence($('#' + selector + '  .buddy-status'), _presenceValue(user.pres));
         $('#' + selector + '  .remember').removeClass('add').addClass('remove').text('Forget')
       }
     };
   }
+
   var _INSTANCE = new MessageBox();
 
-  $.getMessageBox = function(){
+  $.getMessageBox = function () {
     return _INSTANCE;
   };
 })(jQuery);

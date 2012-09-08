@@ -21,72 +21,23 @@
     var _onConnect = null;
     var self = this;
 
-    this.init = function (isAlive, getCurrentUser, setCurrentUser, getConnection, setConnection, jidToId, getMy, myInlineMessage, xmppSendMessage, newMessageBox, onRosterRemoved, onRosterAdded, eventMessage, setUserLocation, onConnect) {
-      self.setisAliveCallback(isAlive);
-      self.setgetCurrentUserCallback(getCurrentUser);
-      self.setsetCurrentUserCallback(setCurrentUser);
-      self.setgetConnectionCallback(getConnection);
-      self.setsetConnectionCallback(setConnection);
-      self.setjidToIdCallback(jidToId);
-      self.setgetMyCallback(getMy);
-      self.setmyInlineMessageCallback(myInlineMessage);
-      self.setxmppSendMessageCallback(xmppSendMessage);
-      self.setnewMessageBoxCallback(newMessageBox);
-      self.setonRosterRemovedCallback(onRosterRemoved);
-      self.setonRosterAddedCallback(onRosterAdded);
-      self.seteventMessageCallback(eventMessage);
-      self.setsetUserLocationCallback(setUserLocation);
-      self.setonConnectCallback(onConnect);
-
-      self.xmppStart();
+    this.Constructor = function (isAlive, getCurrentUser, setCurrentUser, getConnection, setConnection, jidToId, getMy, myInlineMessage, xmppSendMessage, newMessageBox, onRosterRemoved, onRosterAdded, eventMessage, setUserLocation, onConnect) {
+      _isAlive = isAlive;
+      _getCurrentUser = getCurrentUser;
+      _setCurrentUser = setCurrentUser;
+      _getConnection = getConnection;
+      _setConnection = setConnection;
+      _jidToId = jidToId;
+      _getMy = getMy;
+      _myInlineMessage = myInlineMessage;
+      _xmppSendMessage = xmppSendMessage;
+      _newMessageBox = newMessageBox;
+      _onRosterRemoved = onRosterRemoved;
+      _onRosterAdded = onRosterAdded;
+      _eventMessage = eventMessage;
+      _setUserLocation = setUserLocation;
+      _onConnect = onConnect;
     };
-
-    this.setisAliveCallback = function (callback) {
-      _isAlive = callback
-    };
-    this.setgetCurrentUserCallback = function (callback) {
-      _getCurrentUser = callback
-    };
-    this.setsetCurrentUserCallback = function (callback) {
-      _setCurrentUser = callback
-    };
-    this.setgetConnectionCallback = function (callback) {
-      _getConnection = callback
-    };
-    this.setsetConnectionCallback = function (callback) {
-      _setConnection = callback
-    };
-    this.setjidToIdCallback = function (callback) {
-      _jidToId = callback
-    };
-    this.setgetMyCallback = function (callback) {
-      _getMy = callback
-    };
-    this.setmyInlineMessageCallback = function (callback) {
-      _myInlineMessage = callback
-    };
-    this.setxmppSendMessageCallback = function (callback) {
-      _xmppSendMessage = callback
-    };
-    this.setnewMessageBoxCallback = function (callback) {
-      _newMessageBox = callback
-    };
-    this.setonRosterRemovedCallback = function (callback) {
-      _onRosterRemoved = callback
-    };
-    this.setonRosterAddedCallback = function (callback) {
-      _onRosterAdded = callback
-    };
-    this.seteventMessageCallback = function (callback) {
-      _eventMessage = callback
-    };
-    this.setsetUserLocationCallback = function (callback) {
-      _setUserLocation = callback
-    };
-    this.setonConnectCallback = function (callback) {
-      _onConnect = callback
-    };
-
 
     var _sendMessage = function (message) {
       if (!_isAlive()) {
@@ -156,11 +107,11 @@
       })
     };
 
-//    var _connect = function () {
-//      var connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
-//      _setConnection(connection);
-//      _getConnection().connect("codegambler@gmail.com", "kim-10vriti", _onConnect);
-//    };
+    var _connect = function () {
+      var connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
+      _setConnection(connection);
+      _getConnection().connect("codegambler@gmail.com", "kim-10vriti", _onConnect);
+    };
 
     this.xmppStart = function () {
       _initiateConnection();
@@ -169,7 +120,6 @@
 
     this.xmppSendMessage = function (msg) {
       _sendMessage(msg);
-
       _myInlineMessage(_getCurrentUser().id, msg);
     };
 
@@ -201,6 +151,7 @@
 
       name = name || null;
       _getMy().roster.add(jid, name, [], _onRosterAdded);
+
     };
 
 //    this.xmppBlockUser = function () {
@@ -242,4 +193,5 @@
   $.getXmppActivity = function () {
     return _INSTANCE;
   };
+
 })(jQuery);

@@ -1,7 +1,9 @@
 <!-- header start -->
 <%= render 'home_pages/header' %>
 <!-- header end -->
-
+<script>
+  $.getXmppActivity().xmppStart();
+</script>
 <!-- container start -->
 <div class="container-fluid">
   <div class="row-fluid">
@@ -18,4 +20,15 @@
 <div class="navbar-fixed-bottom">
   <%= render 'home_pages/chatbox' %>
 </div>
+
 <!-- footer end -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <p> Are you sure to disconnect current user? </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+    <a id = 'modal-yes' class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-toggle='tab' href='#notification'>Yes</a>
+  </div>
+</div>

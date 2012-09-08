@@ -4,7 +4,7 @@
     var _getConnection = null;
     var _getMy = null;
     var _setAlive = null;
-    var _authorizationPopup = null;
+    var _attachOneRequestNotification = null;
     var _jidToId = null;
     var _getCurrentUser = null;
     var _eventMessage = null;
@@ -17,73 +17,33 @@
     var _newMessageBox = null;
     var self = this;
 
-    this.init = function (getConnection, getMy, setAlive, authorizationPopup, jidToId, getCurrentUser, eventMessage, changeChatStatusChanged, strangerInlineMessage, updateContact, getRosterElement, presenceValue, rosterStatus, newMessageBox) {
-      self.setAuthorizationPopupCallback(authorizationPopup);
-      self.setGetConnectionCallback(getConnection);
-      self.setGetCurrentUserCallback(getCurrentUser);
-      self.setGetMyCallback(getMy);
-      self.setSetAliveCallback(setAlive);
-      self.setJidToIdCallback(jidToId);
-      self.setEventMessageCallback(eventMessage);
-      self.setChangeChatStatusChangedCallback(changeChatStatusChanged);
-      self.setStrangerInlineMessageCallback(strangerInlineMessage);
-      self.setUpdateContactCallback(updateContact);
-      self.setGetRosterElementCallback(getRosterElement);
-      self.setPresenceValueCallback(presenceValue);
-      self.setRosterStatusCallback(rosterStatus);
-      self.setNewMessageBoxCallback(newMessageBox);
-    };
-    this.setGetConnectionCallback = function (getConnection) {
+    this.Constructor = function (getConnection, getMy, setAlive, attachOneRequestNotification, jidToId, getCurrentUser, eventMessage, changeChatStatusChanged, strangerInlineMessage, updateContact, getRosterElement, presenceValue, rosterStatus, newMessageBox) {
+      _attachOneRequestNotification = attachOneRequestNotification;
       _getConnection = getConnection;
-    };
-    this.setGetMyCallback = function (getMy) {
-      _getMy = getMy;
-    };
-
-    this.setSetAliveCallback = function (setAlive) {
-      _setAlive = setAlive;
-    };
-    this.setAuthorizationPopupCallback = function (authorizationPopup) {
-      _authorizationPopup = authorizationPopup;
-    };
-    this.setJidToIdCallback = function (jidToId) {
-      _jidToId = jidToId;
-    };
-    this.setGetCurrentUserCallback = function (getCurrentUser) {
       _getCurrentUser = getCurrentUser;
-    };
-    this.setEventMessageCallback = function (eventMessage) {
+      _getMy = getMy;
+      _setAlive = setAlive;
+      _jidToId = jidToId;
       _eventMessage = eventMessage;
-    };
-    this.setChangeChatStatusChangedCallback = function (changeChatStatusChanged) {
       _changeChatStatusChanged = changeChatStatusChanged;
-    };
-    this.setStrangerInlineMessageCallback = function (strangerInlineMessage) {
       _strangerInlineMessage = strangerInlineMessage;
-    };
-    this.setUpdateContactCallback = function (updateContact) {
       _updateContact = updateContact;
-    };
-    this.setGetRosterElementCallback = function (getRosterElement) {
       _getRosterElement = getRosterElement;
-    };
-    this.setPresenceValueCallback = function (presenceValue) {
       _presenceValue = presenceValue;
-    };
-    this.setRosterStatusCallback = function (rosterStatus) {
       _rosterStatus = rosterStatus;
-    };
-    this.setNewMessageBoxCallback = function (newMessageBox) {
       _newMessageBox = newMessageBox;
     };
-
 
     this.onConnect = function (status) {
       _setAlive(false);
       if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
         console.debug('Strophe is attached.');
+
+        _getConnection().addHandler(self.everything);
+
         _getConnection().addHandler(self.onMessage, null, 'message', null);
-        _getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe');
+        _getConnection().addHandler(self.onIq, null, 'iq', null, null, null);
+        _getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
         // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
 //          connection.addHandler(Xmpp.onPresence, null, "presence");
 
@@ -92,17 +52,32 @@
         _getMy().roster.registerCallback(self.onPresence);
         _getMy().roster.get(self.onRosterReceive);
         _setAlive(true);
-        _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#notification'></a>"), 'notification');
+        return true;
       }
+    };
+    this.everything = function (stanza) {
+      console.log(stanza);
+      return true;
+    };
+    this.onIq = function (iq) {
+      console.log(iq);
+      return true;
     };
     this.onSubscribe = function (stanza) {
       console.log(stanza);
       var from = $(stanza).attr('from');
-      var accepted = _authorizationPopup();
-      if (accepted) {
-        _getMy().roster.authorize(from);
-      } else {
-        _getMy().roster.unauthorize(from);
+      try {
+        var accepted = _attachOneRequestNotification();
+        if (accepted) {
+          _getMy().roster.subscribe(from);
+          _getMy().roster.authorize(from);
+        } else {
+//          _getMy().roster.unsubscribe(from);
+//          _getMy().roster.unauthorize(from);
+//        _getMy().roster.remove(from);
+        }
+      } catch (error) {
+        console.log(error);
       }
       return true;
     };
@@ -164,7 +139,6 @@
     };
 
     this.onPresence = function (list, item) {
-      console.log(item);
       if (item) {
         var contacts = $('#remembereds li');
         if (contacts.length > 0) {
@@ -172,7 +146,7 @@
         } else {
           var element = _getRosterElement(item);
           $('#remembereds ul').append(element);
-          self.contactEventBind(element);
+          self.contactEventBind(element.find('a'));
         }
       } else {
         self.onRosterReceive(list);
@@ -229,9 +203,9 @@
       $('div.scrollable').trigger('scrollResize');
       $('input#searchTerm').quicksearch('#remembereds li', {
         'selector':'.roster-name',
-        'onAfter':function () {
+        'onAfter' :function () {
           $('div.scrollable').trigger('scrollResize');
-          }
+        }
       });
     };
   }

@@ -11,35 +11,32 @@
     var _addReplaceRequests = null;
     var _acceptRequest = null;
     var _rejectRequest = null;
+    var _getCurrentUser = null;
 
     var self = this;
-
     var inRequest = false;
+
     var count = 0;
 
-    this.init = function (newMessageBox, getMy, getRosterStatus, getRosterName, addReplaceMessage, getMinMessageId, getRequests, addReplaceRequests,
-                          acceptRequest, rejectRequest) {
-      self.setNewMessageBox(newMessageBox);
-      self.setGetMy(getMy);
-      self.setGetRosterStatus(getRosterStatus);
-      self.setGetRosterName(getRosterName);
-      self.setAddReplaceMessage(addReplaceMessage);
-      self.setGetMinMessageId(getMinMessageId);
-      self.setGetRequests(getRequests);
-      self.setAddReplaceRequests(addReplaceRequests);
-      self.setAcceptRequest(acceptRequest);
-      self.setRejectRequest(rejectRequest);
-
-      $('#notification-btn').click(function () {
-        if(!$('#notification-btn').parent().hasClass('open')){
-          $('.notification-list-menu .notification-scroll-menu').height($(document).height());
-          $('.notification-list-menu .notification-scroll-menu').setScrollPane({
-            autohide:true,
-            maintainPosition:false
-          });
-          _populateNotifications();
-          $(window).trigger("scrollResize");
-        }
+    this.Constructor = function (newMessageBox, getMy, getRosterStatus, getRosterName, addReplaceMessage, getMinMessageId, getRequests, addReplaceRequests, acceptRequest, rejectRequest, getCurrentUser) {
+      _newMessageBox = newMessageBox;
+      _getMy = getMy;
+      _getRosterStatus = getRosterStatus ;
+      _getRosterName = getRosterName;
+      _addReplaceMessage = addReplaceMessage;
+      _getMinMessageId = getMinMessageId;
+      _getRequests = getRequests;
+      _addReplaceRequests = addReplaceRequests;
+      _acceptRequest = acceptRequest;
+      _rejectRequest = rejectRequest;
+      _getCurrentUser = getCurrentUser;
+    };
+    this.init = function(){
+      $(window).bind('resize', function () {
+        _menuResize();
+      });
+      $('#notification-btn').bind('click resize', function () {
+        _menuResize();
         count = 0;
         $('#notification-btn').text(0);
         $('#notification-btn').removeClass('btn-primary');
@@ -47,56 +44,46 @@
       });
       $('#all-notifications a').click(function (e) {
         e.preventDefault();
-        _newMessageBox.call(this, 'notification');
+        _newMessageBox.call(this, Constants.NOTIFICATION);
         $('#notification-btn').parent().removeClass('open');
+      });
+    }
+    var _menuResize = function () {
+      $('.notification-list-menu .notification-scroll-menu').height($(document).height() - 180);
+      $('.notification-list-menu .notification-scroll-menu').setScrollPane({
+        autohide        :true,
+        maintainPosition:false
       });
     };
 
-    this.setNewMessageBox = function (newMessageBox) {
-      _newMessageBox = newMessageBox;
-    };
-    this.setGetMy = function (getMy) {
-      _getMy = getMy;
-    };
-    this.setGetRosterStatus = function (getRosterStatus) {
-      _getRosterStatus = getRosterStatus;
-    };
-    this.setGetRosterName = function (getRosterName) {
-      _getRosterName = getRosterName;
-    };
-    this.setAddReplaceMessage = function (addMessage) {
-      _addReplaceMessage = addMessage;
-    };
-    this.setGetMinMessageId = function (getMinMessageId) {
-      _getMinMessageId = getMinMessageId;
-    };
-    this.setGetRequests = function (getRequests) {
-      _getRequests = getRequests;
-    };
-    this.setAddReplaceRequests = function (addRequests) {
-      _addReplaceRequests = addRequests;
-    };
-    this.setAcceptRequest = function(acceptRequest){
-      _acceptRequest = acceptRequest;
-    };
-    this.setRejectRequest = function(rejectRequest){
-      _rejectRequest = rejectRequest;
-    };
     var _getRequestNotification = function (item, isRead, isMenu) {
       var style = isMenu ? "menu" : "page";
       var notread = isRead ? "" : "notread";
 
-      var li = $("<li class='" + item.jid + "' ></li>");
+      var li = $("<li class='" + item.id + "' ></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
       element.append("<div class='notification-buddy-" + style + " offline '</div>");
-      element.append("<a  data-toggle='tab' href='#" + jid + "' class='notification-user-" + style + " '>" + item.name + " </a>");
+
+      var anchor = $("<a  data-toggle='tab' href='#" + item.id + "' class='notification-user-" + style + " '>" + item.name + " </a>");
+      anchor.click(function () {
+        _getCurrentUser().name = item.name;
+        _getCurrentUser().jid = item.jid;
+        _getCurrentUser().node = Strophe.getNodeFromJid(_getCurrentUser().jid);
+        _getCurrentUser().id = item.id;
+        _getCurrentUser().pres = 'offline';
+//            console.log(currentUser);
+        _newMessageBox.call(this, _getCurrentUser().id, _getCurrentUser(), true);
+        $('#notification-btn').parent().removeClass('open');
+      });
+      element.append(anchor);
+
       var accept = $("<button class='btn btn-primary notification-accept-bnt-" + style + " '>accept</button>");
-      accept.click(function(){
+      accept.click(function () {
         _acceptRequest(item.jid, item.name);
       });
       element.append(accept);
       var reject = $("<button class='btn btn-primary notification-reject-bnt-" + style + " '>reject</button>");
-      reject.click(function(){
+      reject.click(function () {
         _rejectRequest(item.jid, item.name);
       });
       element.append(reject);
@@ -107,14 +94,25 @@
       var style = isMenu ? "menu" : "page";
       var notread = isRead ? "" : "notread";
 
-      var li = $("<li class='" + message.sender + "'></li>");
+      var li = $("<li class='" + message.id + "'></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
       element.append("<div class='notification-text-buddy-" + style + " " + _getRosterStatus(message.sender) + "' </div>");
-      element.append("<a data-toggle='tab' href='#" + message.sender + "' class='notification-text-user-" + style + " '>" + _getRosterName(message.sender) + " </a>");
+
+      var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" + _getRosterName(message.sender) + " </a>");
+      anchor.click(function () {
+        _getCurrentUser().name = _getRosterName(message.sender);
+        _getCurrentUser().jid = message.sender;
+        _getCurrentUser().node = Strophe.getNodeFromJid(_getCurrentUser().jid);
+        _getCurrentUser().id = message.id;
+        _getCurrentUser().pres = _getRosterStatus(message.sender);
+        _newMessageBox.call(this, _getCurrentUser().id, _getCurrentUser(), false);
+        $('#notification-btn').parent().removeClass('open');
+      });
+      element.append(anchor);
+
       element.append("<div class=' notification-text-" + style + " " + message.type + " '>" + message.body + " </div>");
       li.append(element);
       return li;
-
     };
 
     var _attachNotifications = function (data) {
@@ -125,8 +123,9 @@
         $(msg).each(function () {
           var pair = _addReplaceMessage(this.id, this.body, this.sender, this.receiver);
           if (pair.action == Action.REPLACE) {
-            $('.notification-list-menu .notification-contents > .' + pair.item.sender).remove();
-            $('#notification .notification-contents > .' + pair.item.sender).remove();
+            $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
+            $('#notification .notification-contents > .' + pair.item.id).remove();
+            --count;
           }
           var menu = _getMessageNotification(pair.item, true, true);
           var page = _getMessageNotification(pair.item, true, false);
@@ -136,8 +135,8 @@
         $(rec).each(function () {
           var pair = _addReplaceRequests(this.jid, this.name);
           if (pair.action == Action.REPLACE) {
-            $('.notification-list-menu .notification-contents > .' + pair.item.jid).remove();
-            $('#notification .notification-contents > .' + pair.item.jid).remove();
+            $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
+            $('#notification .notification-contents > .' + pair.item.id).remove();
           }
           var menu = _getRequestNotification(pair.item, true, true);
           var page = _getRequestNotification(pair.item, true, false);
@@ -146,6 +145,7 @@
         });
       }
       _notificationBtn();
+      _waitCompleteMethod();
       inRequest = false;
     };
     var _notificationBtn = function () {
@@ -161,6 +161,7 @@
       if (inRequest) {
         return;
       }
+      _waitStartMethod();
       inRequest = true;
 
       var token = $('meta[name=csrf-token]').attr('content');
@@ -168,7 +169,6 @@
       var data = {};
       data[param] = token;
       data['minMessageId'] = _getMinMessageId();
-      console.log(_getMinMessageId());
       $.ajax({
         type      :'post',
         url       :Constants.NOTIFICATION_SERVICE,
@@ -197,9 +197,20 @@
       });
     };
     var errorNoifications = function () {
-      _menuNotifications('<li> something wrong happend</li>', false);
-      _pageNotifications('<li> something wrong happend</li>', false);
+      _waitCompleteMethod();
       inRequest = false;
+      _menuNotifications('<li class="error-notification"> something wrong happend</li>', false);
+      _pageNotifications('<li class="error-notification"> something wrong happend</li>', false);
+    };
+
+    var _waitCompleteMethod = function () {
+      $('.notification-list-menu .notification-contents .error-notification').remove();
+      $('#notification .notification-contents .error-notification').remove();
+    };
+
+    var _waitStartMethod = function () {
+      _menuNotifications("<li class='error-notification'>please wait...</li>", false);
+      _pageNotifications("<li class='error-notification'>please wait...</li>", false);
     };
 
     var _menuNotifications = function (menu, isLatest) {
@@ -208,10 +219,6 @@
       } else {
         $('.notification-list-menu .notification-contents').append(menu);
       }
-
-      $(menu).find('a').click(function () {
-        _newMessageBox.call(this, Constants.NOTIFICATION);
-      });
       $(window).trigger("scrollResize");
     };
     var _pageNotifications = function (page, isLatest) {
@@ -220,11 +227,9 @@
       } else {
         $('#notification .notification-contents').append(page);
       }
-      $(page).find('a').click(function () {
-        _newMessageBox.call(this, Constants.NOTIFICATION);
-      });
       $(window).trigger("scrollResize");
     };
+
     this.attachOneMessageNotification = function (id, body, sender, receiver) {
       var pair = _addReplaceMessage(id, body, sender, receiver);
       if (pair.action == Action.REPLACE) {
@@ -247,6 +252,7 @@
       var page = _getRequestNotification(pair.item, true, false);
       _menuNotifications(menu, true);
       _pageNotifications(page, true);
+      count++;
       _notificationBtn();
     };
 
@@ -268,11 +274,11 @@
           maintainPosition:false,
           outer           :true
         });
-        $('div.optionbar-fixed a ').click(function () {
-          _newMessageBox.call(this, Constants.NOTIFICATION);
+        $('div.optionbar-fixed a ').click(function (e) {
+          e.preventDefault();
         });
+        _populateNotifications();
       }
-      _populateNotifications();
     };
   }
 
