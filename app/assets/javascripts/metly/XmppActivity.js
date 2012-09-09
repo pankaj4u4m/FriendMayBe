@@ -19,9 +19,15 @@
     var _eventMessage = null;
     var _setUserLocation = null;
     var _onConnect = null;
+    var _changeChatStatusChanged = null;
+    var _attachOneMessageNotification = null;
+
     var self = this;
 
-    this.Constructor = function (isAlive, getCurrentUser, setCurrentUser, getConnection, setConnection, jidToId, getMy, myInlineMessage, xmppSendMessage, newMessageBox, onRosterRemoved, onRosterAdded, eventMessage, setUserLocation, onConnect) {
+    this.Constructor = function (isAlive, getCurrentUser, setCurrentUser, getConnection, setConnection, jidToId, getMy,
+                                 myInlineMessage, xmppSendMessage, newMessageBox, onRosterRemoved, onRosterAdded,
+                                 eventMessage, setUserLocation, onConnect,
+                                 changeChatStatusChanged, attachOneMessageNotification) {
       _isAlive = isAlive;
       _getCurrentUser = getCurrentUser;
       _setCurrentUser = setCurrentUser;
@@ -37,11 +43,12 @@
       _eventMessage = eventMessage;
       _setUserLocation = setUserLocation;
       _onConnect = onConnect;
+      _changeChatStatusChanged = changeChatStatusChanged;
+      _attachOneMessageNotification = attachOneMessageNotification;
     };
 
     var _sendMessage = function (message) {
       if (!_isAlive()) {
-        console.log("Y m here?");
         _getConnection().reset();
       }
       if (!_getCurrentUser().jid) {
@@ -66,7 +73,7 @@
       _setUserLocation(_getMy().resource);
 
       _getMy().jid = _getMy().node + '@' + _getMy().domain + '/' + _getMy().resource;
-
+      _getMy().id = _jidToId(_getMy().jid);
       _setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
       _getConnection().attach(_getMy().jid, data['http_sid'],
           parseInt(data['http_rid'], 10) + 2,
@@ -120,6 +127,7 @@
 
     this.xmppSendMessage = function (msg) {
       _sendMessage(msg);
+      _attachOneMessageNotification(Constants.MAX_LONG, msg, _getMy().jid, _getCurrentUser().jid);
       _myInlineMessage(_getCurrentUser().id, msg);
     };
 
@@ -165,26 +173,13 @@
       console.log(_getCurrentUser().status);
       var status = _getCurrentUser().status;
       if (status == null || status == ChatButtonStatus.HANGOUT) {
-        self.changeChatStatusChanged(ChatButtonStatus.CONNECTING);
+        _changeChatStatusChanged(ChatButtonStatus.CONNECTING);
         self.xmppStranger();
       } else if (status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT) {
-        self.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
+       _changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
       } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
-        self.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+        _changeChatStatusChanged(ChatButtonStatus.HANGOUT);
         self.xmppStrangerDisconnect();
-      }
-    };
-
-    this.changeChatStatusChanged = function (status) {
-      _getCurrentUser().status = status;
-      if (status == ChatButtonStatus.CONNECTING) {
-        $("#stranger").text("Connecting");
-      } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
-        $("#stranger").text("Are you sure?");
-      } else if (status == ChatButtonStatus.DISCONNECT) {
-        $("#stranger").text("Disconnect");
-      } else if (status == ChatButtonStatus.HANGOUT) {
-        $("#stranger").text("Hang Out");
       }
     };
   }

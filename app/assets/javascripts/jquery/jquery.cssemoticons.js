@@ -33,28 +33,28 @@
     ];
     
     var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
-      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
-      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
-      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
-      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
-      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
-      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
-      "O_O":    { cssClass: "no-rotate" },
-      "o_o":    { cssClass: "no-rotate" },
-      "0_o":    { cssClass: "no-rotate" },
-      "O_o":    { cssClass: "no-rotate" },
-      "T_T":    { cssClass: "no-rotate" },
-      "^_^":    { cssClass: "no-rotate" },
-      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
-      "O: )":   { cssClass: "small-emoticon" },
-      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
-      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
+      "&gt;:)": { cssClass: "css-emoticon red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;;)": { cssClass: "css-emoticon red-emoticon small-emoticon spaced-emoticon"},
+      "&gt;:(": { cssClass: "css-emoticon red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;: )": { cssClass: "css-emoticon red-emoticon small-emoticon" },
+      "&gt;; )": { cssClass: "css-emoticon red-emoticon small-emoticon"},
+      "&gt;: (": { cssClass: "css-emoticon red-emoticon small-emoticon" },
+      ";(":     { cssClass: "css-emoticon red-emoticon spaced-emoticon" },
+      "&lt;3":  { cssClass: "heart-shape counter-rotated" },
+      "O_O":    { cssClass: "css-emoticon no-rotate" },
+      "o_o":    { cssClass: "css-emoticon no-rotate" },
+      "0_o":    { cssClass: "css-emoticon no-rotate" },
+      "O_o":    { cssClass: "css-emoticon no-rotate" },
+      "T_T":    { cssClass: "css-emoticon no-rotate" },
+      "^_^":    { cssClass: "css-emoticon no-rotate" },
+      "O:)":    { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "O: )":   { cssClass: "css-emoticon small-emoticon" },
+      "8D":     { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "XD":     { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "xD":     { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "=D":     { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "8O":     { cssClass: "css-emoticon small-emoticon spaced-emoticon" },
+      "[+=..]":  { cssClass: "css-emoticon no-rotate nintendo-controller" }
       //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
       //"O-O":  { cssClass: "no-rotate" },
       //"O=)":    { cssClass: "small-emoticon" } 
@@ -88,13 +88,14 @@
 
     return this.not(exclude).each(function() {
       var container = $(this);
-      var cssClass = 'css-emoticon'
+      var cssClass = ''
       if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
       
       for( var emoticon in specialEmoticons ){
         specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
         container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
       }
+      cssClass += ' css-emoticon';
       $(threeCharacterEmoticons).each(function(){
         container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
       });                                                          

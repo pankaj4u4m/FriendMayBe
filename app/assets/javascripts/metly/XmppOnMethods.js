@@ -5,6 +5,7 @@
     var _getMy = null;
     var _setAlive = null;
     var _attachOneRequestNotification = null;
+    var _attachOneMessageNotification = null;
     var _jidToId = null;
     var _getCurrentUser = null;
     var _eventMessage = null;
@@ -15,10 +16,14 @@
     var _presenceValue = null;
     var _rosterStatus = null;
     var _newMessageBox = null;
+    var _updateNotificationUserStatusName = null;
+    var _chatShortEvent = null;
+
     var self = this;
 
-    this.Constructor = function (getConnection, getMy, setAlive, attachOneRequestNotification, jidToId, getCurrentUser, eventMessage, changeChatStatusChanged, strangerInlineMessage, updateContact, getRosterElement, presenceValue, rosterStatus, newMessageBox) {
+    this.Constructor = function (getConnection, getMy, setAlive, attachOneRequestNotification, attachOneMessageNotification, jidToId, getCurrentUser, eventMessage, changeChatStatusChanged, strangerInlineMessage, updateContact, getRosterElement, presenceValue, rosterStatus, newMessageBox, updateNotificationUserStatusName, chatShortEvent) {
       _attachOneRequestNotification = attachOneRequestNotification;
+      _attachOneMessageNotification = attachOneMessageNotification;
       _getConnection = getConnection;
       _getCurrentUser = getCurrentUser;
       _getMy = getMy;
@@ -32,21 +37,18 @@
       _presenceValue = presenceValue;
       _rosterStatus = rosterStatus;
       _newMessageBox = newMessageBox;
+      _updateNotificationUserStatusName = updateNotificationUserStatusName;
+      _chatShortEvent = chatShortEvent;
     };
 
     this.onConnect = function (status) {
       _setAlive(false);
       if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
         console.debug('Strophe is attached.');
-
-        _getConnection().addHandler(self.everything);
+        _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#"+ Constants.NOTIFICATION +"'></a>"), Constants.NOTIFICATION);
 
         _getConnection().addHandler(self.onMessage, null, 'message', null);
-        _getConnection().addHandler(self.onIq, null, 'iq', null, null, null);
         _getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
-        // Xmpp.connection.addHandler(Xmpp.onRosterChange, "jabber:iq:roster", "iq", "set");
-//          connection.addHandler(Xmpp.onPresence, null, "presence");
-
         _getConnection().send($pres().tree());
         _getMy().roster = _getConnection().roster;
         _getMy().roster.registerCallback(self.onPresence);
@@ -55,38 +57,20 @@
         return true;
       }
     };
-    this.everything = function (stanza) {
-      console.log(stanza);
-      return true;
-    };
-    this.onIq = function (iq) {
-      console.log(iq);
-      return true;
-    };
+
     this.onSubscribe = function (stanza) {
       console.log(stanza);
       var from = $(stanza).attr('from');
-      try {
-        var accepted = _attachOneRequestNotification();
-        if (accepted) {
-          _getMy().roster.subscribe(from);
-          _getMy().roster.authorize(from);
-        } else {
-//          _getMy().roster.unsubscribe(from);
-//          _getMy().roster.unauthorize(from);
-//        _getMy().roster.remove(from);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      _attachOneRequestNotification(from);
       return true;
     };
+
     this.onMessage = function (message) {
 //          console.log(message);
       var full_jid = $(message).attr('from');
       var type = $(message).attr('type');
       var jid = Strophe.getBareJidFromJid(full_jid);
-      var id = _jidToId(jid);
+      var id = _jidToId(full_jid);
 
       if (!_getMy().roster.findItem(Strophe.getBareJidFromJid(jid)) && _getCurrentUser().jid != full_jid) {
         return true;
@@ -94,15 +78,13 @@
 //          console.log(message);
       var composing = $(message).find('composing');
       if (composing.length > 0) {
-        _eventMessage(id, Strophe.getNodeFromJid(jid) + " is typing...");
+//        _chatShortEvent(id, Strophe.getNodeFromJid(jid) + " is typing...");
         return true;
       }
 
       var body = $(message).find("html > body");
-
       if (body.length === 0) {
         body = $(message).find('body');
-
         if (body.length > 0) {
           body = body.text()
         } else {
@@ -110,7 +92,6 @@
         }
       } else {
         body = body.contents();
-
         var span = $("<span></span>");
         body.each(function () {
           if (document.importNode) {
@@ -132,6 +113,7 @@
           if (_getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
           }
+          _attachOneMessageNotification(Constants.MAX_LONG, body, full_jid, _getMy().jid);
           _strangerInlineMessage(id, _getCurrentUser().name, body);
         }
       }
@@ -151,9 +133,13 @@
       } else {
         self.onRosterReceive(list);
       }
+      $(list).each(function(){
+        _updateNotificationUserStatusName(_jidToId(this.jid), this.name || this.jid, _rosterStatus(this.resources));
+      });
       return true;
     };
     this.onRosterReceive = function (data) {
+      $('.sidebar-fixed').addClass('white');
       console.log(data);
       data.sort(function (a, b) {
         var r = _presenceValue(_rosterStatus(b.resources)) - _presenceValue(_rosterStatus(a.resources));
@@ -182,6 +168,7 @@
     this.onRosterAdded = function (stanza) {
       $('#' + _getCurrentUser().id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
       _getMy().roster.subscribe(_getCurrentUser().jid);
+      _getMy().roster.authorize(_getCurrentUser().jid);
       self.onRosterReceive(_getMy().roster.items);
       _eventMessage(_getCurrentUser().node, "Remember request Sent!");
     };

@@ -5,7 +5,8 @@ Constants = {
   NOTIFICATION_SERVICE: '/notification',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger',
-  NOTIFICATION: 'notification'
+  NOTIFICATION: 'notification',
+  MAX_LONG:Math.pow(2, 63) - 1
 };
 ChatButtonStatus = {
   HANGOUT:0,

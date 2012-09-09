@@ -12,16 +12,16 @@
     var _acceptRequest = null;
     var _rejectRequest = null;
     var _getCurrentUser = null;
-
+    var _setCurrentUser = null;
     var self = this;
     var inRequest = false;
 
     var count = 0;
 
-    this.Constructor = function (newMessageBox, getMy, getRosterStatus, getRosterName, addReplaceMessage, getMinMessageId, getRequests, addReplaceRequests, acceptRequest, rejectRequest, getCurrentUser) {
+    this.Constructor = function (newMessageBox, getMy, getRosterStatus, getRosterName, addReplaceMessage, getMinMessageId, getRequests, addReplaceRequests, acceptRequest, rejectRequest, getCurrentUser, setCurrentUser) {
       _newMessageBox = newMessageBox;
       _getMy = getMy;
-      _getRosterStatus = getRosterStatus ;
+      _getRosterStatus = getRosterStatus;
       _getRosterName = getRosterName;
       _addReplaceMessage = addReplaceMessage;
       _getMinMessageId = getMinMessageId;
@@ -30,8 +30,9 @@
       _acceptRequest = acceptRequest;
       _rejectRequest = rejectRequest;
       _getCurrentUser = getCurrentUser;
+      _setCurrentUser = setCurrentUser;
     };
-    this.init = function(){
+    this.init = function () {
       $(window).bind('resize', function () {
         _menuResize();
       });
@@ -47,7 +48,7 @@
         _newMessageBox.call(this, Constants.NOTIFICATION);
         $('#notification-btn').parent().removeClass('open');
       });
-    }
+    };
     var _menuResize = function () {
       $('.notification-list-menu .notification-scroll-menu').height($(document).height() - 180);
       $('.notification-list-menu .notification-scroll-menu').setScrollPane({
@@ -62,7 +63,7 @@
 
       var li = $("<li class='" + item.id + "' ></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
-      element.append("<div class='notification-buddy-" + style + " offline '</div>");
+      element.append("<div class='notification-buddy offline '</div>");
 
       var anchor = $("<a  data-toggle='tab' href='#" + item.id + "' class='notification-user-" + style + " '>" + item.name + " </a>");
       anchor.click(function () {
@@ -73,20 +74,33 @@
         _getCurrentUser().pres = 'offline';
 //            console.log(currentUser);
         _newMessageBox.call(this, _getCurrentUser().id, _getCurrentUser(), true);
-        $('#notification-btn').parent().removeClass('open');
+        element.removeClass('notread');
       });
       element.append(anchor);
 
-      var accept = $("<button class='btn btn-primary notification-accept-bnt-" + style + " '>accept</button>");
-      accept.click(function () {
-        _acceptRequest(item.jid, item.name);
-      });
-      element.append(accept);
-      var reject = $("<button class='btn btn-primary notification-reject-bnt-" + style + " '>reject</button>");
-      reject.click(function () {
+      var reject = $("<button class='btn notification-reject-bnt-" + style + " '>reject</button>");
+      reject.click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        reject.addClass('disabled');
         _rejectRequest(item.jid, item.name);
+        setTimeout(function(){
+          li.remove();
+        }, 500);
       });
       element.append(reject);
+
+      var accept = $("<button class='btn btn-primary notification-accept-bnt-" + style + " '>accept</button>");
+      accept.click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _acceptRequest(item.jid, item.name);
+        setTimeout(function(){
+          li.remove();
+        }, 500);
+      });
+      element.append(accept);
+
       li.append(element);
       return li;
     };
@@ -96,7 +110,7 @@
 
       var li = $("<li class='" + message.id + "'></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
-      element.append("<div class='notification-text-buddy-" + style + " " + _getRosterStatus(message.sender) + "' </div>");
+      element.append("<div class='notification-text-buddy" + " " + _getRosterStatus(message.sender) + "' </div>");
 
       var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" + _getRosterName(message.sender) + " </a>");
       anchor.click(function () {
@@ -106,7 +120,7 @@
         _getCurrentUser().id = message.id;
         _getCurrentUser().pres = _getRosterStatus(message.sender);
         _newMessageBox.call(this, _getCurrentUser().id, _getCurrentUser(), false);
-        $('#notification-btn').parent().removeClass('open');
+        element.removeClass('notread');
       });
       element.append(anchor);
 
@@ -118,14 +132,12 @@
     var _attachNotifications = function (data) {
       var msg = data['messages'] || [];
       var rec = data['requests'] || [];
-      count = msg.length + rec.length;
       if (msg.length + rec.length > 0) {
         $(msg).each(function () {
           var pair = _addReplaceMessage(this.id, this.body, this.sender, this.receiver);
           if (pair.action == Action.REPLACE) {
             $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
             $('#notification .notification-contents > .' + pair.item.id).remove();
-            --count;
           }
           var menu = _getMessageNotification(pair.item, true, true);
           var page = _getMessageNotification(pair.item, true, false);
@@ -144,7 +156,6 @@
           _pageNotifications(page, false);
         });
       }
-      _notificationBtn();
       _waitCompleteMethod();
       inRequest = false;
     };
@@ -230,33 +241,49 @@
       $(window).trigger("scrollResize");
     };
 
+    this.updateNotificationUserStatusName = function (id, name, status) {
+      $('.' + id + ' .notification-buddy').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
+      $('.' + id + ' .notification-text-buddy').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
+      $('.' + id + ' .notification-user-page').text(name);
+      $('.' + id + ' .notification-user-menu').text(name);
+      $('.' + id + ' .notification-text-user-page').text(name);
+      $('.' + id + ' .notification-text-user-menu').text(name);
+    };
     this.attachOneMessageNotification = function (id, body, sender, receiver) {
       var pair = _addReplaceMessage(id, body, sender, receiver);
       if (pair.action == Action.REPLACE) {
-        $('.notification-list-menu .notification-contents > .' + pair.item.sender).remove();
-        $('#notification .notification-contents > .' + pair.item.sender).remove();
+        $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
+        $('#notification .notification-contents > .' + pair.item.id).remove();
       }
-      var menu = _getMessageNotification(pair.item, true, true);
-      var page = _getMessageNotification(pair.item, true, false);
+      var menu = _getMessageNotification(pair.item, false, true);
+      var page = _getMessageNotification(pair.item, false, false);
       _menuNotifications(menu, true);
       _pageNotifications(page, true);
-      _notificationBtn();
+      if (_getCurrentUser().id != pair.item.id) {
+        count++;
+        _notificationBtn();
+      }
     };
     this.attachOneRequestNotification = function (jid, name) {
+      if (!jid) return;
+      name = name || Strophe.getNodeFromJid(jid);
       var pair = _addReplaceRequests(jid, name);
       if (pair.action == Action.REPLACE) {
-        $('.notification-list-menu .notification-contents > .' + pair.item.jid).remove();
-        $('#notification .notification-contents > .' + pair.item.jid).remove();
+        $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
+        $('#notification .notification-contents > .' + pair.item.id).remove();
       }
-      var menu = _getRequestNotification(pair.item, true, true);
-      var page = _getRequestNotification(pair.item, true, false);
+      var menu = _getRequestNotification(pair.item, false, true);
+      var page = _getRequestNotification(pair.item, false, false);
       _menuNotifications(menu, true);
       _pageNotifications(page, true);
+
       count++;
       _notificationBtn();
+
     };
 
     this.notificationBox = function (selector) {
+      _setCurrentUser({});
       if ($("#" + selector).length <= 0) {
         var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
         chatbar.append("<div class='optionbar-fixed'>"
@@ -264,16 +291,9 @@
             + "</div>");
 
         chatbar.append("<div class='notification-scroll-page'><div class='notification-contents'></div></div>");
-
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
-        $("#" + selector + ' .notification-scroll-page').setScrollPane({
-          scrollToY       :$("#" + selector + ' .notification-scroll-page').data('jsp') == null ? 0 : $("#" + selector + ' .notification-scroll-page').data('jsp').getContentPositionY(),
-          width           :12,
-          height          :10,
-          maintainPosition:false,
-          outer           :true
-        });
+        $('#message-scroll').removeClass('white');
         $('div.optionbar-fixed a ').click(function (e) {
           e.preventDefault();
         });

@@ -34,7 +34,7 @@
      * @type {Object}
      */
     var messages = [];
-    var minMessageId = Math.pow(2, 63) - 1;
+    var minMessageId = Constants.MAX_LONG;
 
     /**
      *  my = {
@@ -101,16 +101,20 @@
     };
     this.addReplaceRequests = function (jid, name) {
       var action = Action.ADD;
-      jid = jid + '@' + my.domain;
+      if(jid.indexOf('@') <= 0){
+        jid = jid + '@' + my.domain;
+      }
+
+      var jidId = _jidToId(jid)
       for (var i = 0; i < requests.length; i++) {
-        if (requests[i] && requests[i].jid == jid) {
+        if (requests[i] && requests[i].id == jidId) {
           messages.splice(i, 1);
           action = Action.REPLACE;
           break;
         }
       }
       var item = {
-        id  :_jidToId(jid),
+        id  :jidId,
         jid :jid,
         name:name
       };
@@ -129,20 +133,27 @@
     this.addReplaceMessages = function (id, body, sender, receiver) {
       var type = MessageType.RECEIVED;
       var action = Action.ADD;
-      if (sender == my.node) {
+      if(sender.indexOf('@') <= 0){
+        sender = sender + '@' + my.domain;
+      }
+      var jidId = _jidToId(sender);
+      if (jidId == my.id) {
+        if(receiver.indexOf('@') <= 0){
+          receiver = receiver + '@' + my.domain;
+        }
         sender = receiver;
+        jidId = _jidToId(sender);
         type = MessageType.SENT;
       }
-      sender = sender + '@' + my.domain;
       for (var i = 0; i < messages.length; i++) {
-        if (messages[i] && messages[i].sender == sender) {
+        if (messages[i] && messages[i].id == jidId) {
           messages.splice(i, 1);
           action = Action.REPLACE;
           break;
         }
       }
       var item = {
-        id    :_jidToId(sender),
+        id    :jidId,
         body  :body,
         sender:sender,
         type  :type
@@ -158,7 +169,7 @@
       if (my.roster) {
         var item = my.roster.findItem(jid);
         if (item) {
-          return item.name;
+          return item.name || Strophe.getNodeFromJid(jid);
         }
       }
       return Constants.SYSTEM_NAME;
@@ -176,13 +187,16 @@
     };
 
     this.acceptRequest = function (jid, name) {
-      //TODO
       console.log(jid + " : " + name);
+      my.roster.subscribe(jid);
+      my.roster.authorize(jid);
     };
 
     this.rejectRequest = function (jid, name) {
-      //TODO
       console.log(jid + " : " + name);
+      my.roster.unsubscribe(jid);
+      my.roster.unauthorize(jid);
+      my.roster.remove(jid);
     };
   }
 

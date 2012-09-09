@@ -11,7 +11,7 @@
             <%= render 'home_pages/notifications_menu' %>
           </ul>
         </li>
-        <li><%= link_to "#{@user.user_details[0].name}", root_path, style: "padding-top: 10px; padding-bottom: 10px", id: "search" %></li>
+        <li><%= link_to "#{@user.user_details[0].name}", '#', style: "padding-top: 10px; padding-bottom: 10px", id: "search" %></li>
         <li><%= link_to "logout", destroy_user_session_path, style: "padding-top: 10px; padding-bottom: 10px" %></li>
       </ul>
     </nav>

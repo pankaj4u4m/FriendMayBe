@@ -15,18 +15,21 @@
   overflow: hidden;
   max-height: 400px;
   width: 350px;
+  overflow: hidden;
 }
 .notification-scroll-page{
   overflow: hidden;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .notification-contents {
   width: 100%;
 }
 .notification-list-menu{
-  opacity: 0.9;
+  opacity: 0.95;
   width: 350px;
+  background-color: #F8F8F8;
 }
 .notread{
   background-color: #F7F7F7;
@@ -37,18 +40,18 @@
   position: relative;
   width: 340px;
   font-size: 14px;
+  background-color: white;
+  overflow: hidden;
 }
 .notification-item-page {
   padding: 5px;
   border-bottom: 1px solid #D7D7D7;
   position: relative;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 .notification-user-menu {
-  //font-weight: bold;
-  padding-bottom: 10px !important;
-  padding-top: 10px !important;
   overflow: hidden;
-  margin-right: 100px;
 }
 .notification-user-page{
   //font-weight: bold;
@@ -67,27 +70,23 @@
   margin-right: 100px;
 }
 .notification-accept-bnt-menu{
-  position: absolute;
-  right: 60px;
-  top: 13px;
+  position: relative;
+  left: 220px;
   padding: 2px 5px !important;
-  font-size: 12px;
 }
 .notification-accept-bnt-page{
   position: absolute;
-  right: 80px;
+  right: 15px;
   top: 12px;
 }
 .notification-reject-bnt-menu{
-  position: absolute;
-  right: 15px;
-  top: 13px;
+  position: relative;
+  left: 210px;
   padding: 2px 5px !important;
-  font-size: 12px;
 }
 .notification-reject-bnt-page{
   position: absolute;
-  right: 15px;
+  right: 95px;
   top: 12px;
 }
 .notification-text-user-menu {
@@ -120,18 +119,13 @@
   color: #808080;
   font-size: 12px;
 }
-.notification-buddy-menu{
-  top: 15px;
-}
-.notification-buddy-page{
-  top: 15px;
-}
-.notification-text-buddy-menu{
+.notification-buddy{
   top: 8px;
 }
-.notification-text-buddy-page{
+.notification-text-buddy{
   top: 8px;
 }
 .notification-contents li {
   list-style: none;
+  width: 100%;
 }

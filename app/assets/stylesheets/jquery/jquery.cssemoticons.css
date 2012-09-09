@@ -93,20 +93,20 @@ span.css-emoticon.small-emoticon.spaced-emoticon {
 
 /* Styles for additional colors */
 span.css-emoticon.red-emoticon {
-  background-color: #eb0542;
+  background-color: #FF5319;
   background-image: -webkit-gradient(
     linear,
     right top,
     left top,
-    color-stop(0.41, rgb(235,5,66)),
-    color-stop(0.56, rgb(235,38,90)),
-    color-stop(1, rgb(250,55,110))
+    color-stop(0.41, rgb(255,83,25)),
+    color-stop(0.56, rgb(255,83,25)),
+    color-stop(1, rgb(255,83,25))
   );
   background-image: -moz-linear-gradient(
     center right,
-    rgb(235,5,66) 41%,
-    rgb(235,38,90) 56%,
-    rgb(250,55,110) 100%
+    rgb(255,83,25) 41%,
+    rgb(255,83,25) 56%,
+    rgb(255,83,25) 100%
   );
 }
 
@@ -299,4 +299,45 @@ span.css-emoticon.nintendo-controller {
       rgb(116,121,140) 9%,
       rgb(165,170,189) 55%
   );
+}
+.heart-shape {
+  position: relative;
+  width: 22px;
+  height: 20px;
+  margin:10px 0px;
+}
+.heart-shape:before,
+.heart-shape:after {
+  position: absolute;
+  content: "";
+  left: 9px;
+  top: 0;
+  width: 12px;
+  height: 20px;
+  background: #fd2d8a;
+  -moz-border-radius: 14px 14px 0 0;
+  border-radius: 14px 14px 0 0;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 0 100%;
+  -moz-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  -o-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+}
+.heart-shape:after {
+  left: -2px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin :100% 100%;
 }
