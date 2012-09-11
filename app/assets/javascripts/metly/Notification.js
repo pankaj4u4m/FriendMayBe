@@ -42,7 +42,7 @@
       var style = isMenu ? "menu" : "page";
       var notread = isRead ? "" : "notread";
 
-      var li = $("<li class='" + item.id + "' ></li>");
+      var li = $("<li class='" + item.id + " request' ></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
       element.append("<div class='notification-buddy-" + style + " offline '</div>");
 
@@ -228,7 +228,9 @@
       if(!id){
         return;
       }
-      $('.' + id + ' .notification-buddy').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
+//      $('.' + id + '.request').remove();
+      $('.' + id + ' .notification-buddy-menu').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
+      $('.' + id + ' .notification-buddy-page').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
       $('.' + id + ' .notification-text-buddy').removeClass('offline').removeClass('away').removeClass('online').addClass(status);
       $('.' + id + ' .notification-user-page').text(name);
       $('.' + id + ' .notification-user-menu').text(name);

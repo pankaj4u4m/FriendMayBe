@@ -39,4 +39,13 @@ class HomePagesController < ApplicationController
       format.js { render json: {messages: messages}}
     end
   end
+  def feedback
+    Feedback.create({
+          user_id: current_user.id,
+          feedback: params['feedback']
+    })
+    respond_to do |format|
+      format.js { render json: {}}
+    end
+  end
 end

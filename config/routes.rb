@@ -31,10 +31,12 @@ MetlyDevise::Application.routes.draw do
     post "/login", to: "home_pages#login"
     post "/location" , to: "home_pages#location"
     post "/notification", to: "home_pages#notification"
+    get '/feedback', to: "home_pages#feedback"
   end
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
   match "/contact", to: "login_pages#contact"
+  get '/feedback', to: "login_pages#feedback"
 
 
   # The priority is based upon order of creation:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120826143747) do
+ActiveRecord::Schema.define(:version => 20120911025318) do
 
   create_table "blocked_users", :force => true do |t|
     t.integer  "blocker_id", :limit => 8
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(:version => 20120826143747) do
 
   add_index "blocked_users", ["blocked_id"], :name => "index_blocked_users_on_blocked_id"
   add_index "blocked_users", ["blocker_id"], :name => "index_blocked_users_on_blocker_id"
+
+  create_table "feedbacks", :force => true do |t|
+    t.integer  "user_id",    :limit => 8, :default => 0
+    t.text     "feedback"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
 
   create_table "login_locations", :force => true do |t|
     t.integer  "login_id",   :limit => 8

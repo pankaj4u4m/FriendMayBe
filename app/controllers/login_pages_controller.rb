@@ -7,4 +7,14 @@ class LoginPagesController < ApplicationController
 
   def contact
   end
+
+  def feedback
+    Feedback.create({
+                        user_id: 0,
+                        feedback: params['feedback']
+                    })
+    respond_to do |format|
+      format.js { render json: {}}
+    end
+  end
 end

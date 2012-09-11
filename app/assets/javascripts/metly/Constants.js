@@ -3,10 +3,12 @@ Constants = {
   BOSH_SERVICE:'/bosh',
   PRE_BINDING:'/login',
   NOTIFICATION_SERVICE: '/notification',
+  FEEDBACK_URL: '/feedback',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger',
   NOTIFICATION: 'notification',
   MAX_LONG:Math.pow(2, 63) - 1
+
 };
 ChatButtonStatus = {
   HANGOUT:0,

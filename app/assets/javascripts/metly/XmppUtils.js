@@ -61,12 +61,13 @@
       }
     };
     this.updateContact = function (list, roster) {
-      var jid = self.jidToId(roster.jid);
+      var id = self.jidToId(roster.jid);
       var name = roster.name;
       var pres = self.presenceValue(self.rosterStatus(roster.resources));
 
       var inserted = false;
-      var element = $(list).parent().find('.' + jid);
+      var parent = $(list).parent();
+      var element = parent.find('.' + id);
 
       if (!element) {
         element = self.getRosterElement(roster)
@@ -84,17 +85,15 @@
           $(this).before(element);
           inserted = true;
           return false;
-        } else if (pres === cmp_pres) {
-          if (name < cmp_name) {
+        } else if (pres === cmp_pres && name < cmp_name) {
             $(this).before(element);
             inserted = true;
             return false;
-          }
         }
       });
 
       if (!inserted) {
-        $(list).parent().append(element);
+        parent.append(element);
       }
 
     };

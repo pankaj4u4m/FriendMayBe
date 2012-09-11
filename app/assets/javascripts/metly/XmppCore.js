@@ -189,8 +189,6 @@
     this.acceptRequest = function (jid, name) {
       console.log(jid + " : " + name);
       self.addUser(jid, name);
-      my.roster.authorize(jid);
-
     };
 
     this.rejectRequest = function (jid, name) {
@@ -213,8 +211,8 @@
       }
       name = name || jid;
       my.roster.add(jid, name, [], _xmppOnMethods.onRosterAdded);
-      my.roster.subscribe(currentUser.jid);
-      my.roster.authorize(currentUser.jid);
+      my.roster.subscribe(jid);
+      my.roster.authorize(jid);
     };
   }
 

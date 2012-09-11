@@ -1,4 +1,3 @@
-
 /* Initialization */
 var messageBox = $.getMessageBox();
 var notification = $.getNotification();
@@ -23,6 +22,22 @@ xmppOnMethods.Constructor(messageBox, notification, xmppCore, xmppUtils);
 $(document).ready(function () {
   notification.init();
   messageBox.init();
+  var textArea = $('#feedback textarea');
+  $('.feedback').click(function (e) {
+    $('#feedback .modal-body').empty().append(textArea);
+    $('#feedback').modal();
+    e.preventDefault();
+  });
+  $('#feedback .send').click(function (e) {
+    if (textArea.val().trim().length > 0) {
+      var txt = textArea.val().trim();
+      $('#feedback .modal-body').empty();
+      $('#feedback .modal-body').append('<p>sending...<br/>' + txt + '</p>')
+      $.get(Constants.FEEDBACK_URL, {feedback:txt}, function(){
+        $('#feedback').modal('hide');
+      });
+    }
+  });
 //
 //  $('#searchTerm').keypress(function(e){
 //    var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);

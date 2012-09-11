@@ -95,6 +95,8 @@
     };
 
     this.onPresence = function (list, item) {
+      console.log(list);
+      console.log(item);
       if (item) {
         var contacts = $('#remembereds li');
         if (contacts.length > 0) {
