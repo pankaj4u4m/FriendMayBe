@@ -4,80 +4,57 @@
 //=require ./UserLocation
 (function ($) {
   function XmppActivity() {
-    var _isAlive = null;
-    var _getCurrentUser = null;
-    var _setCurrentUser = null;
-    var _getConnection = null;
-    var _setConnection = null;
-    var _jidToId = null;
-    var _getMy = null;
-    var _myInlineMessage = null;
-    var _xmppSendMessage = null;
-    var _newMessageBox = null;
-    var _onRosterRemoved = null;
-    var _onRosterAdded = null;
-    var _eventMessage = null;
-    var _setUserLocation = null;
-    var _onConnect = null;
-    var _changeChatStatusChanged = null;
-    var _attachOneMessageNotification = null;
+    var _messageBox = null;
+    var _notification = null;
+    var _userLocation = null;
+    var _xmppCore = null;
+    var _xmppOnMethods = null;
+    var _xmppUtils = null;
 
     var self = this;
 
-    this.Constructor = function (isAlive, getCurrentUser, setCurrentUser, getConnection, setConnection, jidToId, getMy,
-                                 myInlineMessage, xmppSendMessage, newMessageBox, onRosterRemoved, onRosterAdded,
-                                 eventMessage, setUserLocation, onConnect,
-                                 changeChatStatusChanged, attachOneMessageNotification) {
-      _isAlive = isAlive;
-      _getCurrentUser = getCurrentUser;
-      _setCurrentUser = setCurrentUser;
-      _getConnection = getConnection;
-      _setConnection = setConnection;
-      _jidToId = jidToId;
-      _getMy = getMy;
-      _myInlineMessage = myInlineMessage;
-      _xmppSendMessage = xmppSendMessage;
-      _newMessageBox = newMessageBox;
-      _onRosterRemoved = onRosterRemoved;
-      _onRosterAdded = onRosterAdded;
-      _eventMessage = eventMessage;
-      _setUserLocation = setUserLocation;
-      _onConnect = onConnect;
-      _changeChatStatusChanged = changeChatStatusChanged;
-      _attachOneMessageNotification = attachOneMessageNotification;
+    this.Constructor = function (messageBox, notification, userLocation, xmppCore, xmppOnMethods, xmppUtils) {
+      _messageBox = messageBox;
+      _notification = notification;
+      _userLocation = userLocation;
+      _xmppCore = xmppCore;
+      _xmppOnMethods = xmppOnMethods;
+      _xmppUtils = xmppUtils;
     };
 
-    var _sendMessage = function (message) {
-      if (!_isAlive()) {
-        _getConnection().reset();
+    var sendMessage = function (message) {
+      if (!_xmppCore.isAlive()) {
+        _xmppCore.getConnection().reset();
       }
-      if (!_getCurrentUser().jid) {
-        _getCurrentUser().node = Constants.SYSTEM_NODE;
-        _getCurrentUser().resource = null;
-        _getCurrentUser().jid = _getCurrentUser().node + '@' + _getMy().domain;
-        _getCurrentUser().id = _jidToId(_getCurrentUser().jid);
+      var currentUser = _xmppCore.getCurrentUser();
+      if (!currentUser.jid) {
+        currentUser.node = Constants.SYSTEM_NODE;
+        currentUser.resource = null;
+        currentUser.jid = currentUser.node + '@' + _xmppCore.getMy().domain;
+        currentUser.id = _xmppUtils.jidToId(currentUser.jid);
 
-        _eventMessage(_getCurrentUser().id, "You haven't selected any user. Connection to stranger...");
+        _messageBox.eventMessage(currentUser.id, "You haven't selected any user. Connection to stranger...");
       }
-      var msg = $msg({to:_getCurrentUser().jid, type:"chat"}).c("body").t(message);
-      _getConnection().send(msg);
+      var msg = $msg({to:currentUser.jid, type:"chat"}).c("body").t(message);
+      _xmppCore.getConnection().send(msg);
     };
 
-    var _attach = function (data) {
+    var attach = function (data) {
       console.log('Prebind succeeded. Attaching...');
 
-      _getMy().node = data['jid']['node'];
-      _getMy().domain = data['jid']['domain'];
-      _getMy().resource = data['jid']['resource'];
+      var me = _xmppCore.getMy();
+      me.node = data['jid']['node'];
+      me.domain = data['jid']['domain'];
+      me.resource = data['jid']['resource'];
 
-      _setUserLocation(_getMy().resource);
+      _userLocation.setUserLocation(me.resource);
 
-      _getMy().jid = _getMy().node + '@' + _getMy().domain + '/' + _getMy().resource;
-      _getMy().id = _jidToId(_getMy().jid);
-      _setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
-      _getConnection().attach(_getMy().jid, data['http_sid'],
+      me.jid = me.node + '@' + me.domain + '/' + me.resource;
+      me.id = _xmppUtils.jidToId(me.jid);
+      _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
+      _xmppCore.getConnection().attach(me.jid, data['http_sid'],
           parseInt(data['http_rid'], 10) + 2,
-          _onConnect);
+          _xmppOnMethods.onConnect);
     };
 
     var _initiateConnection = function () {
@@ -92,7 +69,7 @@
         dataType  :'json',
         tryCount  :0,
         retryLimit:3,
-        success   :_attach,
+        success   :attach,
         data      :data,
         error     :function (xhr, textStatus, errorThrown) {
           if (textStatus == 'timeout') {
@@ -116,8 +93,8 @@
 
     var _connect = function () {
       var connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
-      _setConnection(connection);
-      _getConnection().connect("codegambler@gmail.com", "kim-10vriti", _onConnect);
+      _xmppCore.setConnection(connection);
+      _xmppCore.getConnection().connect("codegambler@gmail.com", "kim-10vriti", _xmppOnMethods.onConnect);
     };
 
     this.xmppStart = function () {
@@ -126,40 +103,28 @@
     };
 
     this.xmppSendMessage = function (msg) {
-      _sendMessage(msg);
-      _attachOneMessageNotification(Constants.MAX_LONG, msg, _getMy().jid, _getCurrentUser().jid);
-      _myInlineMessage(_getCurrentUser().id, msg);
+      sendMessage(msg);
+      _notification.attachOneMessageNotification(Constants.MAX_LONG, msg, _xmppCore.getMy().jid, _xmppCore.getCurrentUser().jid);
+      _messageBox.myInlineMessage(_xmppCore.getCurrentUser().id, msg);
     };
 
     this.xmppStranger = function () {
-      _getCurrentUser().node = Constants.SYSTEM_NODE;
-      _getCurrentUser().resource = null;
-      _getCurrentUser().jid = _getCurrentUser().node + '@' + _getMy().domain;
-      _getCurrentUser().id = _jidToId(_getCurrentUser().jid);
-      _getCurrentUser().name = Constants.SYSTEM_NAME;
+      var currentUser = _xmppCore.getCurrentUser();
+      currentUser.node = Constants.SYSTEM_NODE;
+      currentUser.resource = null;
+      currentUser.jid = currentUser.node + '@' + _xmppCore.getMy().domain;
+      currentUser.id = _xmppUtils.jidToId(currentUser.jid);
+      currentUser.name = Constants.SYSTEM_NAME;
 
-      _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + _getCurrentUser().id + "'></a>"),
-          _getCurrentUser().id, _getCurrentUser(), true);
-      _sendMessage("\\c");
-      _myInlineMessage(_getCurrentUser().id, "\\c");
+      _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + currentUser.id + "'></a>"),
+          currentUser.id, currentUser, false);
+      sendMessage("\\c");
+      _messageBox.myInlineMessage(currentUser.id, "\\c");
     };
 
     this.xmppStrangerDisconnect = function () {
-      _xmppSendMessage("\\d");
-      _setCurrentUser({});
-    };
-
-    this.xmppRemoveUser = function () {
-      _getMy().roster.remove(_getCurrentUser().jid, _onRosterRemoved);
-    };
-
-    this.xmppAddUser = function () {
-      var jid = _getCurrentUser().jid;
-      var name = _getCurrentUser().name;
-
-      name = name || null;
-      _getMy().roster.add(jid, name, [], _onRosterAdded);
-
+      self.xmppSendMessage("\\d");
+      _xmppCore.setCurrentUser({});
     };
 
 //    this.xmppBlockUser = function () {
@@ -170,15 +135,15 @@
 //    };
 
     this.strangerChat = function () {
-      console.log(_getCurrentUser().status);
-      var status = _getCurrentUser().status;
+      console.log(_xmppCore.getCurrentUser().status);
+      var status = _xmppCore.getCurrentUser().status;
       if (status == null || status == ChatButtonStatus.HANGOUT) {
-        _changeChatStatusChanged(ChatButtonStatus.CONNECTING);
+        _messageBox.changeChatStatusChanged(ChatButtonStatus.CONNECTING);
         self.xmppStranger();
       } else if (status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT) {
-       _changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
+       _messageBox.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
       } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
-        _changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+        _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
         self.xmppStrangerDisconnect();
       }
     };

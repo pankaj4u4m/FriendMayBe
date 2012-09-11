@@ -14,7 +14,11 @@
       return false;
     };
     this.jidToId = function (jid) {
-      return Strophe.getNodeFromJid(jid).replace(/\./g, "-");
+      var node = Strophe.getNodeFromJid(jid);
+      if(node){
+        return node.replace(/\./g, "-");
+      }
+      return node;
     };
     this.rosterStatus = function (resources) {
       var status = 'offline';

@@ -1,59 +1,33 @@
 (function ($) {
 
   function XmppOnMethods() {
-    var _getConnection = null;
-    var _getMy = null;
-    var _setAlive = null;
-    var _attachOneRequestNotification = null;
-    var _attachOneMessageNotification = null;
-    var _jidToId = null;
-    var _getCurrentUser = null;
-    var _eventMessage = null;
-    var _changeChatStatusChanged = null;
-    var _strangerInlineMessage = null;
-    var _updateContact = null;
-    var _getRosterElement = null;
-    var _presenceValue = null;
-    var _rosterStatus = null;
-    var _newMessageBox = null;
-    var _updateNotificationUserStatusName = null;
-    var _chatShortEvent = null;
+    var _messageBox = null;
+    var _notification = null;
+    var _xmppCore = null;
+    var _xmppUtils = null;
 
     var self = this;
 
-    this.Constructor = function (getConnection, getMy, setAlive, attachOneRequestNotification, attachOneMessageNotification, jidToId, getCurrentUser, eventMessage, changeChatStatusChanged, strangerInlineMessage, updateContact, getRosterElement, presenceValue, rosterStatus, newMessageBox, updateNotificationUserStatusName, chatShortEvent) {
-      _attachOneRequestNotification = attachOneRequestNotification;
-      _attachOneMessageNotification = attachOneMessageNotification;
-      _getConnection = getConnection;
-      _getCurrentUser = getCurrentUser;
-      _getMy = getMy;
-      _setAlive = setAlive;
-      _jidToId = jidToId;
-      _eventMessage = eventMessage;
-      _changeChatStatusChanged = changeChatStatusChanged;
-      _strangerInlineMessage = strangerInlineMessage;
-      _updateContact = updateContact;
-      _getRosterElement = getRosterElement;
-      _presenceValue = presenceValue;
-      _rosterStatus = rosterStatus;
-      _newMessageBox = newMessageBox;
-      _updateNotificationUserStatusName = updateNotificationUserStatusName;
-      _chatShortEvent = chatShortEvent;
+    this.Constructor = function (messageBox, notification, xmppCore, xmppUtils) {
+      _messageBox = messageBox;
+      _notification = notification;
+      _xmppCore = xmppCore;
+      _xmppUtils = xmppUtils;
     };
 
     this.onConnect = function (status) {
-      _setAlive(false);
+      _xmppCore.setAlive(false);
       if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
         console.debug('Strophe is attached.');
-        _newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#"+ Constants.NOTIFICATION +"'></a>"), Constants.NOTIFICATION);
+        _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#"+ Constants.NOTIFICATION +"'></a>"), Constants.NOTIFICATION);
 
-        _getConnection().addHandler(self.onMessage, null, 'message', null);
-        _getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
-        _getConnection().send($pres().tree());
-        _getMy().roster = _getConnection().roster;
-        _getMy().roster.registerCallback(self.onPresence);
-        _getMy().roster.get(self.onRosterReceive);
-        _setAlive(true);
+        _xmppCore.getConnection().addHandler(self.onMessage, null, 'message', null);
+        _xmppCore.getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
+        _xmppCore.getConnection().send($pres().tree());
+        _xmppCore.getMy().roster = _xmppCore.getConnection().roster;
+        _xmppCore.getMy().roster.registerCallback(self.onPresence);
+        _xmppCore.getMy().roster.get(self.onRosterReceive);
+        _xmppCore.setAlive(true);
         return true;
       }
     };
@@ -61,7 +35,7 @@
     this.onSubscribe = function (stanza) {
       console.log(stanza);
       var from = $(stanza).attr('from');
-      _attachOneRequestNotification(from);
+      _notification.attachOneRequestNotification(from);
       return true;
     };
 
@@ -70,9 +44,9 @@
       var full_jid = $(message).attr('from');
       var type = $(message).attr('type');
       var jid = Strophe.getBareJidFromJid(full_jid);
-      var id = _jidToId(full_jid);
+      var id = _xmppUtils.jidToId(full_jid);
 
-      if (!_getMy().roster.findItem(Strophe.getBareJidFromJid(jid)) && _getCurrentUser().jid != full_jid) {
+      if (!_xmppCore.getMy().roster.findItem(Strophe.getBareJidFromJid(jid)) && _xmppCore.getCurrentUser().jid != full_jid) {
         return true;
       }
 //          console.log(message);
@@ -105,16 +79,16 @@
       }
       if (body) {
         if (type == 'error') {
-          _eventMessage(id, body);
-          if (_getCurrentUser().status == ChatButtonStatus.CONNECTING) {
-            _changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+          _messageBox.eventMessage(id, body);
+          if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
+            _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
           }
         } else {
-          if (_getCurrentUser().status == ChatButtonStatus.CONNECTING) {
-            _changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
+          if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
+            _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
           }
-          _attachOneMessageNotification(Constants.MAX_LONG, body, full_jid, _getMy().jid);
-          _strangerInlineMessage(id, _getCurrentUser().name, body);
+          _notification.attachOneMessageNotification(Constants.MAX_LONG, body, full_jid, _xmppCore.getMy().jid);
+          _messageBox.strangerInlineMessage(id, _xmppCore.getCurrentUser().name, body);
         }
       }
       return true;
@@ -124,17 +98,20 @@
       if (item) {
         var contacts = $('#remembereds li');
         if (contacts.length > 0) {
-          _updateContact(contacts, item);
+          _xmppUtils.updateContact(contacts, item);
         } else {
-          var element = _getRosterElement(item);
+          var element = _xmppUtils.getRosterElement(item);
           $('#remembereds ul').append(element);
           self.contactEventBind(element.find('a'));
         }
       } else {
         self.onRosterReceive(list);
       }
+      $('.remember').removeClass('remove').addClass('add').text('Remember')
+      $('.buddy-status').removeClass('online').removeClass('away').removeClass('offline').addClass('offline');
       $(list).each(function(){
-        _updateNotificationUserStatusName(_jidToId(this.jid), this.name || this.jid, _rosterStatus(this.resources));
+        _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(this.jid), this.name || this.jid, _xmppUtils.rosterStatus(this.resources));
+        _messageBox.chatOptions(_xmppUtils.jidToId(this.jid), _xmppUtils.rosterStatus(this.resources), true);
       });
       return true;
     };
@@ -142,7 +119,7 @@
       $('.sidebar-fixed').addClass('white');
       console.log(data);
       data.sort(function (a, b) {
-        var r = _presenceValue(_rosterStatus(b.resources)) - _presenceValue(_rosterStatus(a.resources));
+        var r = _xmppUtils.presenceValue(_xmppUtils.rosterStatus(b.resources)) - _xmppUtils.presenceValue(_xmppUtils.rosterStatus(a.resources));
         if (r == 0) {
           return (a.name || a.jid).localeCompare((b.name || b.jid));
         }
@@ -152,7 +129,7 @@
       $('#remembereds ul').empty();
       $(data).each(function () {
 //            if(Strophe.getDomainFromJid(this.jid) == domain){
-        var element = _getRosterElement(this);
+        var element = _xmppUtils.getRosterElement(this);
         $('#remembereds ul').append(element);
 //            }
       });
@@ -160,17 +137,17 @@
       return true;
     };
     this.onRosterRemoved = function (stanza) {
-      $('#' + _getCurrentUser().id + ' button.remember').removeClass('remove').addClass('add').text('Remember');
-      _getMy().roster.unsubscribe(_getCurrentUser().jid);
-      self.onRosterReceive(_getMy().roster.items);
-      _eventMessage(_getCurrentUser().node, "Forgotten!");
+      $('#' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('remove').addClass('add').text('Remember');
+      _xmppCore.getMy().roster.unsubscribe(_xmppCore.getCurrentUser().jid);
+      self.onRosterReceive(_xmppCore.getMy().roster.items);
+      _messageBox.eventMessage(_xmppCore.getCurrentUser().node, "Forgotten!");
+      _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(_xmppCore.getCurrentUser().jid), _xmppCore.getCurrentUser().name || _xmppCore.getCurrentUser().jid, _xmppCore.getRosterStatus(_xmppCore.getCurrentUser().jid));
     };
     this.onRosterAdded = function (stanza) {
-      $('#' + _getCurrentUser().id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
-      _getMy().roster.subscribe(_getCurrentUser().jid);
-      _getMy().roster.authorize(_getCurrentUser().jid);
-      self.onRosterReceive(_getMy().roster.items);
-      _eventMessage(_getCurrentUser().node, "Remember request Sent!");
+      $('#' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
+
+      self.onRosterReceive(_xmppCore.getMy().roster.items);
+      _messageBox.eventMessage(_xmppCore.getCurrentUser().node, "Remember request Sent!");
     };
     this.contactEventBind = function (element) {
       $(element).click(function (e) {
@@ -179,13 +156,14 @@
         var id = $(this).attr("href").replace('#', '');
         var name = $(this).find('.roster-name').text();
         var pres = $(this).find('.roster-status');
-        _getCurrentUser().name = name;
-        _getCurrentUser().jid = jid;
-        _getCurrentUser().node = Strophe.getNodeFromJid(_getCurrentUser().jid);
-        _getCurrentUser().id = id;
-        _getCurrentUser().pres = pres;
+        var currentUser = _xmppCore.getCurrentUser();
+        currentUser.name = name;
+        currentUser.jid = jid;
+        currentUser.node = Strophe.getNodeFromJid(currentUser.jid);
+        currentUser.id = id;
+        currentUser.pres = pres;
 //            console.log(currentUser);
-        _newMessageBox.call(this, _getCurrentUser().id, _getCurrentUser(), false);
+        _messageBox.newMessageBox.call(this, currentUser.id, currentUser, true);
       });
       $('div.scrollable').trigger('scrollResize');
       $('input#searchTerm').quicksearch('#remembereds li', {

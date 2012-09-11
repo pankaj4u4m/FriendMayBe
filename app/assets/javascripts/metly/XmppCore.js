@@ -55,13 +55,13 @@
 
     var connection = null;
     var alive = false;
-    var _rosterStatus = null;
-    var _jidToId = null;
+    var _xmppUtils = null;
+    var _xmppOnMethods = null;
     var self = this;
 
-    this.Constructor = function (rosterStatus, jidToId) {
-      _rosterStatus = rosterStatus;
-      _jidToId = jidToId;
+    this.Constructor = function (xmppOnMethods, xmppUtils) {
+      _xmppOnMethods = xmppOnMethods;
+      _xmppUtils = xmppUtils;
     };
 
     this.getCurrentUser = function () {
@@ -105,7 +105,7 @@
         jid = jid + '@' + my.domain;
       }
 
-      var jidId = _jidToId(jid)
+      var jidId = _xmppUtils.jidToId(jid)
       for (var i = 0; i < requests.length; i++) {
         if (requests[i] && requests[i].id == jidId) {
           messages.splice(i, 1);
@@ -136,13 +136,13 @@
       if(sender.indexOf('@') <= 0){
         sender = sender + '@' + my.domain;
       }
-      var jidId = _jidToId(sender);
+      var jidId = _xmppUtils.jidToId(sender);
       if (jidId == my.id) {
         if(receiver.indexOf('@') <= 0){
           receiver = receiver + '@' + my.domain;
         }
         sender = receiver;
-        jidId = _jidToId(sender);
+        jidId = _xmppUtils.jidToId(sender);
         type = MessageType.SENT;
       }
       for (var i = 0; i < messages.length; i++) {
@@ -179,17 +179,18 @@
       if (my.roster) {
         var item = my.roster.findItem(jid);
         if (item) {
-          return _rosterStatus(item.resources);
+          return _xmppUtils.rosterStatus(item.resources);
         }
       }
-      return _rosterStatus('offline');
+      return _xmppUtils.rosterStatus('offline');
 
     };
 
     this.acceptRequest = function (jid, name) {
       console.log(jid + " : " + name);
-      my.roster.subscribe(jid);
+      self.addUser(jid, name);
       my.roster.authorize(jid);
+
     };
 
     this.rejectRequest = function (jid, name) {
@@ -197,6 +198,23 @@
       my.roster.unsubscribe(jid);
       my.roster.unauthorize(jid);
       my.roster.remove(jid);
+    };
+
+    this.removeUser = function () {
+      my.roster.remove(currentUser.jid, _xmppOnMethods.onRosterRemoved);
+    };
+
+    this.addUser = function (jid, name) {
+      jid = jid || currentUser.jid;
+      name = name || currentUser.name;
+
+      if(name == Constants.SYSTEM_NAME){
+        name = null;
+      }
+      name = name || jid;
+      my.roster.add(jid, name, [], _xmppOnMethods.onRosterAdded);
+      my.roster.subscribe(currentUser.jid);
+      my.roster.authorize(currentUser.jid);
     };
   }
 

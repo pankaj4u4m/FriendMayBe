@@ -1,19 +1,10 @@
 //= require ./XmppUtils
 (function ($) {
   function MessageBox() {
-    var _notificationBox = null;
-    var _isCommand = null;
-    var _xmppRemoveUser = null;
-    var _xmppAddUser = null;
-    var _setPresence = null;
-    var _presenceValue = null;
-    var _getCurrentUser = null;
-    var _xmppSendMessage = null;
-    var _strangerChat = null;
-    var _setCurrentUser = null;
-    var _getConnection = null;
-    var _jidToId = null;
-    var _getRosterName = null;
+    var _notification = null;
+    var _xmppActivity = null;
+    var _xmppCore = null;
+    var _xmppUtils = null;
 
     var self = this;
     var currentTab = null;
@@ -21,22 +12,11 @@
     var typingTime = 0;
     var isComposing = false;
 
-    this.Constructor = function (notificationBox, isCommand, xmppRemoveUser, xmppAddUser, setPresence, presenceValue,
-                                 getCurrentUser, xmppSendMessage, strangerChat, setCurrentUser, getConnection, jidToId,
-                                 getRosterName) {
-      _notificationBox = notificationBox;
-      _isCommand = isCommand;
-      _xmppRemoveUser = xmppRemoveUser;
-      _xmppAddUser = xmppAddUser;
-      _setPresence = setPresence;
-      _presenceValue = presenceValue;
-      _getCurrentUser = getCurrentUser;
-      _xmppSendMessage = xmppSendMessage;
-      _strangerChat = strangerChat;
-      _setCurrentUser = setCurrentUser;
-      _getConnection = getConnection;
-      _jidToId = jidToId;
-      _getRosterName = getRosterName;
+    this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils) {
+      _notification = notification;
+      _xmppActivity = xmppActivity;
+      _xmppCore = xmppCore;
+      _xmppUtils = xmppUtils;
     };
     this.init = function(){
       $('#modal-yes').click(function(){
@@ -55,11 +35,11 @@
       });
       $("#chattypebox").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);
-        _sendComposeMessage();
+        sendComposeMessage();
         if (code == 13) { //Enter keycode
           var msg = $(this).val().trim();
           if (msg && msg.length) {
-            _xmppSendMessage(msg);
+            _xmppActivity.xmppSendMessage(msg);
           }
 
           $(this).val("");
@@ -69,44 +49,44 @@
         return true;
       });
       $("#stranger").click(function () {
-        _strangerChat();
+        _xmppActivity.strangerChat();
       });
       $(document).bind('composing.chatstates', function(e, jid){
-        var id = _jidToId(jid);
+        var id = _xmppUtils.jidToId(jid);
         $('#' + id + ' .chat-chats .chat-temp-event').remove();
         $('#' + id + ' .chat-chats').append(
-            "<div class='chat-temp-event'>-" + _getRosterName(jid) + " is Typing...</div>");
+            "<div class='chat-temp-event'>-" + _xmppCore.getRosterName(jid) + " is Typing...</div>");
         $('#' + id).trigger("scrollResize");
 //        setTimeout(function () {
 //          $('#' + id + ' .chat-chats .chat-temp-event').remove();
 //        }, 10000)
       });
       $(document).bind('paused.chatstates', function(e, jid){
-        var id = _jidToId(jid);
+        var id = _xmppUtils.jidToId(jid);
         $('#' + id + ' .chat-chats .chat-temp-event').remove();
         $('#' + id + ' .chat-chats').append(
-            "<div class='chat-temp-event'>-" + _getRosterName(jid) + " has stopped Typing.</div>");
+            "<div class='chat-temp-event'>-" + _xmppCore.getRosterName(jid) + " has stopped Typing.</div>");
         $('#' + id).trigger("scrollResize");
 //        setTimeout(function () {
 //          $('#' + id + ' .chat-chats .chat-temp-event').remove();
 //        }, 10000)
       })
     };
-    var _sendComposeMessage = function(){
+    var sendComposeMessage = function(){
       if(!isComposing) {
-        _getConnection().chatstates.sendComposing(_getCurrentUser().jid, 'chat');
+        _xmppCore.getConnection().chatstates.sendComposing(_xmppCore.getCurrentUser().jid, 'chat');
         isComposing = true;
         setTimeout(function(){
           var t = new Date().getTime();
           if(( t - typingTime > 5000) && isComposing){
-            _getConnection().chatstates.sendPaused(_getCurrentUser().jid, 'chat');
+            _xmppCore.getConnection().chatstates.sendPaused(_xmppCore.getCurrentUser().jid, 'chat');
             isComposing = false;
           }
         }, 10000);
       }
       typingTime = dateTime.getTime();
     };
-    var _chatBox = function (selector, user, isStranger) {
+    var chatBox = function (selector, user, isRemembered) {
       user.id = user.id || Constants.SYSTEM_NODE;
       console.log("parameter node:" + selector + " jid:" + user.jid);
       if ($("#" + selector).length <= 0) {
@@ -116,7 +96,7 @@
             + "<div class='buddy-status'> </div>"
             + "<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'>" + (user.name || Constants.SYSTEM_NAME) + "</a> </div>"
             + "<div class='buddy-options'>"
-            + "<button class='remember btn btn-primary " + (isStranger ? "add" : "remove") + "'>(isStranger?Remember:Forget)</button>"
+            + "<button class='remember btn btn-primary " + (isRemembered ?  "remove": "add") + "'>(isRemembered?Forget:Remember)</button>"
             + "</div>"
             + "</div>");
 
@@ -130,43 +110,39 @@
           e.preventDefault();
           console.log(this);
           if ($(this).hasClass('remove')) {
-            _xmppRemoveUser();
+            _xmppCore.removeUser();
           } else if ($(this).hasClass('add')) {
-            _xmppAddUser();
+            _xmppCore.addUser();
           }
         })
       }
-      _chatOptions(selector, user, isStranger);
+      self.chatOptions(selector, _xmppUtils.presenceValue(user.pres), isRemembered);
     };
-    var _chatOptions = function (selector, user, isStranger) {
-      if (isStranger) {
+    this.chatOptions = function (selector, presence, isRemembered) {
+      if (!isRemembered) {
         $('#' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
-        _setPresence($('#' + selector + '  .buddy-status'), _presenceValue(user.pres));
+        _xmppUtils.setPresence($('#' + selector + '  .buddy-status'), presence);
         $('#' + selector + '  .remember').removeClass('add').addClass('remove').text('Forget')
       }
     };
     this.eventMessage = function (messageBoxID, message) {
+      if(!messageBoxID){
+        return;
+      }
       $('#' + messageBoxID + ' .chat-chats').append(
           "<div class='chat-event'>-" + message + "</div>");
       $('#' + messageBoxID).trigger("scrollResize");
     };
 
-    this.chatShortEvent = function (messageBoxID, message) {
-      $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
-      $('#' + messageBoxID + ' .chat-chats').append(
-          "<div class='chat-temp-event'>-" + message + "</div>");
-      $('#' + messageBoxID).trigger("scrollResize");
-      setTimeout(function () {
-        $('#' + messageBoxID + ' .chat-chats').find('.chat-temp-event').remove();
-      }, 5000)
-    };
-
     this.strangerInlineMessage = function (messageBoxID, name, message) {
+      if(!messageBoxID){
+        return;
+      }
       isComposing = false;
       $('#' + messageBoxID + ' .chat-chats .chat-temp-event').remove();
       var chat = $("<div class='chat'></div>");
-      var command = _isCommand(message);
+      var command = _xmppUtils.isCommand(message);
       if (command) {
         self.eventMessage(messageBoxID, message);
       } else {
@@ -179,10 +155,13 @@
 
     };
     this.myInlineMessage = function (messageBoxID, message) {
+      if(!messageBoxID){
+        return;
+      }
       isComposing = false;
       $('#' + messageBoxID + ' .chat-chats .chat-temp-event').remove();
       var chat = $("<div class='chat'></div>");
-      var command = _isCommand(message);
+      var command = _xmppUtils.isCommand(message);
       if (command) {
         if (message == '\\c' && messageBoxID == Constants.SYSTEM_NODE) {
           $('#' + messageBoxID + "  div.chat-chats").empty();
@@ -197,16 +176,19 @@
       $(chat).emoticonize();
     };
 
-    this.newMessageBox = function (selector, user, isStranger) {
+    this.newMessageBox = function (selector, user, isRemembered) {
+      if(!selector){
+        return;
+      }
       console.log(selector);
       if (selector == Constants.NOTIFICATION && currentTab == Constants.SYSTEM_NODE) {
         $('#myModal').modal();
       } else {
         if (selector == Constants.NOTIFICATION) {
-          _notificationBox(selector);
+          _notification.notificationBox(selector);
           self.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
         } else {
-          _chatBox(selector, user, isStranger);
+          chatBox(selector, user, isRemembered);
         }
         $('#remembereds li').removeClass('active');
         $(this).tab('show');
@@ -217,16 +199,22 @@
       currentTab = selector;
     };
     this.changeChatStatusChanged = function (status) {
-      _getCurrentUser().status = status;
+      if(!status){
+        return;
+      }
       $('#message-scroll').addClass('white');
       if (status == ChatButtonStatus.CONNECTING) {
+        _xmppCore.getCurrentUser().status = status;
         $("#stranger").text("Connecting");
       } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
+        _xmppCore.getCurrentUser().status = status;
         $("#stranger").text("Are you sure?");
       } else if (status == ChatButtonStatus.DISCONNECT) {
+        _xmppCore.getCurrentUser().status = status;
         $("#stranger").text("Disconnect");
       } else if (status == ChatButtonStatus.HANGOUT) {
-        _setCurrentUser({});
+        _xmppCore.getCurrentUser().status = status;
+        _xmppCore.setCurrentUser({});
         $('#message-scroll').removeClass('white');
         $("#stranger").text("Hang Out");
       }
