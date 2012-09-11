@@ -206,9 +206,6 @@
       jid = jid || currentUser.jid;
       name = name || currentUser.name;
 
-      if(name == Constants.SYSTEM_NAME){
-        name = null;
-      }
       name = name || jid;
       my.roster.add(jid, name, [], _xmppOnMethods.onRosterAdded);
       my.roster.subscribe(jid);

@@ -18,11 +18,11 @@
         menuResize();
       });
       $('#notification-btn').bind('click resize', function () {
-        menuResize();
         count = 0;
         $('#notification-btn').text(0);
         $('#notification-btn').removeClass('btn-primary');
         $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
+        menuResize();
       });
       $('#all-notifications a').click(function (e) {
         e.preventDefault();
@@ -31,7 +31,8 @@
       });
     };
     var menuResize = function () {
-      $('.notification-list-menu .notification-scroll-menu').height($(document).height() - 180);
+      var mn = $(document).height() - 180;
+      $('.notification-list-menu .notification-scroll-menu').height(mn);
       $('.notification-list-menu .notification-scroll-menu').setScrollPane({
         autohide        :true,
         maintainPosition:false
