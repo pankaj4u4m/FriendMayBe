@@ -35,10 +35,19 @@
     this.onSubscribe = function (stanza) {
       console.log(stanza);
       var from = $(stanza).attr('from');
-      _notification.attachOneRequestNotification(from);
+      _xmppCore.getConnection().vcard.get(function(iq){
+        var name = $(iq).find('NICKNAME').text() || from;
+        var roster  =_xmppCore.getMy().roster.findItem(from);
+        roster.name = name;
+        _xmppUtils.updateContact($('#remembereds li'), roster);
+        _notification.attachOneRequestNotification(from, name);
+      }, from, error);
+
       return true;
     };
-
+    var error = function(iq){
+      console.log(iq);
+    };
     this.onMessage = function (message) {
 //          console.log(message);
       var full_jid = $(message).attr('from');
@@ -111,16 +120,17 @@
       }
       $('.remember').removeClass('remove').addClass('add').text('Remember')
       $('.buddy-status').removeClass('online').removeClass('away').removeClass('offline').addClass('offline');
-      $(list).each(function(){
-        _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(this.jid), this.name || this.jid, _xmppUtils.rosterStatus(this.resources));
-        _messageBox.chatOptions(_xmppUtils.jidToId(this.jid), _xmppUtils.rosterStatus(this.resources), true);
-      });
+      for(var i =0 ; i< list.length; ++i){
+        _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(list[i].jid), list[i].name
+            || list[i].jid, _xmppUtils.rosterStatus(list[i].resources));
+        _messageBox.chatOptions(_xmppUtils.jidToId(list[i].jid), _xmppUtils.rosterStatus(list[i].resources), true);
+      }
       return true;
     };
-    this.onRosterReceive = function (data) {
+    this.onRosterReceive = function (list) {
       $('.sidebar-fixed').addClass('white');
-      console.log(data);
-      data.sort(function (a, b) {
+      console.log(list);
+      list.sort(function (a, b) {
         var r = _xmppUtils.presenceValue(_xmppUtils.rosterStatus(b.resources)) - _xmppUtils.presenceValue(_xmppUtils.rosterStatus(a.resources));
         if (r == 0) {
           return (a.name || a.jid).localeCompare((b.name || b.jid));
@@ -129,11 +139,24 @@
         return r;
       });
       $('#remembereds ul').empty();
-      $(data).each(function () {
-//            if(Strophe.getDomainFromJid(this.jid) == domain){
+      $(list).each(function () {
         var element = _xmppUtils.getRosterElement(this);
         $('#remembereds ul').append(element);
-//            }
+
+        var name = this.name;
+        var jid = this.jid;
+        var roster = this;
+        //TODO check it in system side
+        if((name == null || name == Constants.SYSTEM_NAME || name == jid )&& roster.subscription == 'both'){
+          _xmppCore.getConnection().vcard.get(function(iq){
+            roster.name = $(iq).find('NICKNAME').text() || jid;
+            _xmppCore.getMy().roster.update(jid, roster.name, [], function(){
+            _xmppUtils.updateContact($('#remembereds li'), roster);
+            });
+          }, jid, error);
+        } else {
+
+        }
       });
       self.contactEventBind($("#remembereds a"));
       return true;

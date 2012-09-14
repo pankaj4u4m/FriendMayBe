@@ -62,7 +62,7 @@
     };
     this.updateContact = function (list, roster) {
       var id = self.jidToId(roster.jid);
-      var name = roster.name;
+      var name = roster.name || roster.jid;
       var pres = self.presenceValue(self.rosterStatus(roster.resources));
 
       var inserted = false;
@@ -74,6 +74,7 @@
       } else {
         element.detach();
         self.setPresence($(element).find('.roster-status'), pres);
+        $(element).find('.roster-name').text(name)
       }
 
       $(list).each(function () {

@@ -206,7 +206,7 @@
       jid = jid || currentUser.jid;
       name = name || currentUser.name;
 
-      name = name || jid;
+      name = name || Strophe.getNodeFromJid(jid);
       my.roster.add(jid, name, [], _xmppOnMethods.onRosterAdded);
       my.roster.subscribe(jid);
       my.roster.authorize(jid);

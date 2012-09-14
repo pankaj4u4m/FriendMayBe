@@ -45,7 +45,7 @@
 
       var li = $("<li class='" + item.id + " request' ></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
-      element.append("<div class='notification-buddy-" + style + " offline '</div>");
+      element.append("<div class='notification-buddy-" + style + " " + _xmppCore.getRosterStatus(item.jid) +  "'> </div>");
 
       var anchor = $("<a  data-toggle='tab' href='#" + item.id + "' class='notification-user-" + style + " '>" + item.name + " </a>");
       anchor.click(function () {
@@ -258,7 +258,7 @@
     };
     this.attachOneRequestNotification = function (jid, name) {
       if (!jid) return;
-      name = name || Strophe.getNodeFromJid(jid);
+      name = name || jid;
       var pair = _xmppCore.addReplaceRequests(jid, name);
       if (pair.action == Action.REPLACE) {
         $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();

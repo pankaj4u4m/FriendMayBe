@@ -2,6 +2,7 @@
 require 'xmpp4r'
 require 'xmpp4r/client'
 require 'xmpp4r/roster'
+require 'xmpp4r/vcard/helper/vcard'
 require 'optparse'
 
 require "jabber_http_binding_client"
@@ -53,7 +54,7 @@ module XmppHelper
       vcard_helper.set(vcard)
       client.close
     rescue => e
-      Rails.logger.error "Failed to register user #{jid} \n#{e.backtrace.join("\n")}"
+      Rails.logger.error "Failed to register user #{jid} name: #{name} \n#{e.backtrace.join("\n")}"
     end
   end
 

@@ -199,7 +199,7 @@
       currentTab = selector;
     };
     this.changeChatStatusChanged = function (status) {
-      if(!status){
+      if(status == null || status == undefined){
         return;
       }
       $('#message-scroll').addClass('white');

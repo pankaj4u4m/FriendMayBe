@@ -51,7 +51,11 @@
   overflow: hidden;
 }
 .notification-user-menu {
+  //font-weight: bold;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
   overflow: hidden;
+  margin-right: 100px;
 }
 .notification-user-page{
   //font-weight: bold;
@@ -70,8 +74,9 @@
   margin-right: 100px;
 }
 .notification-accept-bnt-menu{
-  position: relative;
-  left: 220px;
+  position: absolute;
+  right: 15px;
+  top: 13px;
   padding: 2px 5px !important;
 }
 .notification-accept-bnt-page{
@@ -80,8 +85,9 @@
   top: 12px;
 }
 .notification-reject-bnt-menu{
-  position: relative;
-  left: 210px;
+  position: absolute;
+  right: 80px;
+  top: 13px;
   padding: 2px 5px !important;
 }
 .notification-reject-bnt-page{
@@ -120,10 +126,10 @@
   font-size: 12px;
 }
 .notification-buddy-menu{
-  top: 8px;
+  top: 15px;
 }
 .notification-buddy-page{
-  top: 13px;
+  top: 14px;
 }
 .notification-text-buddy{
   top: 8px;
