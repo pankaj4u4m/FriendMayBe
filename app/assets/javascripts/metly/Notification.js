@@ -21,7 +21,8 @@
         count = 0;
         $('#notification-btn').text(0);
         $('#notification-btn').removeClass('btn-primary');
-        $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
+        $('#notification-btn').addClass('btn-inverse')
+//        $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
         menuResize();
       });
       $('#all-notifications a').click(function (e) {
@@ -93,7 +94,7 @@
 
       var li = $("<li class='" + message.id + "'></li>");
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
-      element.append("<div class='notification-text-buddy" + " " + _xmppCore.getRosterStatus(message.sender) + "' </div>");
+      element.append("<div class='notification-text-buddy" + " " + _xmppCore.getRosterStatus(message.sender) + "'> </div>");
 
       var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" + _xmppCore.getRosterName(message.sender) + " </a>");
       anchor.click(function () {
@@ -146,9 +147,11 @@
     var notificationBtn = function () {
       $('#notification-btn').text(count);
       $('#notification-btn').removeClass('btn-primary');
+      $('#notification-btn').addClass('btn-inverse')
       $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
       if (count > 0) {
         $('#notification-btn').addClass('btn-primary');
+        $('#notification-btn').removeClass('btn-inverse')
         $('#notification-btn').css({'border':'0', 'font-weight':'bold'});
       }
     };

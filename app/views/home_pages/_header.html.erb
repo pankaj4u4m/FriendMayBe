@@ -1,19 +1,20 @@
-<header class="navbar-fixed-top navbar">
+<header class="navbar-fixed-top navbar navbar-inverse">
   <div class="navbar-inner">
     <%= link_to "metly", root_path, id: "logo" %>
-    <em style="float:left">beta</em>
+    <em style="float:left">Alpha</em>
     <nav>
       <ul class="nav pull-right">
 
         <li><%= link_to 'feedback' , '#', style: "padding-top: 10px; padding-bottom: 10px", class: 'feedback' %></li>
         <li class="btn-group preserve">
-          <button id='notification-btn' class="btn dropdown-toggle" data-toggle="dropdown" href="#">0
+          <button id='notification-btn' class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">0
           </button>
           <ul class="dropdown-menu notification-list-menu">
             <%= render 'home_pages/notifications_menu' %>
           </ul>
         </li>
         <li><%= link_to "#{@user.user_details[0].name}", '#', style: "padding-top: 10px; padding-bottom: 10px", id: "search" %></li>
+        <li class="divider-vertical"></li>
         <li><%= link_to "logout", destroy_user_session_path, style: "padding-top: 10px; padding-bottom: 10px" %></li>
       </ul>
     </nav>
