@@ -6,23 +6,6 @@ MetlyDevise::Application.routes.draw do
     get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
     get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
-  #
-  #resources :remembers do
-  #  member do
-  #    get :remembereds
-  #    get :rememberers
-  #    post :remember
-  #    post :forget
-  #    post :block
-  #  end
-  #end
-  #resources :chats do
-  #  member do
-  #    get :senders
-  #    get :receivers
-  #    post :sendmessage
-  #  end
-  #end
 
   authenticated :user do
     root to: "home_pages#home"
@@ -31,13 +14,14 @@ MetlyDevise::Application.routes.draw do
     post "/login", to: "home_pages#login"
     post "/location" , to: "home_pages#location"
     post "/notification", to: "home_pages#notification"
-    get '/feedback', to: "home_pages#feedback"
+    get "/feedback", to: "home_pages#feedback"
   end
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
   match "/contact", to: "login_pages#contact"
-  get '/feedback', to: "login_pages#feedback"
-
+  get "/feedback", to: "login_pages#feedback"
+  get "/privacy", to: "login_pages#privacy"
+  get "/termofusage", to: "login_pages#termofusage"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

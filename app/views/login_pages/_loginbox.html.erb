@@ -1,14 +1,16 @@
 <div class="loginbox-fixed">
+  <div style="position: relative; left: 10%; top: 15%; color: rgb(102, 102, 102); max-width: 80%; font-size: 15px;">Metly is a great way to meet new people and make friends near by. We use Facebook or Google login so that we can provide a real trusted users to meet.
+    We don't reveal any information to the people you meet. If u want to remember a person we will reveal you name to the person.</div>
   <%= form_tag("/home", method: "get", id: "openid_form", class: "loginbtn") do %>
       <fieldset>
         <legend>Sign-in</legend>
         <div id="openid_choice" style="display: block;">
           <div id="openid_btns">
+            <p>Google login has been disabled to testing</p>
             <%= link_to "",  user_omniauth_authorize_path(:facebook),  class: "facebook openid_large_btn", title: "log in with Facebook"%>
             <%= link_to  "", user_omniauth_authorize_path(:google_oauth2), class: "google openid_large_btn", title: "log in with Google" %>
           </div>
         </div>
       </fieldset>
     <% end %>
-
-  </div>
+</div>

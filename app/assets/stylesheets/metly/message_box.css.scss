@@ -82,7 +82,15 @@
   bottom: 135px;
   z-index: 1020;
   width: 219px;
-  overflow: hidden;
+}
+.sidebar-contacts {
+  padding-left: 40px;
+  background-color: #EEE;
+  display: block;
+  box-shadow: 0 1px 0 #DBDFEA inset,0 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #D7D7D7;
+  margin: 0;
+  color: #3366CC;
 }
 .sidebar-search-fixed{
   border-color: #F1F1F1;

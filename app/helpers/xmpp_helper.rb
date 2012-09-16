@@ -52,6 +52,10 @@ module XmppHelper
       vcard = vcard_helper.get
       vcard["NICKNAME"] = name
       vcard_helper.set(vcard)
+      iq = Jabber::Iq.new(:set)
+      iq.add(Jabber::Roster::IqQueryRoster.new)
+        .add(Jabber::Roster::RosterItem.new("metly@#{@domain}", 'metly'))
+      client.send(iq)
       client.close
     rescue => e
       Rails.logger.error "Failed to register user #{jid} name: #{name} \n#{e.backtrace.join("\n")}"
@@ -79,6 +83,7 @@ module XmppHelper
     begin
       @client.auth(@my_pass)
     rescue
+      @client.close
       XmppHelper.xmppRegister(@my_jid, @my_pass, @user.user_details[0].name)
       @client = JabberHTTPBindingClient.new(@my_jid)
       @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)

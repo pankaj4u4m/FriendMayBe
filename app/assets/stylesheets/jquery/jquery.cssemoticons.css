@@ -13,7 +13,7 @@
  /* Basic styles for emoticons */
 span.css-emoticon {
   font-family: "Trebuchet MS"; /* seems to give the best and most consistent emoticon appearance */
-  font-size: 0.65em;
+  font-size: 1.0em;
   font-weight: bold;
   color: #000000;
   display: inline-block;
@@ -76,7 +76,7 @@ span.css-emoticon.spaced-emoticon {
 
 /* Styles for emoticons that need to have smaller characters to fit inside the circle */
 span.css-emoticon.small-emoticon {
-  font-size: 0.55em;
+  font-size: 0.82em;
   width: 1.82em;
   height: 1.82em;
   line-height: 1.72em;
@@ -138,7 +138,7 @@ span.css-emoticon.no-rotate {
   -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  font-size: 0.45em;
+  font-size: 0.72em;
   width: 2.2em;
   height: 2.2em;
   line-height: 1.9em;
@@ -279,7 +279,7 @@ span.css-emoticon.un-transformed-emoticon, span.css-emoticon.animated-emoticon:h
 }
 
 span.css-emoticon.nintendo-controller {
-  font-size: .8em;
+  font-size: 1.0em;
   height: 1.2em;
   line-height: 1em;
   width: 2.7em;
@@ -310,13 +310,13 @@ span.css-emoticon.nintendo-controller {
 .heart-shape:after {
   position: absolute;
   content: "";
-  left: 9px;
+  left: 10px;
   top: 0;
   width: 12px;
   height: 20px;
   background: #fd2d8a;
-  -moz-border-radius: 14px 14px 0 0;
-  border-radius: 14px 14px 0 0;
+  -moz-border-radius: 12px 12px 0 0;
+  border-radius: 12px 12px 0 0;
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);

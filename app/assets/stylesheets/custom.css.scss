@@ -51,7 +51,7 @@ a:focus{
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
-  color: #555;
+  color: #888;
   padding-left: 10px;
 }
 #logo:hover {
@@ -70,17 +70,20 @@ a:focus{
 
 footer {
   position: fixed;
-  border: appworkspace solid thin;
   width: 100%;
   bottom: 0;
   height: 4em;
+  z-index: 1025;
+}
+footer a {
+  padding:10px;
 }
 /* home pages */
 .loginbtn{
   position: absolute;
   left: 42.553%;
   top: 30%;
-  color: white;
+  color: #808080;
   min-width: 100px;
 }
 

@@ -8,6 +8,13 @@ class LoginPagesController < ApplicationController
   def contact
   end
 
+  def termofusage
+
+  end
+
+  def privacy
+
+  end
   def feedback
     Feedback.create({
                         user_id: 0,
