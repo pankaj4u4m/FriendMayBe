@@ -18,15 +18,24 @@ module XmppHelper
   @user = nil;
   #@closeCounter = 0
 
-  def xmppLogin(jid, pass, user)
+  def xmppLogin(jid = nil, pass = nil, user = nil)
     @domain = "localhost"
-    @my_jid = JID::new("#{jid}@#{@domain}")
-    @my_pass = pass
-    @user = user;
-    Rails.logger.info "my_jid:#{@my_jid}"
-    Rails.logger.info "my_pass:#{@my_pass}"
+    if(jid.nil?)
+      @my_jid = nil
+      @client = JabberHTTPBindingClient.new("#{@domain}")
+      @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)
+      @client.auth_anonymous_sasl
+      @client.close;
+    else
+      @my_jid = JID::new("#{jid}@#{@domain}")
+      @my_pass = pass
+      @user = user;
+      Rails.logger.info "my_jid:#{@my_jid}"
+      Rails.logger.info "my_pass:#{@my_pass}"
 
-    @client = xmppHttpbindConnect
+      @client = xmppHttpbindConnect
+    end
+
 
     #t = Thread.new do
     #  while true do
@@ -62,19 +71,6 @@ module XmppHelper
     end
   end
 
-  #def getOnlineUsers
-  #
-  #end
-  def self.getStranger(me)
-    stranger= Stranger.tryConnect(me);
-    Rails.logger.debug("stranger:#{stranger}")
-    if stranger.nil?
-      stranger = userwait(me)
-    else
-      stranger = userconnect(me, stranger)
-    end
-    return {stranger: stranger}
-  end
   private
 
   def xmppHttpbindConnect
@@ -91,36 +87,6 @@ module XmppHelper
     end
     @client.close
     @client
-  end
-
-  def self.userwait(me)
-    Rails.logger.debug("waiting #{me}")
-    Stranger.waiting(me);
-    counter = 0;
-    stranger = Rails.cache.read(me)
-    while stranger.nil?
-      break if counter > 20
-      sleep(0.5);
-      counter +=1;
-      stranger = Rails.cache.read(me)
-    end
-    return stranger
-  end
-
-  def self.userconnect(me, stranger)
-    withuser = stranger
-    Rails.logger.debug("me #{me} stranger #{withuser.user_id} updateed_time #{withuser.updated_time} timenow=#{Time.now}")
-    while !withuser.nil? && ( withuser.user_id.equal?(me) || (withuser.updated_time + 20 < Time.now))
-      withuser.destroy;
-      withuser = Stranger.tryConnect(me);
-      Rails.logger.debug("me #{me} stranger #{withuser.user_id} updateed_time #{withuser.updated_time} timenow=#{Time.now}") if !withuser.nil?
-    end
-    if withuser.nil? || (withuser.user_id.equal?(me) )
-      return userwait(me)
-    else
-      Rails.cache.write(withuser.user_id, me, expires_in: 20.seconds)
-      return withuser.user_id
-    end
   end
 
 end

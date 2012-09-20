@@ -1,18 +1,16 @@
 /* chat message content */
 .optionbar-fixed{
   background-color: #F8F8F8;;
-  border: 1px solid #D7D7D7;
-  top: 50px;
+  border-bottom: 1px solid #D7D7D7;
 
-  box-shadow: 0 1px 0 #DBDFEA inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 230px;
   right: 0;
-  position: fixed;
   padding-left: 10px;
   height: 40px;
-  z-index: 50;
 }
-
+.nav-pills > li > a:first-child {
+  margin-top: 0;
+}
 .buddy-status {
   float:left;
   left:5px;
@@ -35,16 +33,22 @@
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #D7D7D7;
+  //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 230px;
   right: 0;
   position: fixed;
-  top: 92px;
+  top: 50px;
   bottom: 105px;
   z-index: 50;
   background-color: #ffffff;
 }
-
+.messagebar-box {
+  position: absolute;
+  top: 43px;
+  bottom: 0;
+  width: 100%;
+}
 #messagebar{
   //height: 100%;
   //width: 100%;
@@ -70,37 +74,33 @@
 .chat-scroll{
   height: 100%;
 }
-.sidebar-fixed{
+.sidebar-fixed {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #D7D7D7;
+  //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 0;
   position: fixed;
   right: 0;
   top: 50px;
-  bottom: 135px;
+  bottom: 105px;
   z-index: 1020;
   width: 219px;
 }
-.sidebar-contacts {
-  padding-left: 40px;
-  background-color: #EEE;
-  display: block;
-  box-shadow: 0 1px 0 #DBDFEA inset,0 1px 5px rgba(0, 0, 0, 0.1);
-  border: 1px solid #D7D7D7;
-  margin: 0;
-  color: #3366CC;
+.sidebar-contacts{
+  bottom: 30px;
+  position: absolute;
+  top: 0;
 }
+
 .sidebar-search-fixed{
-  border-color: #F1F1F1;
   left: 0;
-  position: fixed;
-  bottom: 105px;
+  position: absolute;
+  bottom: 0;
   z-index: 1025;
-  width: 219px;
-  background-color: #F1F1F1;
-  padding-top: 5px;
+  width: 100%;
+  border-top: 1px solid #D7D7D7;
 }
 
 #sidebar{
@@ -110,9 +110,12 @@
 
 .sidebar-search-fixed input[type="text"] {
   border-radius: 0;
-  width: 185px;
+  width: 85%;
   margin: 0;
+  left: 1px;
+  position: relative;
 }
+
 .roster-contact {
   position: relative;
   background-color: #FFFFFF;

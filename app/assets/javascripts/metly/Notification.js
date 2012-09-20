@@ -283,11 +283,10 @@
       }
       _xmppCore.setCurrentUser({});
       if ($("#" + selector).length <= 0) {
-        var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
-        chatbar.append("<div class='optionbar-fixed'>"
-            + "<div class='buddy-name'> <a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'> Notifications</a> </div>"
-            + "</div>");
+        $('.optionbar-fixed').empty();
+        $(".optionbar-fixed").append("<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'> Notifications</a></div>");
 
+        var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
         chatbar.append("<div class='notification-scroll-page'><div class='notification-contents'></div></div>");
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
@@ -297,6 +296,7 @@
         });
         populateNotifications();
       }
+
     };
   }
 

@@ -1,8 +1,6 @@
 MetlyDevise::Application.routes.draw do
 
-  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
-
-  devise_scope :user do
+  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}, :skip => [:sessions, :passwords, :registrations] do
     get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
     get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
@@ -22,6 +20,8 @@ MetlyDevise::Application.routes.draw do
   get "/feedback", to: "login_pages#feedback"
   get "/privacy", to: "login_pages#privacy"
   get "/termofusage", to: "login_pages#termofusage"
+  get "/anonymous", to: "login_pages#anonymous"
+  post "/anonymouslogin", to: "login_pages#anonymouslogin"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

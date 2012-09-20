@@ -22,6 +22,7 @@ xmppOnMethods.Constructor(messageBox, notification, xmppCore, xmppUtils);
 $(document).ready(function () {
   notification.init();
   messageBox.init();
+
   var textArea = $('#feedback textarea');
   $('.feedback').click(function (e) {
     $('#feedback .modal-body').empty().append(textArea);

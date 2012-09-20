@@ -91,14 +91,13 @@
       console.log("parameter node:" + selector + " jid:" + user.jid);
       if ($("#" + selector).length <= 0) {
 
-        var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
-        chatbar.append("<div class='optionbar-fixed'>"
-            + "<div class='buddy-status'> </div>"
+        $('.optionbar-fixed').empty();
+        $('.optionbar-fixed').append("<div class='buddy-status'> </div>"
             + "<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'>" + (user.name || Constants.SYSTEM_NAME) + "</a> </div>"
-            + "<div class='buddy-options'>"
-            + "<button class='remember btn btn-primary " + (isRemembered ?  "remove": "add") + "'>(isRemembered?Forget:Remember)</button>"
-            + "</div>"
+            + "<div class='" + selector + " buddy-options'>"
+            + "<button class='remember btn btn-primary " + (isRemembered ?  "remove": "add") + "'>" + (isRemembered?"Forget":"Remember") + "</button>"
             + "</div>");
+        var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
 
         chatbar.append("<div class='chat-scroll'><div class='chat-chats'></div></div>");
 
@@ -106,7 +105,7 @@
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
         $('#message-scroll').addClass('white');
-        $('#' + selector + ' button.remember').click(function (e) {
+        $('.optionbar-fixed button.remember').click(function (e) {
           e.preventDefault();
           console.log(this);
           if ($(this).hasClass('remove')) {
@@ -120,10 +119,10 @@
     };
     this.chatOptions = function (selector, presence, isRemembered) {
       if (!isRemembered) {
-        $('#' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
+        $('.' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
         _xmppUtils.setPresence($('#' + selector + '  .buddy-status'), presence);
-        $('#' + selector + '  .remember').removeClass('add').addClass('remove').text('Forget')
+        $('.' + selector + '  .remember').removeClass('add').addClass('remove').text('Forget')
       }
     };
     this.eventMessage = function (messageBoxID, message) {

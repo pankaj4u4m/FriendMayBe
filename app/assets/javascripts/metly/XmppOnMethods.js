@@ -162,14 +162,14 @@
       return true;
     };
     this.onRosterRemoved = function (stanza) {
-      $('#' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('remove').addClass('add').text('Remember');
+      $('.' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('remove').addClass('add').text('Remember');
       _xmppCore.getMy().roster.unsubscribe(_xmppCore.getCurrentUser().jid);
       self.onRosterReceive(_xmppCore.getMy().roster.items);
       _messageBox.eventMessage(_xmppCore.getCurrentUser().node, "Forgotten!");
       _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(_xmppCore.getCurrentUser().jid), _xmppCore.getCurrentUser().name || _xmppCore.getCurrentUser().jid, _xmppCore.getRosterStatus(_xmppCore.getCurrentUser().jid));
     };
     this.onRosterAdded = function (stanza) {
-      $('#' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
+      $('.' + _xmppCore.getCurrentUser().id + ' button.remember').removeClass('add').addClass('remove').text('Forget');
 
       self.onRosterReceive(_xmppCore.getMy().roster.items);
       _messageBox.eventMessage(_xmppCore.getCurrentUser().node, "Remember request Sent!");

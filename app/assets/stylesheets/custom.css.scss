@@ -1,34 +1,39 @@
-
 /* mixins, variables, etc. */
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 /* universal */
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   outline: 0;
 }
-body{
+
+body {
   background-color: #F7F8FA;
 }
+
 li a {
   //color:#555555 !important;
   outline: 0;
 }
 
-li a:hover{
+li a:hover {
   //color: #000000 !important;
   outline: 0;
 }
-a:focus{
+
+a:focus {
   outline: 0;
 }
-.btn:focus{
+
+.btn:focus {
   outline: 0;
 }
+
 .debug_dump {
   position: absolute;
   width: 100%;
@@ -38,9 +43,11 @@ a:focus{
   display: none;
 
 }
-.placeholder{
+
+.placeholder {
   color: #999 !important;
 }
+
 /* header */
 
 #logo {
@@ -54,40 +61,44 @@ a:focus{
   color: #888;
   padding-left: 10px;
 }
+
 #logo:hover {
   text-decoration: none;
 }
+
 //#remembereds a{
 //  color: #555;
 //}
-#remembereds .active a{
+#remembereds .active a {
   font-weight: bold;
 }
 
-.x-large{
+.x-large {
   font-size: x-large;
 }
 
 footer {
-  position: fixed;
-  width: 100%;
+  overflow: hidden;
   bottom: 0;
   height: 4em;
-  z-index: 1025;
-}
-footer a {
-  padding:10px;
-}
-/* home pages */
-.loginbtn{
   position: absolute;
-  left: 42.553%;
-  top: 30%;
-  color: #808080;
-  min-width: 100px;
+  width: 100%;
 }
 
-.loginbox-fixed{
+footer a {
+  padding: 10px;
+}
+
+/* home pages */
+.loginbtn {
+  position: absolute;
+  left: 36.5%;
+  top: 200px;
+  color: #808080;
+  min-width: 350px;
+}
+
+.loginbox-fixed {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
@@ -101,9 +112,31 @@ footer a {
   overflow: hidden;
   background-color: white;
 }
+
+.login-page {
+  min-height: 300px;
+}
+
+.login-description {
+  position: absolute;
+  left: 20%;
+  top: 100px;;
+  max-width: 60%;
+  font-size: 15px;
+  color: #808080;
+}
+.login-privacy {
+  position: absolute;
+  left: 20%;
+  bottom: 100px;
+  max-width: 60%;
+  font-size: 14px;
+  color: #808080;
+}
+
 /* main pages */
 
-#home-content{
+#home-content {
   position: absolute;
   top: 3em;
   bottom: 0;
@@ -117,7 +150,7 @@ footer a {
 //  box-shadow: none;
 //}
 
-.online{
+.online {
   background-image: url("presence.png");
   background-position: -1px -13px;
   background-repeat: no-repeat;
@@ -127,7 +160,8 @@ footer a {
   position: absolute;
 
 }
-.offline{
+
+.offline {
   background-image: url("presence.png");
   background-position: -1px 2px;
   background-repeat: no-repeat;
@@ -136,7 +170,8 @@ footer a {
   width: 10px;
   position: absolute;
 }
-.away{
+
+.away {
   background-image: url("presence.png");
   background-position: -1px -28px;
   background-repeat: no-repeat;
@@ -147,7 +182,7 @@ footer a {
 }
 
 /* chat bottom bar */
-.chatbox{
+.chatbox {
   height: 69px;
   color: #222;
   width: 100%;
@@ -155,31 +190,32 @@ footer a {
 
 }
 
-.chatbox:focus, .chatbox:active, .chatbox:hover{
+.chatbox:focus, .chatbox:active, .chatbox:hover {
   outline: 0;
 }
 
-.chatboxbtn{
+.chatboxbtn {
   padding: 25px 25px;
   font-size: 22px;
 }
 
-
-.user-icon-setting{
+.user-icon-setting {
   background: url("Black_Settings_60.png") left no-repeat;
   height: 19px;
   width: 20px;
 
 }
-.facebook{
+
+.facebook {
   background: #FFF url("openid_providers_Facebook.gif") no-repeat center;
 }
-.google{
+
+.google {
   background: #FFF url("openid_providers_Google.gif") no-repeat center;
 }
 
 /*search page*/
-.search-box-fixed{
+.search-box-fixed {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
@@ -192,7 +228,8 @@ footer a {
   height: 55px;
   background-color: white;
 }
-.search-result-fixed{
+
+.search-result-fixed {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
@@ -205,22 +242,25 @@ footer a {
   overflow: hidden;
   background-color: white;
 }
-#search-box{
+
+#search-box {
   padding-top: 5px;
 }
 
-.search-hints{
+.search-hints {
   font-size: 20px;
   height: 40px;
   padding-top: 15px;
   padding-right: 4px;
   text-align: right;
 }
-.searchbox-btn{
+
+.searchbox-btn {
   padding: 15px 15px;
   font-size: 21px;
 }
-#search-item{
+
+#search-item {
   height: 40px;
   font-size: 19px;
   float: left;
@@ -230,6 +270,17 @@ footer a {
 .white {
   background-color: #FFF;
 }
-.blue-text{
-  color:#3366CC;
+
+.blue-text {
+  color: #3366CC;
+}
+
+.input-append .auth-btn {
+  margin-left: 5px;
+  font-size: 16px;
+  min-height: 0;
+}
+
+.input-append .auth-btn:last-child {
+  border-radius: 0;
 }

@@ -1,4 +1,6 @@
 class LoginPagesController < ApplicationController
+  include XmppHelper
+
   def login
   end
 
@@ -10,6 +12,17 @@ class LoginPagesController < ApplicationController
 
   def termofusage
 
+  end
+
+  def anonymous
+
+  end
+
+  def anonymouslogin
+    client = xmppLogin()
+    respond_to do |format|
+      format.js { render json: client}
+    end
   end
 
   def privacy

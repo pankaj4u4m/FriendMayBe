@@ -1,16 +1,22 @@
-<div class="loginbox-fixed">
-  <div style="position: relative; left: 10%; top: 15%; color: rgb(102, 102, 102); max-width: 80%; font-size: 15px;">Metly is a great way to meet new people and make friends near by. We use Facebook or Google login so that we can provide a real trusted users to meet.
-    We don't reveal any information to the people you meet. If u want to remember a person we will reveal you name to the person.</div>
-  <%= form_tag("/home", method: "get", id: "openid_form", class: "loginbtn") do %>
-      <fieldset>
-        <legend>Sign-in</legend>
-        <div id="openid_choice" style="display: block;">
-          <div id="openid_btns">
-            <p>Google login has been disabled to testing</p>
-            <%= link_to "",  user_omniauth_authorize_path(:facebook),  class: "facebook openid_large_btn", title: "log in with Facebook"%>
-            <%= link_to  "", user_omniauth_authorize_path(:google_oauth2), class: "google openid_large_btn", title: "log in with Google" %>
-          </div>
-        </div>
-      </fieldset>
-    <% end %>
+<div class="login-page">
+  <div class="login-description">Metly is a great way to interact with people near by you. When you are in metly we pick
+    a random near by user and let you chat with each other. This interaction in complete anonymous and you can
+    disconnect it anytime you want. However if you like to you can remember them and chat with them later
+  </div>
+  <div class="loginbtn span3">
+    <fieldset>
+      <legend>Sign-in</legend>
+      <div class="input-append">
+        <%= link_to "Anonymous", anonymous_path, class: "auth-btn btn btn btn-primary btn-large span4", title: "log in Anonymously" %>
+        <%= link_to "Facebook", user_omniauth_authorize_path(:facebook), class: "auth-btn btn btn-primary btn-large span4", title: "log in with Facebook" %>
+        <%= link_to "Google", user_omniauth_authorize_path(:google_oauth2), class: "auth-btn btn btn-primary btn-large span4", title: "log in with Google" %>
+      </div>
+      <!--<p>Google login has been disabled to testing</p>-->
+    </fieldset>
+  </div>
+
+  <div class="login-privacy">Do not use Omegle if you are under 13, or without a parent/guardian's permission if you are
+    under 18. Do not behave inappropriately on Omegle.
+  </div>
+
 </div>

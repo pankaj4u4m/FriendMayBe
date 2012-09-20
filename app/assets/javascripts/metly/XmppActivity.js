@@ -147,6 +147,39 @@
         self.xmppStrangerDisconnect();
       }
     };
+    this.anonymous = function() {
+        var token = $('meta[name=csrf-token]').attr('content');
+        var param = $('meta[name=csrf-param]').attr('content');
+        var data = {};
+        data[param] = token;
+
+        $.ajax({
+          type      :'post',
+          url       :Constants.PRE_BINDING_ANONYMOUS,
+          dataType  :'json',
+          tryCount  :0,
+          retryLimit:3,
+          success   :attach,
+          data      :data,
+          error     :function (xhr, textStatus, errorThrown) {
+            if (textStatus == 'timeout') {
+              this.tryCount++;
+              if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+              }
+              return;
+            }
+            if (xhr.status == 404) {
+              //handle error
+            } else {
+              //handle error
+            }
+
+          }
+        })
+    };
   }
 
   var _INSTANCE = new XmppActivity();
