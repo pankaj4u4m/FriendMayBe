@@ -39,10 +39,13 @@
         if (code == 13) { //Enter keycode
           var msg = $(this).val().trim();
           if (msg && msg.length) {
-            _xmppActivity.xmppSendMessage(msg);
+            if(msg.length < 1000){
+              _xmppActivity.xmppSendMessage(msg);
+              $(this).val("");
+            } else {
+              self.eventMessage(_xmppCore.getCurrentUser().id, "Unable to send. Message size exceed 1000 characters");
+            }
           }
-
-          $(this).val("");
 
           return false;
         }
@@ -156,11 +159,14 @@
       if (command) {
         self.eventMessage(messageBoxID, message);
       } else {
+        var msg = _xmppUtils.processMessage(message);
         $(chat).append("<p class='chat stranger'><strong class='blue-text'>" + name + ": </strong>" +
-            message + "</p></div>");
+            msg + "</p></div>");
         $('#' + messageBoxID + " .chat-chats").append(chat);
         $('#' + messageBoxID).trigger("scrollResize");
-        $(chat).emoticonize();
+        if(msg == message){
+          $(chat).emoticonize();
+        }
       }
 
     };
@@ -178,12 +184,15 @@
         }
         self.eventMessage(messageBoxID, command);
       } else {
+        var msg = _xmppUtils.processMessage(message);
         $(chat).append("<p class='chat me'><strong>You: </strong>" +
-            message + "</p></div>")
+            msg + "</p></div>")
       }
       $('#' + messageBoxID + " .chat-chats").append(chat);
       $('#' + messageBoxID).trigger("scrollResize");
-      $(chat).emoticonize();
+      if(msg == message){
+        $(chat).emoticonize();
+      }
     };
 
     this.newMessageBox = function (selector, user, isRemembered) {
@@ -225,7 +234,7 @@
       } else if (status == ChatButtonStatus.HANGOUT) {
         _xmppCore.setCurrentUser({});
         $('#message-scroll').removeClass('white');
-        $("#stranger").text("Hang Out");
+        $("#stranger").text("Lets Talk");
       }
     };
   }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a715b2d1-f260-4426-b136-6550e797c3c5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.swo" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.swp" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/controllers/chats_controller.rb" afterPath="" />
@@ -15,7 +14,6 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/models/remember.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/models/stranger.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/chats/_messagebox.html.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/login_pages/anonymous.html.erb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/people/_header.html.erb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/people/_sample_result.html.erb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/people/_search_results.html.erb" afterPath="" />
@@ -30,32 +28,16 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20120813103005_create_strangers.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20120814224538_create_locations.rb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20120814224755_create_login_histories.rb" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/anonymous/_anonymous.html.erb" afterPath="$PROJECT_DIR$/app/views/anonymous/anonymous.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppActivity.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppActivity.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppCore.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppCore.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppOnMethods.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppOnMethods.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/jquery/jquery.cssemoticons.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/jquery/jquery.cssemoticons.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/metly/message_box.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/metly/message_box.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/login_pages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/login_pages_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/xmpp_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/xmpp_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/login_location.rb" afterPath="$PROJECT_DIR$/app/models/login_location.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message_archive.rb" afterPath="$PROJECT_DIR$/app/models/message_archive.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user.rb" afterPath="$PROJECT_DIR$/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_messagebox.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_messagebox.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_sidebar.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_sidebar.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_sidebar_search.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_sidebar_search.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_chatbox.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_chatbox.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login_pages/_header.html.erb" afterPath="$PROJECT_DIR$/app/views/login_pages/_header.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" afterPath="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login_pages/login.html.erb" afterPath="$PROJECT_DIR$/app/views/login_pages/login.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb" afterPath="$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="metly_devise.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,46 +60,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Notification.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js">
+      <file leaf-file-name="login_pages_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/login_pages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="28" selection-start="3887" selection-end="3887" vertical-scroll-proportion="0.0">
+            <state line="4" column="23" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="anonymous_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/anonymous_controller.rb">
+      <file leaf-file-name="_loginbox.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="18" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="xmpp_helper.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/helpers/xmpp_helper.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="16" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="message_box.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/metly/message_box.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="21" selection-start="935" selection-end="935" vertical-scroll-proportion="-6.1355934">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="928" selection-end="928" vertical-scroll-proportion="-2.166405">
+            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="-0.625">
               <folding />
             </state>
           </provider>
@@ -126,34 +81,16 @@
       <file leaf-file-name="login_pages.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="1" selection-start="608" selection-end="608" vertical-scroll-proportion="0.0">
+            <state line="42" column="0" selection-start="586" selection-end="605" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XmppCore.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppCore.js">
+      <file leaf-file-name="_chatbox.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/home_pages/_chatbox.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="135" column="9" selection-start="2542" selection-end="2542" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="2" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="message_archive.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/message_archive.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="127" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0">
+            <state line="2" column="139" selection-start="159" selection-end="168" vertical-scroll-proportion="-1.25">
               <folding />
             </state>
           </provider>
@@ -162,8 +99,55 @@
       <file leaf-file-name="MessageBox.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="197" column="30" selection-start="7660" selection-end="7660" vertical-scroll-proportion="0.0">
+            <state line="186" column="36" selection-start="7364" selection-end="7364" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Notification.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XmppActivity.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppActivity.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="86" column="62" selection-start="2822" selection-end="2851" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XmppUtils.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="73" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="88" column="16" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.46120688">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.cssemoticons.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jquery/jquery.cssemoticons.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="26" selection-start="4781" selection-end="4781" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -181,13 +165,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/login_pages/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/home_pages/_sidebar.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/home_pages/_sidebar_search.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/home_pages/_messagebox.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/metly/XmppOnMethods.js" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js" />
-        <option value="$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/models/message_archive.rb" />
@@ -195,7 +172,14 @@
         <option value="$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js" />
         <option value="$PROJECT_DIR$/app/helpers/xmpp_helper.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/metly/message_box.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/login_pages/_header.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/login_pages_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/home_pages/_chatbox.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/jquery/jquery.cssemoticons.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
       </list>
     </option>
@@ -607,6 +591,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="users" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="metly_devise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="metly" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -877,16 +883,16 @@
     <property name="JdbcConsole.Connection.Autocommit" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="recentsLimit" value="5" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="324" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="327" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="126" />
     <property name="JdbcConsole.ResultInNewTab" value="true" />
     <property name="RakeTaksPopup.undocumentedIncluded" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="541" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1058" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="324" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="322" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="544" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1071" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="328" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="325" />
     <property name="Database.TableEditor.Splitter" value="0.90000015" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
@@ -1339,15 +1345,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1602" height="877" extended-state="6" />
+    <frame x="-1" y="24" width="1602" height="877" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31855956" sideWeight="0.9986702" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3172691" sideWeight="0.9986702" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6188579" sideWeight="0.68139225" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18339768" sideWeight="0.6733601" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18339768" sideWeight="0.6827309" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25896415" sideWeight="0.32320443" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3266399" sideWeight="0.5006435" order="7" side_tool="true" content_ui="tabs" />
@@ -1419,108 +1425,116 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppOnMethods.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="602" selection-end="602" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120718184513_create_user_details.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="232" selection-end="252" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120715102036_devise_create_users.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="20" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="28" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/home_pages_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="43" selection-start="961" selection-end="961" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/message_archive.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="127" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="30" selection-start="7660" selection-end="7660" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="2" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppCore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="9" selection-start="2542" selection-end="2542" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/bootstrap/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2570" column="1" selection-start="56972" selection-end="56986" vertical-scroll-proportion="0.6327212" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="28" selection-start="3887" selection-end="3887" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/anonymous_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="18" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/xmpp_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="16" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/metly/message_box.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="21" selection-start="935" selection-end="935" vertical-scroll-proportion="-6.1355934">
+        <state line="43" column="28" selection-start="759" selection-end="759" vertical-scroll-proportion="-2.322034">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/users/sessions_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/users/omniauth_callbacks_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="19" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/login_pages/_header.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="64" selection-start="270" selection-end="281" vertical-scroll-proportion="-3.75">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/login_pages_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="23" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="-0.625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/metly/login_pages.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="1" selection-start="608" selection-end="608" vertical-scroll-proportion="0.0">
+        <state line="42" column="0" selection-start="586" selection-end="605" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/home_pages/_chatbox.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="139" selection-start="159" selection-end="168" vertical-scroll-proportion="-1.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="25" selection-start="9852" selection-end="9852" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppActivity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="62" selection-start="2822" selection-end="2851" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jquery/jquery.cssemoticons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="26" selection-start="4781" selection-end="4781" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/Notification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/MessageBox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="186" column="36" selection-start="7364" selection-end="7364" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/metly/XmppUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="928" selection-end="928" vertical-scroll-proportion="-2.166405">
+        <state line="88" column="16" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.46120688">
           <folding />
         </state>
       </provider>

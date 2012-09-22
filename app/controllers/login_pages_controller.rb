@@ -2,6 +2,7 @@ class LoginPagesController < ApplicationController
 
 
   def login
+    @onlineUsers = 2000
   end
 
   def help

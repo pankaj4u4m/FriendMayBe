@@ -3,7 +3,7 @@
 .loginbtn {
   position: absolute;
   left: 36.5%;
-  top: 150px;
+  top: 350px;
   color: #808080;
   min-width: 350px;
 }
@@ -24,21 +24,21 @@
 }
 
 .login-page {
-  min-height: 500px;
+  min-height: 600px;
 }
 
 .login-description {
   color: #808080;
-  font-size: 20px;
   left: 45%;
   max-width: 60%;
   position: absolute;
   top: 50px;
+  font-size: 20px;
 }
 .login-privacy {
   position: absolute;
   left: 10%;
-  bottom: 100px;
+  top: 500px;
   max-width: 80%;
-  color: #808080;
+  //color: #808080;
 }
