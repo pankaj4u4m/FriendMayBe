@@ -9,11 +9,11 @@ var xmppUtils = $.getXmppUtils();
 
 messageBox.Constructor(notification, xmppActivity, xmppCore, xmppUtils);
 
-notification.Constructor(messageBox, xmppCore);
+notification.Constructor(messageBox, xmppCore, xmppUtils);
 
 xmppActivity.Constructor(messageBox, notification, userLocation, xmppCore, xmppOnMethods, xmppUtils);
 
-xmppCore.Constructor(xmppOnMethods, xmppUtils);
+xmppCore.Constructor(xmppOnMethods, xmppUtils, xmppActivity);
 
 xmppOnMethods.Constructor(messageBox, notification, xmppCore, xmppUtils);
 
@@ -39,6 +39,16 @@ $(document).ready(function () {
       });
     }
   });
+  $(window).bind('resize',function(){
+    var w = $('.loginbtn').width();
+    if(w) {
+      var mid = ($('.loginbtn').parent().width() - w)/2;
+      $('.loginbtn').css('left', mid);
+      $('.login-description').css('left', mid);
+    }
+
+  });
+  $(window).trigger('resize');
 //
 //  $('#searchTerm').keypress(function(e){
 //    var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);

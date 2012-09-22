@@ -89,62 +89,17 @@ footer a {
   padding: 10px;
 }
 
-/* home pages */
-.loginbtn {
-  position: absolute;
-  left: 36.5%;
-  top: 200px;
-  color: #808080;
-  min-width: 350px;
-}
-
-.loginbox-fixed {
-  border-color: #D5D5D5;
-  border-radius: 0 0 0 0;
-  border-width: 0 0 1px;
-  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
-  left: 10px;
-  position: fixed;
-  right: 10px;
-  top: 50px;
-  bottom: 10px;
-  z-index: 1020;
-  overflow: hidden;
-  background-color: white;
-}
-
-.login-page {
-  min-height: 300px;
-}
-
-.login-description {
-  position: absolute;
-  left: 20%;
-  top: 100px;;
-  max-width: 60%;
-  font-size: 15px;
-  color: #808080;
-}
-.login-privacy {
-  position: absolute;
-  left: 20%;
-  bottom: 100px;
-  max-width: 60%;
-  font-size: 14px;
-  color: #808080;
-}
-
 /* main pages */
 
-#home-content {
-  position: absolute;
-  top: 3em;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border: #89A5C7 dashed thin;
-  margin-right: 16em;
-}
+//#home-content {
+//  position: absolute;
+//  top: 3em;
+//  bottom: 0;
+//  right: 0;
+//  left: 0;
+//  border: #89A5C7 dashed thin;
+//  margin-right: 16em;
+//}
 
 //.sidebar-search-fixed > .input-append input[type="text"]:focus {
 //  box-shadow: none;

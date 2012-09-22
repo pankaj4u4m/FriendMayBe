@@ -53,6 +53,7 @@
   //height: 100%;
   //width: 100%;
   overflow: visible;
+  padding-left: 10px;
 }
 
 .message{
@@ -88,10 +89,23 @@
   z-index: 1020;
   width: 219px;
 }
+.sidebar-fixed header {
+  text-align: center;
+  top: 0px;
+  position: absolute;
+  height: 40px;
+  border-bottom: 1px solid #D7D7D7;
+  width: 100%;
+}
+.sidebar-header {
+  padding: 10px;
+  color: #3366CC;
+}
 .sidebar-contacts{
   bottom: 30px;
   position: absolute;
-  top: 0;
+  top: 41px;
+  background-color: white;
 }
 
 .sidebar-search-fixed{
@@ -100,9 +114,10 @@
   bottom: 0;
   z-index: 1025;
   width: 100%;
-  border-top: 1px solid #D7D7D7;
 }
-
+#remembereds .nav {
+  border: 0;
+}
 #sidebar{
   overflow: hidden;
   height: 100%;

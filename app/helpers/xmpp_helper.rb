@@ -16,18 +16,20 @@ module XmppHelper
   @my_jid = nil
   @my_pass = nil
   @user = nil;
+  @resource = nil;
   #@closeCounter = 0
 
   def xmppLogin(jid = nil, pass = nil, user = nil)
     @domain = "localhost"
+    @resource = SecureRandom.uuid;
     if(jid.nil?)
       @my_jid = nil
-      @client = JabberHTTPBindingClient.new("#{@domain}")
+      @client = JabberHTTPBindingClient.new("#{@domain}/#{@resource}")
       @client.connect("http://#{@domain}/bosh", "#{@domain}", 5222)
       @client.auth_anonymous_sasl
-      @client.close;
+      @client.close
     else
-      @my_jid = JID::new("#{jid}@#{@domain}")
+      @my_jid = JID::new("#{jid}@#{@domain}/#{@resource}")
       @my_pass = pass
       @user = user;
       Rails.logger.info "my_jid:#{@my_jid}"

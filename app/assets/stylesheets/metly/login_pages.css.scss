@@ -1,0 +1,44 @@
+
+/* home pages */
+.loginbtn {
+  position: absolute;
+  left: 36.5%;
+  top: 150px;
+  color: #808080;
+  min-width: 350px;
+}
+.loginbtn.span3 {
+  margin-left: 0;
+}
+
+.loginbox-fixed {
+  border: 1px solid #D7D7D7;
+  left: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  bottom: 10px;
+
+  overflow: hidden;
+  background-color: white;
+}
+
+.login-page {
+  min-height: 500px;
+}
+
+.login-description {
+  color: #808080;
+  font-size: 20px;
+  left: 45%;
+  max-width: 60%;
+  position: absolute;
+  top: 50px;
+}
+.login-privacy {
+  position: absolute;
+  left: 10%;
+  bottom: 100px;
+  max-width: 80%;
+  color: #808080;
+}

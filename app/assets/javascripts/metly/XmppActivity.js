@@ -13,6 +13,9 @@
 
     var self = this;
 
+    var isAnonymous = false;
+    var toSend = null;
+
     this.Constructor = function (messageBox, notification, userLocation, xmppCore, xmppOnMethods, xmppUtils) {
       _messageBox = messageBox;
       _notification = notification;
@@ -23,9 +26,6 @@
     };
 
     var sendMessage = function (message) {
-      if (!_xmppCore.isAlive()) {
-        _xmppCore.getConnection().reset();
-      }
       var currentUser = _xmppCore.getCurrentUser();
       if (!currentUser.jid) {
         currentUser.node = Constants.SYSTEM_NODE;
@@ -36,13 +36,28 @@
         _messageBox.eventMessage(currentUser.id, "You haven't selected any user. Connection to stranger...");
       }
       var msg = $msg({to:currentUser.jid, type:"chat"}).c("body").t(message);
-      _xmppCore.getConnection().send(msg);
+      try{
+        _xmppCore.getConnection().send(msg);
+      } catch (e){
+        try {
+          _xmppCore.getConnection().reset();
+          _xmppCore.getConnection().send(msg);
+        } catch(e){
+          toSend = msg;
+          if(isAnonymous){
+            self.anonymous();
+          } else {
+            self.xmppStart();
+          }
+        }
+      }
     };
 
     var attach = function (data) {
       console.log('Prebind succeeded. Attaching...');
 
       var me = _xmppCore.getMy();
+      me.isAnonymous = isAnonymous;
       me.node = data['jid']['node'];
       me.domain = data['jid']['domain'];
       me.resource = data['jid']['resource'];
@@ -54,10 +69,26 @@
       _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
       _xmppCore.getConnection().attach(me.jid, data['http_sid'],
           parseInt(data['http_rid'], 10) + 2,
-          _xmppOnMethods.onConnect);
+          function(status){
+            if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
+              if(toSend){
+              _xmppCore.getConnection().send(toSend);
+              toSend = null;
+              }
+            }
+            return _xmppOnMethods.onConnect(status)
+          });
     };
 
-    var _initiateConnection = function () {
+    var errorLogin = function(){
+      $('#remembereds ul .error').remove();
+      $('#remembereds ul').append("<li class='error'>Failed to connect</li>");
+      if(_xmppCore.getCurrentUser().id){
+        _messageBox.eventMessage(_xmppCore.getCurrentUser().id, "Failed to connect to server. Messae not sent!");
+      }
+    };
+
+    var _initiateConnection = function (prebind) {
       var token = $('meta[name=csrf-token]').attr('content');
       var param = $('meta[name=csrf-param]').attr('content');
       var data = {};
@@ -65,7 +96,7 @@
 
       $.ajax({
         type      :'post',
-        url       :Constants.PRE_BINDING,
+        url       :prebind,
         dataType  :'json',
         tryCount  :0,
         retryLimit:3,
@@ -81,12 +112,7 @@
             }
             return;
           }
-          if (xhr.status == 404) {
-            //handle error
-          } else {
-            //handle error
-          }
-
+          errorLogin();
         }
       })
     };
@@ -98,7 +124,11 @@
     };
 
     this.xmppStart = function () {
-      _initiateConnection();
+      var prebind = Constants.PRE_BINDING;
+      if(isAnonymous){
+        prebind = Constants.PRE_BINDING_ANONYMOUS;
+      }
+      _initiateConnection(prebind);
       //_connect();
     };
 
@@ -135,50 +165,22 @@
 //    };
 
     this.strangerChat = function () {
-      console.log(_xmppCore.getCurrentUser().status);
+//      console.log(_xmppCore.getCurrentUser().status);
       var status = _xmppCore.getCurrentUser().status;
       if (status == null || status == ChatButtonStatus.HANGOUT) {
         _messageBox.changeChatStatusChanged(ChatButtonStatus.CONNECTING);
         self.xmppStranger();
       } else if (status == ChatButtonStatus.CONNECTING || status == ChatButtonStatus.DISCONNECT) {
-       _messageBox.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
+        _messageBox.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
       } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
         _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
         self.xmppStrangerDisconnect();
       }
     };
-    this.anonymous = function() {
-        var token = $('meta[name=csrf-token]').attr('content');
-        var param = $('meta[name=csrf-param]').attr('content');
-        var data = {};
-        data[param] = token;
-
-        $.ajax({
-          type      :'post',
-          url       :Constants.PRE_BINDING_ANONYMOUS,
-          dataType  :'json',
-          tryCount  :0,
-          retryLimit:3,
-          success   :attach,
-          data      :data,
-          error     :function (xhr, textStatus, errorThrown) {
-            if (textStatus == 'timeout') {
-              this.tryCount++;
-              if (this.tryCount <= this.retryLimit) {
-                //try again
-                $.ajax(this);
-                return;
-              }
-              return;
-            }
-            if (xhr.status == 404) {
-              //handle error
-            } else {
-              //handle error
-            }
-
-          }
-        })
+    this.anonymous = function () {
+      isAnonymous = true;
+      _xmppCore.getMy().isAnonymous = true;
+      self.xmppStart();
     };
   }
 

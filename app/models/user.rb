@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
 
   def self.save_user(auth)
     user = User.create(
+        name:auth.info.name,
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         xmpp: Digest::MD5.hexdigest(auth.info.email)

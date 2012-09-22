@@ -3,15 +3,17 @@
   function Notifications() {
     var _messageBox = null;
     var _xmppCore = null;
+    var _xmppUtils = null;
 
     var self = this;
     var inRequest = false;
 
     var count = 0;
 
-    this.Constructor = function (messageBox, xmppCore) {
+    this.Constructor = function (messageBox, xmppCore, xmppUtils) {
       _messageBox = messageBox;
       _xmppCore = xmppCore;
+      _xmppUtils = xmppUtils;
     };
     this.init = function () {
       $(window).bind('resize', function () {
@@ -30,6 +32,8 @@
         _messageBox.newMessageBox.call(this, Constants.NOTIFICATION);
         $('#notification-btn').parent().removeClass('open');
       });
+      _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + Constants.NOTIFICATION + "'></a>"), Constants.NOTIFICATION);
+
     };
     var menuResize = function () {
       var mn = $(document).height() - 180;
@@ -96,7 +100,7 @@
       var element = $("<div class='notification-item-" + style + " " + notread + " '></div>");
       element.append("<div class='notification-text-buddy" + " " + _xmppCore.getRosterStatus(message.sender) + "'> </div>");
 
-      var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" + _xmppCore.getRosterName(message.sender) + " </a>");
+      var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" +  message.name + " </a>");
       anchor.click(function () {
         var currentUser = _xmppCore.getCurrentUser();
         currentUser.name = _xmppCore.getRosterName(message.sender);
@@ -109,7 +113,10 @@
       });
       element.append(anchor);
 
-      element.append("<div class=' notification-text-" + style + " " + message.type + " '>" + message.body + " </div>");
+      if(message.type==MessageType.SENT){
+        element.append("<div class='icon-share-alt'> </div>");
+      }
+      element.append("<div class=' notification-text-" + style + "  '>" + message.body + " </div>");
       li.append(element);
       return li;
     };
@@ -119,7 +126,7 @@
       var rec = data['requests'] || [];
       if (msg.length + rec.length > 0) {
         $(msg).each(function () {
-          var pair = _xmppCore.addReplaceMessages(this.id, this.body, this.sender, this.receiver);
+          var pair = _xmppCore.addReplaceMessages(this.id, this.body, this.sender, this.receiver, this.sender_name, this.receiver_name);
           if (pair.action == Action.REPLACE) {
             $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
             $('#notification .notification-contents > .' + pair.item.id).remove();
@@ -140,6 +147,8 @@
           menuNotifications(menu, false);
           pageNotifications(page, false);
         });
+      } else {
+        errorNoifications("No notifications");
       }
       waitCompleteMethod();
       inRequest = false;
@@ -194,11 +203,12 @@
 
       });
     };
-    var errorNoifications = function () {
+    var errorNoifications = function (error) {
+      error = error || "something wrong happend";
       waitCompleteMethod();
       inRequest = false;
-      menuNotifications('<li class="error-notification"> something wrong happend</li>', false);
-      pageNotifications('<li class="error-notification"> something wrong happend</li>', false);
+      menuNotifications('<li class="error-notification"> ' + error + '</li>', false);
+      pageNotifications('<li class="error-notification"> ' + error + '</li>', false);
     };
 
     var waitCompleteMethod = function () {
@@ -229,7 +239,7 @@
     };
 
     this.updateNotificationUserStatusName = function (id, name, status) {
-      if(!id){
+      if(!id || !name){
         return;
       }
 //      $('.' + id + '.request').remove();
@@ -242,14 +252,15 @@
       $('.' + id + ' .notification-text-user-menu').text(name);
     };
     this.attachOneMessageNotification = function (id, body, sender, receiver) {
-      if(!id){
+      if(!id || !sender || _xmppUtils.isCommand(body)){
         return;
       }
-      var pair = _xmppCore.addReplaceMessages(id, body, sender, receiver);
+      var pair = _xmppCore.addReplaceMessages(id, body, sender, receiver, _xmppCore.getRosterName(sender), _xmppCore.getRosterName(receiver));
       if (pair.action == Action.REPLACE) {
         $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
         $('#notification .notification-contents > .' + pair.item.id).remove();
       }
+      waitCompleteMethod();
       var menu = getMessageNotification(pair.item, false, true);
       var page = getMessageNotification(pair.item, false, false);
       menuNotifications(menu, true);
@@ -267,6 +278,7 @@
         $('.notification-list-menu .notification-contents > .' + pair.item.id).remove();
         $('#notification .notification-contents > .' + pair.item.id).remove();
       }
+      waitCompleteMethod();
       var menu = getRequestNotification(pair.item, false, true);
       var page = getRequestNotification(pair.item, false, false);
       menuNotifications(menu, true);
@@ -294,7 +306,11 @@
         $('div.optionbar-fixed a ').click(function (e) {
           e.preventDefault();
         });
-        populateNotifications();
+        if(!_xmppCore.getMy().isAnonymous) {
+          populateNotifications();
+        } else {
+          errorNoifications("No notifications");
+        }
       }
 
     };

@@ -12,8 +12,8 @@
  
  /* Basic styles for emoticons */
 span.css-emoticon {
-  font-family: "Trebuchet MS"; /* seems to give the best and most consistent emoticon appearance */
-  font-size: 1.0em;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; /* seems to give the best and most consistent emoticon appearance */
+  font-size: 0.94em;
   font-weight: bold;
   color: #000000;
   display: inline-block;

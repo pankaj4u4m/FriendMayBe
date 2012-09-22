@@ -7,8 +7,6 @@ MetlyDevise::Application.routes.draw do
 
   authenticated :user do
     root to: "home_pages#home"
-    match "/remembereds", to: "remembers#remembereds"
-    match "/rememberers", to: "remembers#rememberers"
     post "/login", to: "home_pages#login"
     post "/location" , to: "home_pages#location"
     post "/notification", to: "home_pages#notification"
@@ -20,8 +18,11 @@ MetlyDevise::Application.routes.draw do
   get "/feedback", to: "login_pages#feedback"
   get "/privacy", to: "login_pages#privacy"
   get "/termofusage", to: "login_pages#termofusage"
-  get "/anonymous", to: "login_pages#anonymous"
-  post "/anonymouslogin", to: "login_pages#anonymouslogin"
+
+  get "/anonymous", to: "anonymous#anonymous"
+  post "/anonymouslogin", to: "anonymous#anonymouslogin"
+  post "/location" , to: "anonymous#location"
+  post "/notification", to: "anonymous#notification"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

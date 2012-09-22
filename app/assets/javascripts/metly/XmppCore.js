@@ -45,6 +45,7 @@
      roster:"",
      requests:"",
      messages:"",
+     isAnonymoyus:boolean
      };
      * @type {Object}
      */
@@ -57,11 +58,13 @@
     var alive = false;
     var _xmppUtils = null;
     var _xmppOnMethods = null;
+    var _xmppActivity = null;
     var self = this;
 
-    this.Constructor = function (xmppOnMethods, xmppUtils) {
+    this.Constructor = function (xmppOnMethods, xmppUtils, xmppActivity) {
       _xmppOnMethods = xmppOnMethods;
       _xmppUtils = xmppUtils;
+      _xmppActivity = xmppActivity;
     };
 
     this.getCurrentUser = function () {
@@ -130,7 +133,7 @@
       return minMessageId;
     };
 
-    this.addReplaceMessages = function (id, body, sender, receiver) {
+    this.addReplaceMessages = function (id, body, sender, receiver, sender_name, receiver_name) {
       var type = MessageType.RECEIVED;
       var action = Action.ADD;
       if(sender.indexOf('@') <= 0){
@@ -142,6 +145,7 @@
           receiver = receiver + '@' + my.domain;
         }
         sender = receiver;
+        sender_name = receiver_name;
         jidId = _xmppUtils.jidToId(sender);
         type = MessageType.SENT;
       }
@@ -156,7 +160,8 @@
         id    :jidId,
         body  :body,
         sender:sender,
-        type  :type
+        type  :type,
+        name  : sender_name
       };
       messages.push(item);
       if (id < minMessageId) {

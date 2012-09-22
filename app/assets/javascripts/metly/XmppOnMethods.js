@@ -19,14 +19,19 @@
       _xmppCore.setAlive(false);
       if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
         console.debug('Strophe is attached.');
-        _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#"+ Constants.NOTIFICATION +"'></a>"), Constants.NOTIFICATION);
 
         _xmppCore.getConnection().addHandler(self.onMessage, null, 'message', null);
-        _xmppCore.getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
         _xmppCore.getConnection().send($pres().tree());
         _xmppCore.getMy().roster = _xmppCore.getConnection().roster;
-        _xmppCore.getMy().roster.registerCallback(self.onPresence);
-        _xmppCore.getMy().roster.get(self.onRosterReceive);
+
+        if (!_xmppCore.getMy().isAnonymous) {
+          _xmppCore.getConnection().addHandler(self.onSubscribe, null, 'presence', 'subscribe', null, null);
+          _xmppCore.getMy().roster.registerCallback(self.onPresence);
+          _xmppCore.getMy().roster.get(self.onRosterReceive);
+        } else {
+          $('#remembereds ul').empty();
+          $('#remembereds ul').append("<li>No contacts for anonymous user</li>")
+        }
         _xmppCore.setAlive(true);
         return true;
       }
@@ -35,9 +40,9 @@
     this.onSubscribe = function (stanza) {
       console.log(stanza);
       var from = $(stanza).attr('from');
-      _xmppCore.getConnection().vcard.get(function(iq){
+      _xmppCore.getConnection().vcard.get(function (iq) {
         var name = $(iq).find('NICKNAME').text() || from;
-        var roster  =_xmppCore.getMy().roster.findItem(from);
+        var roster = _xmppCore.getMy().roster.findItem(from);
         roster.name = name;
         _xmppUtils.updateContact($('#remembereds li'), roster);
         _notification.attachOneRequestNotification(from, name);
@@ -45,7 +50,7 @@
 
       return true;
     };
-    var error = function(iq){
+    var error = function (iq) {
       console.log(iq);
     };
     this.onMessage = function (message) {
@@ -61,7 +66,6 @@
 //          console.log(message);
       var composing = $(message).find('composing');
       if (composing.length > 0) {
-//        _chatShortEvent(id, Strophe.getNodeFromJid(jid) + " is typing...");
         return true;
       }
 
@@ -104,8 +108,6 @@
     };
 
     this.onPresence = function (list, item) {
-      console.log(list);
-      console.log(item);
       if (item) {
         var contacts = $('#remembereds li');
         if (contacts.length > 0) {
@@ -120,7 +122,7 @@
       }
       $('.remember').removeClass('remove').addClass('add').text('Remember')
       $('.buddy-status').removeClass('online').removeClass('away').removeClass('offline').addClass('offline');
-      for(var i =0 ; i< list.length; ++i){
+      for (var i = 0; i < list.length; ++i) {
         _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(list[i].jid), list[i].name
             || list[i].jid, _xmppUtils.rosterStatus(list[i].resources));
         _messageBox.chatOptions(_xmppUtils.jidToId(list[i].jid), _xmppUtils.rosterStatus(list[i].resources), true);
@@ -129,7 +131,7 @@
     };
     this.onRosterReceive = function (list) {
       $('.sidebar-fixed').addClass('white');
-      console.log(list);
+//      console.log(list);
       list.sort(function (a, b) {
         var r = _xmppUtils.presenceValue(_xmppUtils.rosterStatus(b.resources)) - _xmppUtils.presenceValue(_xmppUtils.rosterStatus(a.resources));
         if (r == 0) {
@@ -147,11 +149,11 @@
         var jid = this.jid;
         var roster = this;
         //TODO check it in system side
-        if((name == null || name == Constants.SYSTEM_NAME || name == jid )&& roster.subscription == 'both'){
-          _xmppCore.getConnection().vcard.get(function(iq){
+        if ((name == null || name == Constants.SYSTEM_NAME || name == jid ) && roster.subscription == 'both') {
+          _xmppCore.getConnection().vcard.get(function (iq) {
             roster.name = $(iq).find('NICKNAME').text() || jid;
-            _xmppCore.getMy().roster.update(jid, roster.name, [], function(){
-            _xmppUtils.updateContact($('#remembereds li'), roster);
+            _xmppCore.getMy().roster.update(jid, roster.name, [], function () {
+              _xmppUtils.updateContact($('#remembereds li'), roster);
             });
           }, jid, error);
         } else {
@@ -173,6 +175,7 @@
 
       self.onRosterReceive(_xmppCore.getMy().roster.items);
       _messageBox.eventMessage(_xmppCore.getCurrentUser().node, "Remember request Sent!");
+
     };
     this.contactEventBind = function (element) {
       $(element).click(function (e) {
