@@ -32,6 +32,10 @@
         _messageBox.newMessageBox.call(this, Constants.NOTIFICATION);
         $('#notification-btn').parent().removeClass('open');
       });
+      $('#modal-yes').click(function(e){
+        e.preventDefault();
+        _messageBox.newMessageBox.call(this, Constants.NOTIFICATION)
+      });
       _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + Constants.NOTIFICATION + "'></a>"), Constants.NOTIFICATION);
 
     };
@@ -290,6 +294,7 @@
     };
 
     this.notificationBox = function (selector) {
+
       if(!selector){
         return;
       }
@@ -302,7 +307,7 @@
         chatbar.append("<div class='notification-scroll-page'><div class='notification-contents'></div></div>");
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
-        $('#message-scroll').removeClass('white');
+        $('#message-scroll').addClass('white');
         $('div.optionbar-fixed a ').click(function (e) {
           e.preventDefault();
         });

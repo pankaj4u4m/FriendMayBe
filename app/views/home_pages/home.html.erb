@@ -2,25 +2,26 @@
 <%= render 'home_pages/header' %>
 <!-- header end -->
 <script>
-  $.getXmppActivity().xmppStart();
+    $.getXmppActivity().xmppStart();
 </script>
 <!-- container start -->
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div  class="span3" >
-      <%= render 'home_pages/sidebar' %>
-    </div>
-    <div class="span9" >
-      <%= render 'home_pages/messagebox' %>
+<div class="home-fixed">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render 'home_pages/sidebar' %>
+      </div>
+      <div class="span9">
+        <%= render 'home_pages/messagebox' %>
+      </div>
     </div>
   </div>
+  <!-- container end -->
+  <!-- footer start -->
+  <div class="navbar-fixed-bottom">
+    <%= render 'home_pages/chatbox' %>
+  </div>
 </div>
-<!-- container end -->
-<!-- footer start -->
-<div class="navbar-fixed-bottom">
-  <%= render 'home_pages/chatbox' %>
-</div>
-
 <!-- footer end -->
 <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
   <div class="modal-header">
@@ -29,6 +30,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
-    <a id = 'modal-yes' class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-toggle='tab' href='#notification'>Yes</a>
+    <a id='modal-yes' class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-toggle='tab' href='#notification'>Yes</a>
   </div>
 </div>

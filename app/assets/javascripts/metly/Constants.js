@@ -25,3 +25,7 @@ Action = {
   ADD:0,
   REPLACE:1
 };
+Commands = {
+  CONNECT: '\\c',
+  DISCONNECT: '\\d'
+};

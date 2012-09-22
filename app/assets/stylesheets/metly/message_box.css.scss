@@ -1,4 +1,11 @@
 /* chat message content */
+.home-fixed {
+  position: fixed;
+  top: 50px;
+  bottom: 102px;
+  left: 0px;
+  right: 0px;
+}
 .optionbar-fixed{
   background-color: #F8F8F8;;
   border-bottom: 1px solid #D7D7D7;
@@ -28,6 +35,7 @@
 .tab-pane{
   height:100%;
   width: 100%;
+  padding-left: 10px;
 }
 .messagebar-fixed{
   border-color: #D5D5D5;
@@ -37,15 +45,14 @@
   //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 230px;
   right: 0;
-  position: fixed;
-  top: 50px;
-  bottom: 105px;
-  z-index: 50;
-  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  //background-color: #ffffff;
 }
 .messagebar-box {
   position: absolute;
-  top: 43px;
+  top: 42px;
   bottom: 0;
   width: 100%;
 }
@@ -53,7 +60,6 @@
   //height: 100%;
   //width: 100%;
   overflow: visible;
-  padding-left: 10px;
 }
 
 .message{
@@ -82,11 +88,10 @@
   border: 1px solid #D7D7D7;
   //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 0;
-  position: fixed;
+  position: absolute;
   right: 0;
-  top: 50px;
-  bottom: 105px;
-  z-index: 1020;
+  top: 0;
+  bottom: 0;
   width: 219px;
 }
 .sidebar-fixed header {
@@ -104,7 +109,7 @@
 .sidebar-contacts{
   bottom: 30px;
   position: absolute;
-  top: 41px;
+  top: 42px;
   background-color: white;
 }
 
@@ -114,6 +119,7 @@
   bottom: 0;
   z-index: 1025;
   width: 100%;
+  border-top: 1px solid #D7D7D7;
 }
 #remembereds .nav {
   border: 0;

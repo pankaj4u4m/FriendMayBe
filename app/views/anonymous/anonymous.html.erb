@@ -2,16 +2,18 @@
 <%= render 'anonymous/header' %>
 <!-- header end -->
 <script>
-  $.getXmppActivity().anonymous();
+    $.getXmppActivity().anonymous();
 </script>
 <!-- container start -->
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div  class="span3" >
-      <%= render 'home_pages/sidebar' %>
-    </div>
-    <div class="span9" >
-      <%= render 'home_pages/messagebox' %>
+<div class="home-fixed">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render 'home_pages/sidebar' %>
+      </div>
+      <div class="span9">
+        <%= render 'home_pages/messagebox' %>
+      </div>
     </div>
   </div>
 </div>
@@ -29,6 +31,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
-    <a id = 'modal-yes' class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-toggle='tab' href='#notification'>Yes</a>
+    <a id='modal-yes' class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-toggle='tab' href='#notification'>Yes</a>
   </div>
 </div>

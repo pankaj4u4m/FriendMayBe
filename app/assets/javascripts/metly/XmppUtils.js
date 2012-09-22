@@ -9,8 +9,8 @@
   function XmppUtils(){
     var self = this;
     this.isCommand = function (msg) {
-      if (msg == '\\c') return 'Connecting to a Stranger..';
-      if (msg == '\\d') return 'Disconnected!';
+      if (msg == Commands.CONNECT) return 'Connecting to a Stranger..';
+      if (msg == Commands.DISCONNECT) return 'Disconnected!';
       return false;
     };
     this.processMessage = function(message){

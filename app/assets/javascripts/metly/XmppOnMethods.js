@@ -96,6 +96,9 @@
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
           }
+          if (body.match(new RegExp("User has Disconnected"))){
+            _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+          }
         } else {
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);

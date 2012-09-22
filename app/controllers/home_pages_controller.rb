@@ -5,6 +5,7 @@ class HomePagesController < ApplicationController
 
   def home
     @user = current_user
+    @onlineUsers = 100
   end
 
   def login

@@ -11,6 +11,7 @@
     var dateTime = new Date();
     var typingTime = 0;
     var isComposing = false;
+    var times = 0;
 
     this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils) {
       _notification = notification;
@@ -19,9 +20,6 @@
       _xmppUtils = xmppUtils;
     };
     this.init = function(){
-      $('#modal-yes').click(function(){
-         self.newMessageBox.call(this, Constants.NOTIFICATION)
-      });
       $("#message-scroll").setScrollPane({
         scrollToY       :$('#message-scroll').data('jsp') == null ? 10000 : $('#message-scroll').data('jsp').getContentPositionY(),
         width           :13,
@@ -35,7 +33,12 @@
       });
       $("#chattypebox").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);
-        sendComposeMessage();
+        times+=1;
+        typingTime = dateTime.getTime();
+        if(times > 5){
+          sendComposeMessage();
+          times = 0;
+        }
         if (code == 13) { //Enter keycode
           var msg = $(this).val().trim();
           if (msg && msg.length) {
@@ -60,9 +63,11 @@
         $('#' + id + ' .chat-chats').append(
             "<div class='chat-temp-event'>-" + _xmppCore.getRosterName(jid) + " is Typing...</div>");
         $('#' + id).trigger("scrollResize");
-//        setTimeout(function () {
-//          $('#' + id + ' .chat-chats .chat-temp-event').remove();
-//        }, 10000)
+        setTimeout(function () {
+          $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function() {
+            $(this).remove();
+          });
+        }, 6000);
       });
       $(document).bind('paused.chatstates', function(e, jid){
         var id = _xmppUtils.jidToId(jid);
@@ -72,9 +77,9 @@
         $('#' + id).trigger("scrollResize");
         setTimeout(function () {
           $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function() {
-            this.remove();
+            $(this).remove();
           });
-        }, 5000)
+        }, 3000);
       })
     };
     var sendComposeMessage = function(){
@@ -89,7 +94,6 @@
           }
         }, 5000);
       }
-      typingTime = dateTime.getTime();
     };
     var chatBox = function (selector, user, isRemembered) {
       user.id = user.id || Constants.SYSTEM_NODE;
@@ -143,9 +147,15 @@
       if(!messageBoxID){
         return;
       }
-      $('#' + messageBoxID + ' .chat-chats').append(
-          "<div class='chat-event'> -" + message + "</div>");
+      var event = $( "<div class='chat-event'> -" + message + "</div>");
+      $('#' + messageBoxID + ' .chat-chats').append(event);
       $('#' + messageBoxID).trigger("scrollResize");
+//      setTimeout(function(){
+//        $(event).fadeOut('slow', function(){
+//            $(this).remove();
+//        });
+//        $('#' + messageBoxID).trigger("scrollResize");
+//      }, 10000);
     };
 
     this.strangerInlineMessage = function (messageBoxID, name, message) {
@@ -154,6 +164,7 @@
       }
       isComposing = false;
       $('#' + messageBoxID + ' .chat-chats .chat-temp-event').remove();
+      $('#' + messageBoxID + ' .chat-chats .chat-event').remove();
       var chat = $("<div class='chat'></div>");
       var command = _xmppUtils.isCommand(message);
       if (command) {
@@ -204,8 +215,12 @@
         $('#myModal').modal();
       } else {
         if (selector == Constants.NOTIFICATION) {
-          _notification.notificationBox(selector);
+          if(_xmppCore.getCurrentUser().node == Constants.SYSTEM_NODE){
+            _xmppActivity.xmppSendMessage(Commands.DISCONNECT);
+          }
           self.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+          _notification.notificationBox(selector);
+
         } else {
           chatBox(selector, user, isRemembered);
         }

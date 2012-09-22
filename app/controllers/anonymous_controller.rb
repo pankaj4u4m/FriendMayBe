@@ -2,7 +2,7 @@ class AnonymousController < ApplicationController
   include XmppHelper
 
   def anonymous
-
+    @onlineUsers = 200;
   end
 
   def anonymouslogin

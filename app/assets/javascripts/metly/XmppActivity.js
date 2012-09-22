@@ -133,9 +133,9 @@
     };
 
     this.xmppSendMessage = function (msg) {
-      sendMessage(msg);
       _notification.attachOneMessageNotification(Constants.MAX_LONG, msg, _xmppCore.getMy().jid, _xmppCore.getCurrentUser().jid);
       _messageBox.myInlineMessage(_xmppCore.getCurrentUser().id, msg);
+      sendMessage(msg);
     };
 
     this.xmppStranger = function () {
@@ -148,13 +148,8 @@
 
       _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + currentUser.id + "'></a>"),
           currentUser.id, currentUser, false);
-      sendMessage("\\c");
-      _messageBox.myInlineMessage(currentUser.id, "\\c");
-    };
-
-    this.xmppStrangerDisconnect = function () {
-      self.xmppSendMessage("\\d");
-      _xmppCore.setCurrentUser({});
+      _messageBox.myInlineMessage(currentUser.id, Commands.CONNECT);
+      sendMessage(Commands.CONNECT);
     };
 
 //    this.xmppBlockUser = function () {
