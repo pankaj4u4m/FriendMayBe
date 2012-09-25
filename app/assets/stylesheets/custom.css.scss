@@ -218,6 +218,10 @@ footer a {
 .white {
   background-color: #FFF;
 }
+.container-body{
+  top: 100px;
+  position: relative;
+}
 
 .blue-text {
   color: #3366CC;
@@ -225,7 +229,7 @@ footer a {
 
 .input-append .auth-btn {
   margin-left: 5px;
-  font-size: 16px;
+  font-size: 18px;
   min-height: 0;
 }
 

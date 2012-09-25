@@ -11,10 +11,6 @@ class LoginPagesController < ApplicationController
   def contact
   end
 
-  def termofusage
-
-  end
-
   def privacy
 
   end

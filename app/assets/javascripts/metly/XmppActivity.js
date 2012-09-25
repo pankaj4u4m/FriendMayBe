@@ -27,24 +27,17 @@
 
     var sendMessage = function (message) {
       var currentUser = _xmppCore.getCurrentUser();
-      if (!currentUser.jid) {
-        currentUser.node = Constants.SYSTEM_NODE;
-        currentUser.resource = null;
-        currentUser.jid = currentUser.node + '@' + _xmppCore.getMy().domain;
-        currentUser.id = _xmppUtils.jidToId(currentUser.jid);
 
-        _messageBox.eventMessage(currentUser.id, "You haven't selected any user. Connection to stranger...");
-      }
       var msg = $msg({to:currentUser.jid, type:"chat"}).c("body").t(message);
-      try{
+      try {
         _xmppCore.getConnection().send(msg);
-      } catch (e){
+      } catch (e) {
         try {
           _xmppCore.getConnection().reset();
           _xmppCore.getConnection().send(msg);
-        } catch(e){
+        } catch (e) {
           toSend = msg;
-          if(isAnonymous){
+          if (isAnonymous) {
             self.anonymous();
           } else {
             self.xmppStart();
@@ -69,21 +62,30 @@
       _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
       _xmppCore.getConnection().attach(me.jid, data['http_sid'],
           parseInt(data['http_rid'], 10) + 2,
-          function(status){
+          function (status) {
             if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
-              if(toSend){
-              _xmppCore.getConnection().send(toSend);
-              toSend = null;
+              if (toSend) {
+                _xmppCore.getConnection().send(toSend);
+                toSend = null;
               }
             }
             return _xmppOnMethods.onConnect(status)
           });
     };
 
-    var errorLogin = function(){
+    var errorLogin = function () {
       $('#remembereds ul .error').remove();
-      $('#remembereds ul').append("<li class='error'>Failed to connect</li>");
-      if(_xmppCore.getCurrentUser().id){
+      var tryAgain = $("<button class='btn-link'>Try again</button>");
+      $(tryAgain).click(function () {
+        $('#remembereds ul .error').remove();
+        self.xmppStart();
+      });
+      var li = $("<li class='error'>Failed to connect </li>").append(tryAgain);
+      $(li).css({'width':$('#sidebar').width(), 'height':$('#sidebar').height(), 'position':'absolute', 'backgroundColor':'#F7F8FA', 'opacity':'0.8'});
+
+
+      $('#remembereds ul').prepend(li);
+      if (_xmppCore.getCurrentUser().id) {
         _messageBox.eventMessage(_xmppCore.getCurrentUser().id, "Failed to connect to server. Messae not sent!");
       }
     };
@@ -95,14 +97,14 @@
       data[param] = token;
 
       $.ajax({
-        type      :'post',
-        url       :prebind,
-        dataType  :'json',
-        tryCount  :0,
+        type:'post',
+        url:prebind,
+        dataType:'json',
+        tryCount:0,
         retryLimit:3,
-        success   :attach,
-        data      :data,
-        error     :function (xhr, textStatus, errorThrown) {
+        success:attach,
+        data:data,
+        error:function (xhr, textStatus, errorThrown) {
           if (textStatus == 'timeout') {
             this.tryCount++;
             if (this.tryCount <= this.retryLimit) {
@@ -125,7 +127,7 @@
 
     this.xmppStart = function () {
       var prebind = Constants.PRE_BINDING;
-      if(isAnonymous){
+      if (isAnonymous) {
         prebind = Constants.PRE_BINDING_ANONYMOUS;
       }
       _initiateConnection(prebind);
@@ -133,9 +135,11 @@
     };
 
     this.xmppSendMessage = function (msg) {
-      _notification.attachOneMessageNotification(Constants.MAX_LONG, msg, _xmppCore.getMy().jid, _xmppCore.getCurrentUser().jid);
-      _messageBox.myInlineMessage(_xmppCore.getCurrentUser().id, msg);
-      sendMessage(msg);
+      if (_xmppCore.getCurrentUser().jid) {
+        _notification.attachOneMessageNotification(Constants.MAX_LONG, msg, _xmppCore.getMy().jid, _xmppCore.getCurrentUser().jid);
+        _messageBox.myInlineMessage(_xmppCore.getCurrentUser().id, msg);
+        sendMessage(msg);
+      }
     };
 
     this.xmppStranger = function () {

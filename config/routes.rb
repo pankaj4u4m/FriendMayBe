@@ -17,7 +17,6 @@ MetlyDevise::Application.routes.draw do
   match "/contact", to: "login_pages#contact"
   get "/feedback", to: "login_pages#feedback"
   get "/privacy", to: "login_pages#privacy"
-  get "/termofusage", to: "login_pages#termofusage"
 
   get "/anonymous", to: "anonymous#anonymous"
   post "/anonymouslogin", to: "anonymous#anonymouslogin"
