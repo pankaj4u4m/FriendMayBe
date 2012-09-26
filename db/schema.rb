@@ -54,6 +54,25 @@ ActiveRecord::Schema.define(:version => 20120911025318) do
   add_index "message_archives", ["receiver_id"], :name => "index_message_archives_on_receiver_id"
   add_index "message_archives", ["sender_id"], :name => "index_message_archives_on_sender_id"
 
+  create_table "ofBookmark", :primary_key => "bookmarkID", :force => true do |t|
+    t.string  "bookmarkType",  :limit => 50, :null => false
+    t.string  "bookmarkName",                :null => false
+    t.string  "bookmarkValue",               :null => false
+    t.integer "isGlobal",                    :null => false
+  end
+
+  create_table "ofBookmarkPerm", :id => false, :force => true do |t|
+    t.integer "bookmarkID",   :limit => 8, :null => false
+    t.integer "bookmarkType", :limit => 1, :null => false
+    t.string  "name",                      :null => false
+  end
+
+  create_table "ofBookmarkProp", :id => false, :force => true do |t|
+    t.integer "bookmarkID", :limit => 8,   :null => false
+    t.string  "name",       :limit => 100, :null => false
+    t.text    "propValue",                 :null => false
+  end
+
   create_table "ofExtComponentConf", :primary_key => "subdomain", :force => true do |t|
     t.integer "wildcard",   :limit => 1,  :null => false
     t.string  "secret"
@@ -332,6 +351,33 @@ ActiveRecord::Schema.define(:version => 20120911025318) do
 
   add_index "ofSecurityAuditLog", ["entryStamp"], :name => "ofSecurityAuditLog_tstamp_idx"
   add_index "ofSecurityAuditLog", ["username"], :name => "ofSecurityAuditLog_uname_idx"
+
+  create_table "ofSipPhoneLog", :id => false, :force => true do |t|
+    t.string  "username"
+    t.string  "addressFrom"
+    t.string  "addressTo"
+    t.integer "datetime",    :limit => 8
+    t.integer "duration"
+    t.string  "callType",    :limit => 20
+  end
+
+  create_table "ofSipUser", :primary_key => "username", :force => true do |t|
+    t.string  "sipUsername"
+    t.string  "sipAuthuser"
+    t.string  "sipDisplayName"
+    t.string  "sipPassword"
+    t.string  "sipServer"
+    t.string  "stunServer"
+    t.string  "stunPort"
+    t.integer "useStun"
+    t.string  "voicemail"
+    t.integer "enabled"
+    t.string  "status"
+    t.string  "outboundproxy"
+    t.integer "promptCredentials"
+  end
+
+  add_index "ofSipUser", ["username"], :name => "username", :unique => true
 
   create_table "ofUser", :primary_key => "username", :force => true do |t|
     t.string "plainPassword",     :limit => 32

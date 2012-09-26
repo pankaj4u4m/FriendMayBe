@@ -103,8 +103,8 @@
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
           }
-          _notification.attachOneMessageNotification(Constants.MAX_LONG, body, full_jid, _xmppCore.getMy().jid);
-          _messageBox.strangerInlineMessage(id, _xmppCore.getCurrentUser().name, body);
+          _notification.attachOneMessageNotification(Constants.MAX_LONG, body, jid, _xmppCore.getMy().jid);
+          _messageBox.strangerInlineMessage(id, jid, body);
         }
       }
       return true;
@@ -123,12 +123,12 @@
       } else {
         self.onRosterReceive(list);
       }
-      $('.remember').removeClass('remove').addClass('add').text('Remember')
-      $('.buddy-status').removeClass('online').removeClass('away').removeClass('offline').addClass('offline');
       for (var i = 0; i < list.length; ++i) {
         _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(list[i].jid), list[i].name
             || list[i].jid, _xmppUtils.rosterStatus(list[i].resources));
-        _messageBox.chatOptions(_xmppUtils.jidToId(list[i].jid), _xmppUtils.rosterStatus(list[i].resources), true);
+        if(_xmppUtils.jidToId(list[i].jid) == _xmppCore.getCurrentUser().id) {
+          _messageBox.chatOptions(_xmppUtils.jidToId(list[i].jid), _xmppUtils.rosterStatus(list[i].resources), true);
+        }
       }
       return true;
     };

@@ -80,7 +80,19 @@
             $(this).remove();
           });
         }, 3000);
-      })
+      });
+      $('.optionbar-fixed button.remember').click(function (e) {
+        e.preventDefault();
+        if($(this).hasClass('disabled')){
+          self.eventMessage(_xmppCore.getCurrentUser().node, "Can't remember in anonymous login");
+          return;
+        }
+        if ($(this).hasClass('remove')) {
+          _xmppCore.removeUser();
+        } else if ($(this).hasClass('add')) {
+          _xmppCore.addUser();
+        }
+      });
     };
     var sendComposeMessage = function(){
       if(!isComposing && _xmppCore.getConnection()) {
@@ -99,47 +111,32 @@
       user.id = user.id || Constants.SYSTEM_NODE;
       console.log("parameter node:" + selector + " jid:" + user.jid);
       if ($("#" + selector).length <= 0) {
-
-        $('.optionbar-fixed').empty();
-        $('.optionbar-fixed').append("<div class='buddy-status'> </div>"
-            + "<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'>"
-            + (user.name || Constants.SYSTEM_NAME) + "</a> </div>"
-            + "<div class='" + selector + " buddy-options'>"
-            + "<button class='remember btn btn-primary " + (isRemembered ?  "remove": "add") + " "
-            + (_xmppCore.getMy().isAnonymous? "disabled":"") + "'>" + (isRemembered?"Forget":"Remember") + "</button>"
-            + "</div>");
         var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
-
         chatbar.append("<div class='chat-scroll'><div class='chat-chats'></div></div>");
-
-
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
-        $('#message-scroll').addClass('white');
-        $('.optionbar-fixed button.remember').click(function (e) {
-          e.preventDefault();
-          if($(this).hasClass('disabled')){
-            self.eventMessage(_xmppCore.getCurrentUser().node, "Can't remember in anonymous login");
-            return;
-          }
-          if ($(this).hasClass('remove')) {
-            _xmppCore.removeUser();
-          } else if ($(this).hasClass('add')) {
-            _xmppCore.addUser();
-          }
-        })
       }
+      $('.optionbar-fixed .buddy-name a').attr('href', '#'+selector).html(user.name || Constants.SYSTEM_NAME);
+      $('#message-scroll').addClass('white');
       self.chatOptions(selector, _xmppUtils.presenceValue(user.pres), isRemembered);
     };
     this.chatOptions = function (selector, presence, isRemembered) {
+
+      $('.optionbar-fixed .buddy-options').removeClass('hidden');
+
+      $('.optionbar-fixed .buddy-options .remember').removeClass('remove add disabled')
+          .addClass((_xmppCore.getMy().isAnonymous? "disabled":""));
+
       if (!isRemembered) {
-        $('.' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
+        $('.optionbar-fixed .buddy-status').addClass('hidden');
+        $('.optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
-        _xmppUtils.setPresence($('#' + selector + '  .buddy-status'), presence);
-        if(!Strophe.getNodeFromJid(_xmppCore.getCurrentUser()) == Constants.SYSTEM_NODE){
-          $('.' + selector + '  .remember').removeClass('add').addClass('remove').text('Forget')
+        $('.optionbar-fixed .buddy-status').removeClass('hidden');
+        _xmppUtils.setPresence($('.optionbar-fixed .buddy-status'), presence);
+        if(Strophe.getNodeFromJid(selector) != Constants.SYSTEM_NODE){
+          $('.optionbar-fixed .buddy-options .remember').removeClass('add').addClass('remove').text('Forget')
         } else {
-          $('.' + selector + '  .remember').removeClass('remove').addClass('add').text('Remember')
+          $('.optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
         }
       }
     };
@@ -158,9 +155,12 @@
 //      }, 10000);
     };
 
-    this.strangerInlineMessage = function (messageBoxID, name, message) {
+    this.strangerInlineMessage = function (messageBoxID, jid, message) {
       if(!messageBoxID){
         return;
+      }
+      if($("#" + messageBoxID).length <= 0) {
+        chatBox(messageBoxID, _xmppCore.getMy().roster.findItem(jid), true);
       }
       isComposing = false;
       $('#' + messageBoxID + ' .chat-chats .chat-temp-event').remove();
@@ -170,14 +170,13 @@
       if (command) {
         self.eventMessage(messageBoxID, message);
       } else {
-        var msg = _xmppUtils.processMessage(message);
-        $(chat).append("<p class='chat stranger'><strong class='blue-text'>" + name + ": </strong>" +
-            msg + "</p></div>");
+        $(chat).append("<p class='chat stranger'><strong class='blue-text'>" + _xmppCore.getRosterName(jid).split(" ")[0] + ": </strong>" +
+            message + "</p></div>");
+
         $('#' + messageBoxID + " .chat-chats").append(chat);
         $('#' + messageBoxID).trigger("scrollResize");
-        if(msg == message){
-          $(chat).emoticonize();
-        }
+        $(chat).autoLink({class: 'btn-link'});
+        $(chat).emoticonize();
       }
 
     };
@@ -195,15 +194,15 @@
         }
         self.eventMessage(messageBoxID, command);
       } else {
-        var msg = _xmppUtils.processMessage(message);
+
         $(chat).append("<p class='chat me'><strong>You: </strong>" +
-            msg + "</p></div>")
+            message + "</p></div>")
       }
       $('#' + messageBoxID + " .chat-chats").append(chat);
       $('#' + messageBoxID).trigger("scrollResize");
-      if(msg == message){
-        $(chat).emoticonize();
-      }
+      $(chat).autoLink({class: 'btn-link'});
+      $(chat).emoticonize();
+
     };
 
     this.newMessageBox = function (selector, user, isRemembered) {

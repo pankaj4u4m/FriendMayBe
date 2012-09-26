@@ -107,7 +107,7 @@
       var anchor = $("<a data-toggle='tab' href='#" + message.id + "' class='notification-text-user-" + style + " '>" +  message.name + " </a>");
       anchor.click(function () {
         var currentUser = _xmppCore.getCurrentUser();
-        currentUser.name = _xmppCore.getRosterName(message.sender);
+        currentUser.name = message.name || _xmppCore.getRosterName(message.sender);
         currentUser.jid = message.sender;
         currentUser.node = Strophe.getNodeFromJid(currentUser.jid);
         currentUser.id = message.id;
@@ -300,8 +300,6 @@
       }
       _xmppCore.setCurrentUser({});
       if ($("#" + selector).length <= 0) {
-        $('.optionbar-fixed').empty();
-        $(".optionbar-fixed").append("<div class='buddy-name'><a data-toggle='tab' href='#" + selector + "' style='color: #3366CC;'> Notifications</a></div>");
 
         var chatbar = $("<div id='" + selector + "' class='tab-pane'></div>");
         chatbar.append("<div class='notification-scroll-page'><div class='notification-contents'></div></div>");
@@ -317,7 +315,9 @@
           errorNoifications("No notifications");
         }
       }
-
+      $('.optionbar-fixed .buddy-name a').attr('href', '#'+selector).html("Notifications");
+      $('.optionbar-fixed .buddy-options').addClass('hidden');
+      $('.optionbar-fixed .buddy-status').addClass('hidden');
     };
   }
 

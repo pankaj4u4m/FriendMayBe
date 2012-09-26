@@ -8,6 +8,7 @@
 }
 #notification {
   width: 100%;
+  padding-left: 0;
 }
 .notification-scroll-menu{
   overflow: hidden;
@@ -24,9 +25,7 @@
 .notification-contents {
   width: 100%;
 }
-.notification-list-menu .notification-contents{
-  padding-left: 10px;
-}
+
 .notification-list-menu{
   opacity: 0.95;
   width: 350px;

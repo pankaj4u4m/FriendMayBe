@@ -39,3 +39,14 @@
   max-width: 70%;
   color: #808080;
 }
+
+.input-append .auth-btn {
+  margin-left: 5px;
+  font-size: 17px;
+  min-height: 0;
+  font-weight: bold;
+}
+
+.input-append .auth-btn:last-child {
+  border-radius: 0;
+}

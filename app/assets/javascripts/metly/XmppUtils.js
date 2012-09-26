@@ -13,11 +13,7 @@
       if (msg == Commands.DISCONNECT) return 'Disconnected!';
       return false;
     };
-    this.processMessage = function(message){
-      var hyperlink = new RegExp( '(http://.*\\s?)', 'g' );
-      message = message.replace(hyperlink, "<a href='$1' class='btn-link'>$1</a>");
-      return message;
-    };
+
     this.jidToId = function (jid) {
       var node = Strophe.getNodeFromJid(jid);
       if(node){

@@ -173,7 +173,7 @@
         _messageBox.changeChatStatusChanged(ChatButtonStatus.CONFIRM_DISCONNECT);
       } else if (status == ChatButtonStatus.CONFIRM_DISCONNECT) {
         _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
-        self.xmppStrangerDisconnect();
+        self.xmppSendMessage(Commands.DISCONNECT);
       }
     };
     this.anonymous = function () {
