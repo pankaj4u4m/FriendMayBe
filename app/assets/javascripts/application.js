@@ -11,8 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_directory ./jquery
+//= require_directory ./jquery/plugin
 //= require_directory ./strophe
-// require_directory ./jquery_ui
+//= require_directory ./strophe/plugin
 //= require_directory ./bootstrap
 //= require_directory ./metly
 //= require_self

@@ -1,5 +1,5 @@
 //= require ./Constants
-//= require jquery/scrollbar
+//= require jquery/plugin/scrollbar
 //= require ./XmppUtils
 //=require ./UserLocation
 (function ($) {
@@ -59,7 +59,6 @@
 
       me.jid = me.node + '@' + me.domain + '/' + me.resource;
       me.id = _xmppUtils.jidToId(me.jid);
-      _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
       _xmppCore.getConnection().attach(me.jid, data['http_sid'],
           parseInt(data['http_rid'], 10) + 2,
           function (status) {
@@ -71,6 +70,7 @@
             }
             return _xmppOnMethods.onConnect(status)
           });
+      _xmppCore.getConnection().connectionmanager.enable(_initiateConnection);
     };
 
     var errorLogin = function () {
@@ -90,7 +90,11 @@
       }
     };
 
-    var _initiateConnection = function (prebind) {
+    var _initiateConnection = function () {
+      var prebind = Constants.PRE_BINDING;
+      if (isAnonymous) {
+        prebind = Constants.PRE_BINDING_ANONYMOUS;
+      }
       var token = $('meta[name=csrf-token]').attr('content');
       var param = $('meta[name=csrf-param]').attr('content');
       var data = {};
@@ -126,11 +130,9 @@
     };
 
     this.xmppStart = function () {
-      var prebind = Constants.PRE_BINDING;
-      if (isAnonymous) {
-        prebind = Constants.PRE_BINDING_ANONYMOUS;
-      }
-      _initiateConnection(prebind);
+      _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
+
+      _initiateConnection();
       //_connect();
     };
 
@@ -155,13 +157,6 @@
       _messageBox.myInlineMessage(currentUser.id, Commands.CONNECT);
       sendMessage(Commands.CONNECT);
     };
-
-//    this.xmppBlockUser = function () {
-//      var jid = _getCurrentUser().jid;
-//      var reason = $("#chattypebox").data('reason');
-//      _xmppSendMessage("\\b:" + reason);
-//      _getMy().roster.remove(jid, _onRosterRemoved);
-//    };
 
     this.strangerChat = function () {
 //      console.log(_xmppCore.getCurrentUser().status);

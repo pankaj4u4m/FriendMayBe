@@ -9,7 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_directory ./jquery
- * require_directory ./jquery_ui
  *= require_directory ./bootstrap
  *= require_directory ./metly
  *= require_self

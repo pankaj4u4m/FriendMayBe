@@ -12,6 +12,7 @@
     var typingTime = 0;
     var isComposing = false;
     var times = 0;
+    var videoPanel = null;
 
     this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils) {
       _notification = notification;
@@ -19,13 +20,19 @@
       _xmppCore = xmppCore;
       _xmppUtils = xmppUtils;
     };
-    this.init = function(){
+    this.init = function () {
+      $('#logout').click(function () {
+        if (_xmppCore.getConnection()) {
+          _xmppCore.getConnection().disconnect('logout');
+          _xmppCore.getConnection().connectionmanager.disable();
+        }
+      });
       $("#message-scroll").setScrollPane({
-        scrollToY       :$('#message-scroll').data('jsp') == null ? 10000 : $('#message-scroll').data('jsp').getContentPositionY(),
-        width           :13,
-        height          :10,
+        scrollToY:$('#message-scroll').data('jsp') == null ? 10000 : $('#message-scroll').data('jsp').getContentPositionY(),
+        width:13,
+        height:10,
         maintainPosition:false,
-        outer           :true
+        outer:true
       });
       $('div.scrollable').setScrollPane({
         hideFocus:true,
@@ -33,16 +40,16 @@
       });
       $("#chattypebox").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);
-        times+=1;
+        times += 1;
         typingTime = dateTime.getTime();
-        if(times > 5){
+        if (times > 5) {
           sendComposeMessage();
           times = 0;
         }
         if (code == 13) { //Enter keycode
           var msg = $(this).val().trim();
           if (msg && msg.length) {
-            if(msg.length < 1000){
+            if (msg.length < 1000) {
               _xmppActivity.xmppSendMessage(msg);
               $(this).val("");
             } else {
@@ -57,33 +64,33 @@
       $("#stranger").click(function () {
         _xmppActivity.strangerChat();
       });
-      $(document).bind('composing.chatstates', function(e, jid){
+      $(document).bind('composing.chatstates', function (e, jid) {
         var id = _xmppUtils.jidToId(jid);
         $('#' + id + ' .chat-chats .chat-temp-event').remove();
         $('#' + id + ' .chat-chats').append(
             "<div class='chat-temp-event'>-" + _xmppCore.getRosterName(jid) + " is Typing...</div>");
         $('#' + id).trigger("scrollResize");
         setTimeout(function () {
-          $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function() {
+          $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function () {
             $(this).remove();
           });
         }, 6000);
       });
-      $(document).bind('paused.chatstates', function(e, jid){
+      $(document).bind('paused.chatstates', function (e, jid) {
         var id = _xmppUtils.jidToId(jid);
         $('#' + id + ' .chat-chats .chat-temp-event').remove();
         $('#' + id + ' .chat-chats').append(
             "<div class='chat-temp-event'>-" + _xmppCore.getRosterName(jid) + " has stopped Typing.</div>");
         $('#' + id).trigger("scrollResize");
         setTimeout(function () {
-          $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function() {
+          $('#' + id + ' .chat-chats .chat-temp-event').fadeOut('slow', function () {
             $(this).remove();
           });
         }, 3000);
       });
       $('.optionbar-fixed button.remember').click(function (e) {
         e.preventDefault();
-        if($(this).hasClass('disabled')){
+        if ($(this).hasClass('disabled')) {
           self.eventMessage(_xmppCore.getCurrentUser().node, "Can't remember in anonymous login");
           return;
         }
@@ -93,14 +100,18 @@
           _xmppCore.addUser();
         }
       });
+      $('.optionbar-fixed button.video').click(function(e){
+        e.preventDefault();
+        self.openVideo();
+      })
     };
-    var sendComposeMessage = function(){
-      if(!isComposing && _xmppCore.getConnection()) {
+    var sendComposeMessage = function () {
+      if (!isComposing && _xmppCore.getConnection()) {
         _xmppCore.getConnection().chatstates.sendComposing(_xmppCore.getCurrentUser().jid, 'chat');
         isComposing = true;
-        setTimeout(function(){
+        setTimeout(function () {
           var t = new Date().getTime();
-          if(( t - typingTime > 5000) && isComposing){
+          if (( t - typingTime > 5000) && isComposing) {
             _xmppCore.getConnection().chatstates.sendPaused(_xmppCore.getCurrentUser().jid, 'chat');
             isComposing = false;
           }
@@ -116,7 +127,7 @@
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
       }
-      $('.optionbar-fixed .buddy-name a').attr('href', '#'+selector).html(user.name || Constants.SYSTEM_NAME);
+      $('.optionbar-fixed .buddy-name a').attr('href', '#' + selector).html(user.name || Constants.SYSTEM_NAME);
       $('#message-scroll').addClass('white');
       self.chatOptions(selector, _xmppUtils.presenceValue(user.pres), isRemembered);
     };
@@ -125,7 +136,7 @@
       $('.optionbar-fixed .buddy-options').removeClass('hidden');
 
       $('.optionbar-fixed .buddy-options .remember').removeClass('remove add disabled')
-          .addClass((_xmppCore.getMy().isAnonymous? "disabled":""));
+          .addClass((_xmppCore.getMy().isAnonymous ? "disabled" : ""));
 
       if (!isRemembered) {
         $('.optionbar-fixed .buddy-status').addClass('hidden');
@@ -133,7 +144,7 @@
       } else {
         $('.optionbar-fixed .buddy-status').removeClass('hidden');
         _xmppUtils.setPresence($('.optionbar-fixed .buddy-status'), presence);
-        if(Strophe.getNodeFromJid(selector) != Constants.SYSTEM_NODE){
+        if (Strophe.getNodeFromJid(selector) != Constants.SYSTEM_NODE) {
           $('.optionbar-fixed .buddy-options .remember').removeClass('add').addClass('remove').text('Forget')
         } else {
           $('.optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
@@ -141,10 +152,10 @@
       }
     };
     this.eventMessage = function (messageBoxID, message) {
-      if(!messageBoxID){
+      if (!messageBoxID) {
         return;
       }
-      var event = $( "<div class='chat-event'> -" + message + "</div>");
+      var event = $("<div class='chat-event'> -" + message + "</div>");
       $('#' + messageBoxID + ' .chat-chats').append(event);
       $('#' + messageBoxID).trigger("scrollResize");
 //      setTimeout(function(){
@@ -156,10 +167,10 @@
     };
 
     this.strangerInlineMessage = function (messageBoxID, jid, message) {
-      if(!messageBoxID){
+      if (!messageBoxID) {
         return;
       }
-      if($("#" + messageBoxID).length <= 0) {
+      if ($("#" + messageBoxID).length <= 0) {
         chatBox(messageBoxID, _xmppCore.getMy().roster.findItem(jid), true);
       }
       isComposing = false;
@@ -175,13 +186,13 @@
 
         $('#' + messageBoxID + " .chat-chats").append(chat);
         $('#' + messageBoxID).trigger("scrollResize");
-        $(chat).autoLink({class: 'btn-link'});
+        $(chat).autoLink({class:'btn-link'});
         $(chat).emoticonize();
       }
 
     };
     this.myInlineMessage = function (messageBoxID, message) {
-      if(!messageBoxID){
+      if (!messageBoxID) {
         return;
       }
       isComposing = false;
@@ -200,13 +211,13 @@
       }
       $('#' + messageBoxID + " .chat-chats").append(chat);
       $('#' + messageBoxID).trigger("scrollResize");
-      $(chat).autoLink({class: 'btn-link'});
+      $(chat).autoLink({class:'btn-link'});
       $(chat).emoticonize();
 
     };
 
     this.newMessageBox = function (selector, user, isRemembered) {
-      if(!selector){
+      if (!selector) {
         return;
       }
       console.log(selector);
@@ -214,7 +225,7 @@
         $('#myModal').modal();
       } else {
         if (selector == Constants.NOTIFICATION) {
-          if(_xmppCore.getCurrentUser().node == Constants.SYSTEM_NODE){
+          if (_xmppCore.getCurrentUser().node == Constants.SYSTEM_NODE) {
             _xmppActivity.xmppSendMessage(Commands.DISCONNECT);
           }
           self.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
@@ -231,8 +242,62 @@
       }
       currentTab = selector;
     };
+    this.videoRequest = function (message) {
+      var prompt = $(message).find('prompt').text();
+      var nickname = $(message).find("nickname").text();
+      var width = $(message).find("width").text();
+      var height = $(message).find("height").text();
+      var url = $(message).find('body').text();
+      var windowType = $(message).find("windowType").text();
+      var roomType = $(message).find("roomType").text();
+
+      var title = "Video call with " + nickname;
+      var content = '<iframe width=' + width + ' height=' + height + ' frameborder=0 src=' + url + ' /></iframe>';
+
+      Boxy.confirm(nickname + prompt, function () {
+        if (videoPanel != null) {
+          videoPanel.hide();
+        }
+        videoPanel = new Boxy(content, {title:title, show:true, draggable:true, unloadOnHide:true});
+      });
+    };
+    this.openVideo = function () {
+
+      var firstParty = 'v1';
+      var secondParty = 'v2';
+      var sessionId = Math.random().toString(36).substr(2, 15);
+
+
+      var url2 = Constants.VIDEO_URL;
+      var title = "Video Call " + secondParty;
+
+      var newUrl1 = url2 + "?key=" + sessionId + "&me=" + firstParty + "&you=" + secondParty;
+      var newUrl2 = url2 + "?key=" + sessionId + "&you=" + firstParty + "&me=" + secondParty;
+
+      _sendInvite(" is offering to share a video in this chat", _xmppCore.getCurrentUser().jid, newUrl2, "680", "520", "_video", sessionId);
+      _openWindow("680", "500", newUrl1, title)
+    };
+    var _openWindow = function(width, height, url, title)
+    {
+      var content = '<iframe width=' + width + ' height=' + height + ' frameborder=0 src=' + url + ' /></iframe>';
+      if (videoPanel != null) {
+        videoPanel.hide();
+      }
+      videoPanel = new Boxy(content, {title: title , show: true, draggable: true, unloadOnHide: true});
+    };
+    var _sendInvite = function (prompt, jid, url, width, height, windowType, sessionId) {
+      var msg = $msg({to:jid, type:"chat"}).c("body", {xmlns:Strophe.NS.CLIENT}).t(url);
+      var redfire = msg.up().c("redfire-invite", {xmlns:"http://redfire.4ng.net/xmlns/redfire-invite"});
+      redfire.c("sessionID").t(sessionId);
+      redfire.c("width").t(width);
+      redfire.c("height").t(height);
+      redfire.c("prompt").t(prompt);
+      redfire.c("windowType").t(windowType);
+      _xmppCore.getConnection().send(msg);
+    };
+
     this.changeChatStatusChanged = function (status) {
-      if(status == null || status == undefined){
+      if (status == null || status == undefined) {
         return;
       }
       $('#message-scroll').addClass('white');

@@ -60,7 +60,7 @@
       var jid = Strophe.getBareJidFromJid(full_jid);
       var id = _xmppUtils.jidToId(full_jid);
 
-      if (!_xmppCore.getMy().roster.findItem(Strophe.getBareJidFromJid(jid)) && _xmppCore.getCurrentUser().jid != full_jid) {
+      if (!_xmppCore.getMy().roster.findItem(jid) && _xmppCore.getCurrentUser().jid != full_jid) {
         return true;
       }
 //          console.log(message);
@@ -68,7 +68,13 @@
       if (composing.length > 0) {
         return true;
       }
+      var videoInvite = $(message).children('redfire-invite');
 
+      if (type != "error" && videoInvite.length > 0) {
+
+        _messageBox.videoRequest(message);
+        return true;
+      }
       var body = $(message).find("html > body");
       if (body.length === 0) {
         body = $(message).find('body');
@@ -95,10 +101,12 @@
           _messageBox.eventMessage(id, body);
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
-          }
-          if (body.match(new RegExp("User has Disconnected"))){
+          } else if (body.match(new RegExp("User has Disconnected"))) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.HANGOUT);
+          } else {
+            _messageBox.eventMessage(id, 'User is offline now, message will be delivered once user comes online');
           }
+
         } else {
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
@@ -126,7 +134,7 @@
       for (var i = 0; i < list.length; ++i) {
         _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(list[i].jid), list[i].name
             || list[i].jid, _xmppUtils.rosterStatus(list[i].resources));
-        if(_xmppUtils.jidToId(list[i].jid) == _xmppCore.getCurrentUser().id) {
+        if (_xmppUtils.jidToId(list[i].jid) == _xmppCore.getCurrentUser().id) {
           _messageBox.chatOptions(_xmppUtils.jidToId(list[i].jid), _xmppUtils.rosterStatus(list[i].resources), true);
         }
       }
@@ -199,7 +207,7 @@
       $('div.scrollable').trigger('scrollResize');
       $('input#searchTerm').quicksearch('#remembereds li', {
         'selector':'.roster-name',
-        'onAfter' :function () {
+        'onAfter':function () {
           $('div.scrollable').trigger('scrollResize');
         }
       });

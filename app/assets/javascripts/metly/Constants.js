@@ -5,10 +5,12 @@ Constants = {
   PRE_BINDING_ANONYMOUS: '/anonymouslogin',
   NOTIFICATION_SERVICE: '/notification',
   FEEDBACK_URL: '/feedback',
+  VIDEO_URL: '/redfire/video/redfire_2way.html',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger',
   NOTIFICATION: 'notification',
   MAX_LONG:Math.pow(2, 63) - 1
+
 
 };
 ChatButtonStatus = {
