@@ -5,7 +5,7 @@ Constants = {
   PRE_BINDING_ANONYMOUS: '/anonymouslogin',
   NOTIFICATION_SERVICE: '/notification',
   FEEDBACK_URL: '/feedback',
-  VIDEO_URL: '/redfire/video/redfire_2way.html',
+  VIDEO_URL: '/redfire/video/_video.html.erb',
   SYSTEM_NODE: 'metly',
   SYSTEM_NAME: 'Stranger',
   NOTIFICATION: 'notification',

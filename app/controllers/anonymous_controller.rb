@@ -28,4 +28,8 @@ class AnonymousController < ApplicationController
       format.js { render json: {status: 'anonymous'}}
     end
   end
+
+  def video
+
+  end
 end
