@@ -99,6 +99,17 @@
           _xmppCore.addUser();
         }
       });
+      var hideEventMessage = true;
+      $('#optionbar-fixed .buddy-name a').click(function(e){
+         if(hideEventMessage == true) {
+           $($(this).attr('href')).find('.chat-event').css({'display' : 'none'});
+           hideEventMessage = false
+         } else {
+           $($(this).attr('href')).find('.chat-event').css({'display' : 'inline'});
+           hideEventMessage = true
+         }
+        $($(this).attr('href')).trigger('scrollResize');
+      })
     };
     var sendComposeMessage = function () {
       if (!isComposing && _xmppCore.getConnection()) {
@@ -155,12 +166,6 @@
       var event = $("<div class='chat-event'> -</div>").append(message);
       $('#' + messageBoxID + ' .chat-chats').append(event);
       $('#' + messageBoxID).trigger("scrollResize");
-//      setTimeout(function(){
-//        $(event).fadeOut('slow', function(){
-//            $(this).remove();
-//        });
-//        $('#' + messageBoxID).trigger("scrollResize");
-//      }, 10000);
     };
 
     this.strangerInlineMessage = function (messageBoxID, jid, message) {
