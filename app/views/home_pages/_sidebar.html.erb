@@ -1,13 +1,22 @@
-<div class="sidebar-fixed">
-<header><div class='sidebar-header'> Contacts</div></header>
-<div class="sidebar-contacts" >
-  <div id="sidebar" class="scrollable span12">
-    <div id="remembereds"  class="tabs-left span12" style="overflow: hidden; width: 219px;">
-      <ul class="nav nav-tabs nav-pills span12" style="font-size: 13px;margin-bottom: 0px;">
-        <li class='error'>Loading..</li>
-      </ul>
+<div class="sidebar-content">
+  <div id="sidebar-fixed">
+    <header>
+      <div class='sidebar-header'> Contacts</div>
+    </header>
+    <div class="sidebar-contacts">
+      <div id="sidebar" class="scrollable span12">
+        <div id="remembereds" class="tabs-left span12" style="overflow: hidden; width: 219px;">
+          <ul class="nav nav-tabs nav-pills span12" style="font-size: 13px;margin-bottom: 0px;">
+            <li class='error'>Loading..</li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <%= render 'home_pages/sidebar_search' %>
   </div>
-</div>
-<%= render 'home_pages/sidebar_search' %>
+  <div class="input-append stranger-button">
+    <button id="stranger" type="button" class="btn btn-large chatboxbtn span3 btn-primary" style="width: 210px; margin-left: 10px; border-radius: 0">Lets
+      Talk
+    </button>
+  </div>
 </div>

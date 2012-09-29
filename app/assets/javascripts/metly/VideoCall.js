@@ -15,7 +15,7 @@
         $('body').append(MetlyTemplates.videoCallReceivedSound);
         videoSoundPlayer = document.getElementById('video-sound-player');
       }
-      $('.optionbar-fixed button.video').click(function(e){
+      $('#optionbar-fixed button.video').click(function(e){
         e.preventDefault();
         if($(this).hasClass('callend')){
           stopApp();
@@ -29,8 +29,8 @@
       });
       $(window).bind('userDisconnected', function(){
         stopApp();
-        $('.optionbar-fixed button.video').removeClass('callend btn-danger').addClass('btn-primary');
-        $('.optionbar-fixed button.video').html('Video');
+        $('#optionbar-fixed button.video').removeClass('callend btn-danger').addClass('btn-primary');
+        $('#optionbar-fixed button.video').html('Video');
       });
     };
     this.videoRequest = function (message) {
@@ -50,8 +50,8 @@
           e.preventDefault();
           stopApp();
           openWindow(secondParty, firstParty, sessionID);
-          $('.optionbar-fixed button.video').removeClass('btn-primary').addClass('callend btn-danger');
-          $('.optionbar-fixed button.video').html('End Call');
+          $('#optionbar-fixed button.video').removeClass('btn-primary').addClass('callend btn-danger');
+          $('#optionbar-fixed button.video').html('End Call');
         });
         $('#videoModal-reject').click(function(e) {
           videoSoundPlayer.SetVariable('method:stop', '');
@@ -89,9 +89,8 @@
         $(content).remove();
       }
       $('#video-container').append($('<div id="video-panel" style="height: 100%; width: 100%"></div>'));
-      $('#video-container').css({'width' : $('.messagebar-box').width()/2});
-      $('.messagebar-box').width($('.messagebar-box').width() - $('#video-container').width() - 8);
-      $('.chattext-bottom').width($('.chattext-bottom').width() - $('#video-container').width());
+      $('#video-container').css({'width' : $('#messagebar-fixed').width()/2});
+      $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
       startVideo(firstParty, secondParty, sessionId);
     };
@@ -117,8 +116,7 @@
         $(redfireVideo).remove();
       }
       $('#video-container').width(0);
-      $('.messagebar-box').width($('.messagebar-fixed').width());
-      $('.chattext-bottom').width($('.home-fixed').width());
+      $('#chat-app').width('auto');
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
     }
 

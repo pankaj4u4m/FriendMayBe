@@ -310,7 +310,7 @@
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
         $('#message-scroll').addClass('white');
-        $('div.optionbar-fixed a ').click(function (e) {
+        $('div#optionbar-fixed a ').click(function (e) {
           e.preventDefault();
         });
         if(!_xmppCore.getMy().isAnonymous) {
@@ -319,9 +319,11 @@
           errorNoifications("No notifications");
         }
       }
-      $('.optionbar-fixed .buddy-name a').attr('href', '#'+selector).html("Notifications");
-      $('.optionbar-fixed .buddy-options').addClass('hidden');
-      $('.optionbar-fixed .buddy-status').addClass('hidden');
+      $('#messagebar-box').css({'bottom' : 5});
+      $('#chatbox-bottom').css({'visibility' : 'hidden'});
+      $('#optionbar-fixed .buddy-name a').attr('href', '#'+selector).html("Notifications");
+      $('#optionbar-fixed .buddy-options').addClass('hidden');
+      $('#optionbar-fixed .buddy-status').addClass('hidden');
     };
   }
 

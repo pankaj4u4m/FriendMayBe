@@ -1,5 +1,5 @@
 /* chat message content */
-.home-fixed {
+#home-fixed {
   position: fixed;
   top: 40px;
   bottom: 0px;
@@ -13,7 +13,7 @@
   right: 0;
   top: 0;
 }
-.optionbar-fixed{
+#optionbar-fixed{
   background-color: #F8F8F8;;
   border: 1px solid #D7D7D7;
   left: 230px;
@@ -41,29 +41,37 @@
 .tab-pane{
   height:100%;
   width: 100%;
-  padding-left: 10px;
 }
-.messagebar-fixed{
+#chat-app {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 5px;
+  top: 41px;;
+}
+#messagebar-fixed{
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
   //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
-  left: 230px;
+  left: 225px;
   right: 0;
   position: absolute;
   top: 0;
   bottom: 0;
   //background-color: #ffffff;
 }
-.messagebar-box {
+#messagebar-box {
   position: absolute;
-  top: 41px;
-  bottom: 0;
-  width: 100%;
+  top: 0;
+  bottom: 90px;
+  right: 0;
   left: 0;
   border: 1px solid #D7D7D7;
 }
-
+.message-scroll {
+  padding-left: 10px
+}
 #messagebar{
   //height: 100%;
   //width: 100%;
@@ -107,7 +115,7 @@
 .chat-scroll{
   height: 100%;
 }
-.sidebar-fixed {
+#sidebar-fixed {
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
@@ -117,10 +125,10 @@
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 0;
+  bottom: 90px;
   width: 219px;
 }
-.sidebar-fixed header {
+#sidebar-fixed header {
   text-align: center;
   top: 0px;
   position: absolute;
@@ -139,19 +147,13 @@
   background-color: white;
 }
 
-.sidebar-search-fixed{
+#sidebar-search-fixed{
   left: 0;
   position: absolute;
   bottom: 0;
   z-index: 1025;
   width: 100%;
   border-top: 1px solid #D7D7D7;
-}
-.chattext-bottom  {
-  left: 0;
-  bottom: 0;
-  position: absolute;
-  right: 0;
 }
 #remembereds .nav {
   border: 0;
@@ -161,7 +163,7 @@
   height: 100%;
 }
 
-.sidebar-search-fixed input[type="text"] {
+#sidebar-search-fixed input[type="text"] {
   border-radius: 0;
   width: 85%;
   margin: 0;
@@ -176,4 +178,16 @@
 .roster-name{
   margin-left: 15px;
 }
-
+.stranger-button {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+}
+#chatbox-bottom {
+  bottom: 0;
+  height: 85px;
+  left: 0;
+  margin-right: 15px;
+  position: absolute;
+  right: 0;
+}

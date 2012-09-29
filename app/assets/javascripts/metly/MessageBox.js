@@ -87,7 +87,7 @@
           });
         }, 3000);
       });
-      $('.optionbar-fixed button.remember').click(function (e) {
+      $('#optionbar-fixed button.remember').click(function (e) {
         e.preventDefault();
         if ($(this).hasClass('disabled')) {
           self.eventMessage(_xmppCore.getCurrentUser().node, "Can't remember in anonymous login");
@@ -122,27 +122,29 @@
         var messageBar = $("#messagebar");
         $(messageBar).append(chatbar);
       }
-      $('.optionbar-fixed .buddy-name a').attr('href', '#' + selector).html(user.name || Constants.SYSTEM_NAME);
+      $('#messagebar-box').css({'bottom' : 90});
+      $('#chatbox-bottom').css({'visibility' : 'visible'});
+      $('#optionbar-fixed .buddy-name a').attr('href', '#' + selector).html(user.name || Constants.SYSTEM_NAME);
       $('#message-scroll').addClass('white');
       self.chatOptions(selector, _xmppUtils.presenceValue(user.pres), isRemembered);
     };
     this.chatOptions = function (selector, presence, isRemembered) {
 
-      $('.optionbar-fixed .buddy-options').removeClass('hidden');
+      $('#optionbar-fixed .buddy-options').removeClass('hidden');
 
-      $('.optionbar-fixed .buddy-options .remember').removeClass('remove add disabled')
+      $('#optionbar-fixed .buddy-options .remember').removeClass('remove add disabled')
           .addClass((_xmppCore.getMy().isAnonymous ? "disabled" : ""));
 
       if (!isRemembered) {
-        $('.optionbar-fixed .buddy-status').addClass('hidden');
-        $('.optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
+        $('#optionbar-fixed .buddy-status').addClass('hidden');
+        $('#optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
-        $('.optionbar-fixed .buddy-status').removeClass('hidden');
-        _xmppUtils.setPresence($('.optionbar-fixed .buddy-status'), presence);
+        $('#optionbar-fixed .buddy-status').removeClass('hidden');
+        _xmppUtils.setPresence($('#optionbar-fixed .buddy-status'), presence);
         if (Strophe.getNodeFromJid(selector) != Constants.SYSTEM_NODE) {
-          $('.optionbar-fixed .buddy-options .remember').removeClass('add').addClass('remove').text('Forget')
+          $('#optionbar-fixed .buddy-options .remember').removeClass('add').addClass('remove').text('Forget')
         } else {
-          $('.optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
+          $('#optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
         }
       }
     };
