@@ -6,6 +6,7 @@ var xmppActivity = $.getXmppActivity();
 var xmppCore = $.getXmppCore();
 var xmppOnMethods = $.getXmppOnMethods();
 var xmppUtils = $.getXmppUtils();
+var videoCall = $.getVideocall();
 
 messageBox.Constructor(notification, xmppActivity, xmppCore, xmppUtils);
 
@@ -15,13 +16,16 @@ xmppActivity.Constructor(messageBox, notification, userLocation, xmppCore, xmppO
 
 xmppCore.Constructor(xmppOnMethods, xmppUtils, xmppActivity);
 
-xmppOnMethods.Constructor(messageBox, notification, xmppCore, xmppUtils);
+xmppOnMethods.Constructor(messageBox, notification, xmppCore, xmppUtils, videoCall);
 
+videoCall.Constructor(xmppCore);
 /* Initialization end */
 
 $(document).ready(function () {
   notification.init();
   messageBox.init();
+  videoCall.init();
+  xmppOnMethods.init();
 
   var textArea = $('#feedback textarea');
   $('.feedback').click(function (e) {
@@ -49,7 +53,9 @@ $(document).ready(function () {
 
   });
   $(window).trigger('resize');
-//
+
+  var title = $('title').html();
+
 //  $('#searchTerm').keypress(function(e){
 //    var code = (e.keyCode ? e.keyCode : e.which ? e.which : e.charCode);
 //    var search =  $(this).val().trim() + String.fromCharCode(code);

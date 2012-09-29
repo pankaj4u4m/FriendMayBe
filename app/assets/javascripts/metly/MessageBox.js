@@ -12,7 +12,6 @@
     var typingTime = 0;
     var isComposing = false;
     var times = 0;
-    var videoPanel = null;
 
     this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils) {
       _notification = notification;
@@ -100,10 +99,11 @@
           _xmppCore.addUser();
         }
       });
-      $('.optionbar-fixed button.video').click(function(e){
+      $('#modal-yes').click(function(e){
         e.preventDefault();
-        self.openVideo();
-      })
+        currentTab = Constants.NOTIFICATION;
+        self.newMessageBox.call(this, Constants.NOTIFICATION)
+      });
     };
     var sendComposeMessage = function () {
       if (!isComposing && _xmppCore.getConnection()) {
@@ -155,7 +155,7 @@
       if (!messageBoxID) {
         return;
       }
-      var event = $("<div class='chat-event'> -" + message + "</div>");
+      var event = $("<div class='chat-event'> -</div>").append(message);
       $('#' + messageBoxID + ' .chat-chats').append(event);
       $('#' + messageBoxID).trigger("scrollResize");
 //      setTimeout(function(){
@@ -239,61 +239,8 @@
         $(this).bind('shown', function (e) {
           $(this).trigger("scrollResize");
         });
+        currentTab = selector;
       }
-      currentTab = selector;
-    };
-    this.videoRequest = function (message) {
-      var prompt = $(message).find('prompt').text();
-      var nickname = $(message).find("nickname").text();
-      var width = $(message).find("width").text();
-      var height = $(message).find("height").text();
-      var url = $(message).find('body').text();
-      var windowType = $(message).find("windowType").text();
-      var roomType = $(message).find("roomType").text();
-
-      var title = "Video call with " + nickname;
-      var content = '<iframe width=' + width + ' height=' + height + ' frameborder=0 src=' + url + ' /></iframe>';
-
-      Boxy.confirm(nickname + prompt, function () {
-        if (videoPanel != null) {
-          videoPanel.hide();
-        }
-        videoPanel = new Boxy(content, {title:title, show:true, draggable:true, unloadOnHide:true});
-      });
-    };
-    this.openVideo = function () {
-
-      var firstParty = 'v1';
-      var secondParty = 'v2';
-      var sessionId = Math.random().toString(36).substr(2, 15);
-
-
-      var url2 = Constants.VIDEO_URL;
-      var title = "Video Call " + secondParty;
-
-      var newUrl1 = url2 + "?key=" + sessionId + "&me=" + firstParty + "&you=" + secondParty;
-      var newUrl2 = url2 + "?key=" + sessionId + "&you=" + firstParty + "&me=" + secondParty;
-
-      _sendInvite(" is offering to share a video in this chat", _xmppCore.getCurrentUser().jid, newUrl2, "680", "520", "_video", sessionId);
-      _openWindow("680", "500", newUrl1, title)
-    };
-    var _openWindow = function(width, height, url, title)
-    {
-      var content = '<iframe width=' + width + ' height=' + height + ' frameborder=0 src=' + url + ' /></iframe>';
-      if (videoPanel != null) {
-        videoPanel.hide();
-      }
-      videoPanel = new Boxy(content, {title: title , show: true, draggable: true, unloadOnHide: true});
-    };
-    var _sendInvite = function (prompt, jid, url, width, height, windowType, sessionId) {
-      var msg = $msg({to:jid, type:"chat"}).c("body", {xmlns:Strophe.NS.CLIENT}).t(url);
-      var redfire = msg.up().c("redfire-invite", {xmlns:"http://redfire.4ng.net/xmlns/redfire-invite"});
-      redfire.c("sessionID").t(sessionId);
-      redfire.c("width").t(width);
-      redfire.c("height").t(height);
-      redfire.c("prompt").t(prompt);
-      redfire.c("windowType").t(windowType);
-      _xmppCore.getConnection().send(msg);
     };
 
     this.changeChatStatusChanged = function (status) {

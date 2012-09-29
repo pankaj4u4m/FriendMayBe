@@ -11,7 +11,6 @@ MetlyDevise::Application.routes.draw do
     post "/location" , to: "home_pages#location"
     post "/notification", to: "home_pages#notification"
     get "/feedback", to: "home_pages#feedback"
-    post "/video", to: "home_pages#video"
   end
   root to: "login_pages#login"
   match "/help", to: "login_pages#help"
@@ -23,7 +22,6 @@ MetlyDevise::Application.routes.draw do
   post "/anonymouslogin", to: "anonymous#anonymouslogin"
   post "/location" , to: "anonymous#location"
   post "/notification", to: "anonymous#notification"
-  get "/video", to: "anonymous#video"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -9,6 +9,7 @@
     var inRequest = false;
 
     var count = 0;
+    var title = null;
 
     this.Constructor = function (messageBox, xmppCore, xmppUtils) {
       _messageBox = messageBox;
@@ -16,6 +17,8 @@
       _xmppUtils = xmppUtils;
     };
     this.init = function () {
+      title = $('title').html();
+
       $(window).bind('resize', function () {
         menuResize();
       });
@@ -23,7 +26,8 @@
         count = 0;
         $('#notification-btn').text(0);
         $('#notification-btn').removeClass('btn-primary');
-        $('#notification-btn').addClass('btn-inverse')
+        $('#notification-btn').addClass('btn-inverse');
+        $('title').html(title);
 //        $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
         menuResize();
       });
@@ -31,10 +35,6 @@
         e.preventDefault();
         _messageBox.newMessageBox.call(this, Constants.NOTIFICATION);
         $('#notification-btn').parent().removeClass('open');
-      });
-      $('#modal-yes').click(function(e){
-        e.preventDefault();
-        _messageBox.newMessageBox.call(this, Constants.NOTIFICATION)
       });
       _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + Constants.NOTIFICATION + "'></a>"), Constants.NOTIFICATION);
 
@@ -160,12 +160,16 @@
     var notificationBtn = function () {
       $('#notification-btn').text(count);
       $('#notification-btn').removeClass('btn-primary');
-      $('#notification-btn').addClass('btn-inverse')
+      $('#notification-btn').addClass('btn-inverse');
       $('#notification-btn').css({'border':'1px solid #D7D7D7', 'font-weight':'normal'});
       if (count > 0) {
         $('#notification-btn').addClass('btn-primary');
-        $('#notification-btn').removeClass('btn-inverse')
+        $('#notification-btn').removeClass('btn-inverse');
         $('#notification-btn').css({'border':'0', 'font-weight':'bold'});
+      }
+
+      if(count > 0) {
+        $('title').html(title + "(" + count + ")");
       }
     };
     var populateNotifications = function () {

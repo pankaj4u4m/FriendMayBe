@@ -14,7 +14,7 @@
     var self = this;
 
     var isAnonymous = false;
-    var toSend = null;
+    var errorConnection = false;
 
     this.Constructor = function (messageBox, notification, userLocation, xmppCore, xmppOnMethods, xmppUtils) {
       _messageBox = messageBox;
@@ -29,24 +29,19 @@
       var currentUser = _xmppCore.getCurrentUser();
 
       var msg = $msg({to:currentUser.jid, type:"chat"}).c("body").t(message);
-      try {
-        _xmppCore.getConnection().send(msg);
-      } catch (e) {
-        try {
-          _xmppCore.getConnection().reset();
-          _xmppCore.getConnection().send(msg);
-        } catch (e) {
-          toSend = msg;
-          if (isAnonymous) {
-            self.anonymous();
-          } else {
-            self.xmppStart();
-          }
-        }
+
+      if(errorConnection) {
+        var tryReconnect = $("<button class='btn-link'>Try Reconnect</button>");
+        $(tryReconnect).click(function () {
+          self.xmppStart();
+        });
+        _messageBox.eventMessage(currentUser.id, $("<span>You message is not delivered. This is because you might have disconnected. <span>").append(tryReconnect) );
       }
+      _xmppCore.getConnection().send(msg);
     };
 
     var attach = function (data) {
+      errorConnection = false;
       console.log('Prebind succeeded. Attaching...');
 
       var me = _xmppCore.getMy();
@@ -60,24 +55,19 @@
       me.jid = me.node + '@' + me.domain + '/' + me.resource;
       me.id = _xmppUtils.jidToId(me.jid);
       _xmppCore.getConnection().attach(me.jid, data['http_sid'],
-          parseInt(data['http_rid'], 10) + 2,
-          function (status) {
-            if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
-              if (toSend) {
-                _xmppCore.getConnection().send(toSend);
-                toSend = null;
-              }
-            }
-            return _xmppOnMethods.onConnect(status)
-          });
-      _xmppCore.getConnection().connectionmanager.enable(_initiateConnection);
+          parseInt(data['http_rid'], 10) + 2, _xmppOnMethods.onConnect);
     };
 
-    var errorLogin = function () {
+    var errorLogin = function (xhr, textStatus, errorThrown) {
+      errorConnection = true;
       $('#remembereds ul .error').remove();
-      var tryAgain = $("<button class='btn-link'>Try again</button>");
+      var tryAgain = $("<button class='btn-link'>Try Again</button>");
+      var tryReconnect = $("<button class='btn-link'>Try Reconnect</button>");
       $(tryAgain).click(function () {
         $('#remembereds ul .error').remove();
+        self.xmppStart();
+      });
+      $(tryReconnect).click(function () {
         self.xmppStart();
       });
       var li = $("<li class='error'>Failed to connect </li>").append(tryAgain);
@@ -86,11 +76,11 @@
 
       $('#remembereds ul').prepend(li);
       if (_xmppCore.getCurrentUser().id) {
-        _messageBox.eventMessage(_xmppCore.getCurrentUser().id, "Failed to connect to server. Messae not sent!");
+        _messageBox.eventMessage(_xmppCore.getCurrentUser().id, $("<span>Unable to connect right now. </span>").append(tryReconnect));
       }
     };
 
-    var _initiateConnection = function () {
+    var initiateConnection = function () {
       var prebind = Constants.PRE_BINDING;
       if (isAnonymous) {
         prebind = Constants.PRE_BINDING_ANONYMOUS;
@@ -116,14 +106,14 @@
               $.ajax(this);
               return;
             }
-            return;
+            errorLogin(xhr, textStatus, errorThrown);
           }
-          errorLogin();
+          errorLogin(xhr, textStatus, errorThrown);
         }
       })
     };
 
-    var _connect = function () {
+    var connect = function () {
       var connection = new Strophe.Connection('http://bosh.metajack.im:5280/xmpp-httpbind');
       _xmppCore.setConnection(connection);
       _xmppCore.getConnection().connect("codegambler@gmail.com", "kim-10vriti", _xmppOnMethods.onConnect);
@@ -131,9 +121,9 @@
 
     this.xmppStart = function () {
       _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
-
-      _initiateConnection();
-      //_connect();
+      _xmppCore.getConnection().connectionmanager.enable(initiateConnection);
+      initiateConnection();
+      //connect();
     };
 
     this.xmppSendMessage = function (msg) {

@@ -2,7 +2,7 @@
   function UserLocation() {
     var resource;
     var status = null;
-    var _successFunction = function (position) {
+    var successFunction = function (position) {
       console.log("got user location");
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
@@ -39,7 +39,7 @@
         }
       })
     };
-    var _errorFunction = function (position) {
+    var errorFunction = function (position) {
       console.log('not able to get you location');
       console.log(position);
     };
@@ -50,7 +50,7 @@
       //Check if browser supports W3C Geolocation API
       if (navigator.geolocation) {
 //        console.log('getting location');
-        navigator.geolocation.getCurrentPosition(_successFunction, _errorFunction);
+        navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
       } else {
         console.log('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
       }

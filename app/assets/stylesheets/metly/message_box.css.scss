@@ -1,15 +1,21 @@
 /* chat message content */
 .home-fixed {
   position: fixed;
-  top: 50px;
-  bottom: 102px;
+  top: 40px;
+  bottom: 0px;
   left: 0px;
   right: 0px;
 }
+.chat-container {
+  bottom: 93px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 .optionbar-fixed{
   background-color: #F8F8F8;;
-  border-bottom: 1px solid #D7D7D7;
-
+  border: 1px solid #D7D7D7;
   left: 230px;
   right: 0;
   padding-left: 10px;
@@ -41,7 +47,6 @@
   border-color: #D5D5D5;
   border-radius: 0 0 0 0;
   border-width: 0 0 1px;
-  border: 1px solid #D7D7D7;
   //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   left: 230px;
   right: 0;
@@ -52,10 +57,13 @@
 }
 .messagebar-box {
   position: absolute;
-  top: 42px;
+  top: 41px;
   bottom: 0;
   width: 100%;
+  left: 0;
+  border: 1px solid #D7D7D7;
 }
+
 #messagebar{
   //height: 100%;
   //width: 100%;
@@ -67,6 +75,24 @@
   padding-top: 4px;
 
 }
+/* chat bottom bar */
+.chatbox {
+  height: 69px;
+  color: #222;
+  width: 100%;
+  resize: none;
+  margin-bottom: 0;
+}
+
+.chatbox:focus, .chatbox:active, .chatbox:hover {
+  outline: 0;
+}
+
+.chatboxbtn {
+  padding: 25px 25px;
+  font-size: 22px;
+}
+
 .chat{
   white-space:pre-wrap;
   padding-left: 2px;
@@ -121,6 +147,12 @@
   width: 100%;
   border-top: 1px solid #D7D7D7;
 }
+.chattext-bottom  {
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+}
 #remembereds .nav {
   border: 0;
 }
@@ -144,3 +176,4 @@
 .roster-name{
   margin-left: 15px;
 }
+

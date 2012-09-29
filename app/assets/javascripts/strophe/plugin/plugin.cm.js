@@ -85,7 +85,7 @@ Strophe.addConnectionPlugin('connectionmanager', {
     },
 
     enable: function(reconnectFunction){
-      this._reconnectFunction = reconnectFunction;
+        this._reconnectFunction = reconnectFunction;
 
         this.disable(); // prevent double-enabling
 

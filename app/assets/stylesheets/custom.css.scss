@@ -137,24 +137,6 @@ footer a {
   position: absolute;
 }
 
-/* chat bottom bar */
-.chatbox {
-  height: 69px;
-  color: #222;
-  width: 100%;
-  resize: none;
-
-}
-
-.chatbox:focus, .chatbox:active, .chatbox:hover {
-  outline: 0;
-}
-
-.chatboxbtn {
-  padding: 25px 25px;
-  font-size: 22px;
-}
-
 .user-icon-setting {
   background: url("Black_Settings_60.png") left no-repeat;
   height: 19px;

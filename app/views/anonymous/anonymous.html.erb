@@ -8,21 +8,23 @@
 <div class="home-fixed">
   <div class="container-fluid">
     <div class="row-fluid">
-      <div class="span3">
-        <%= render 'home_pages/sidebar' %>
-      </div>
-      <div class="span9">
-        <%= render 'home_pages/messagebox' %>
+      <div class="chat-container span12">
+        <div class="span3">
+          <%= render 'home_pages/sidebar' %>
+        </div>
+        <div class="span9">
+          <%= render 'home_pages/messagebox' %>
+        </div>
       </div>
     </div>
   </div>
+  <!-- container end -->
+  <!-- footer start -->
+  <div class="chattext-bottom">
+    <%= render 'home_pages/chatbox' %>
+  </div>
+  <%= render 'shared/video' %>
 </div>
-<!-- container end -->
-<!-- footer start -->
-<div class="navbar-fixed-bottom">
-  <%= render 'home_pages/chatbox' %>
-</div>
-
 <!-- footer end -->
 <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
   <div class="modal-header">

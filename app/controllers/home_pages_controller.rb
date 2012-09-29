@@ -49,8 +49,4 @@ class HomePagesController < ApplicationController
       format.js { render json: {}}
     end
   end
-
-  def video
-
-  end
 end

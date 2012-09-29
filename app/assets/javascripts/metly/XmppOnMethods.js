@@ -5,16 +5,24 @@
     var _notification = null;
     var _xmppCore = null;
     var _xmppUtils = null;
-
+    var _videoCall = null;
     var self = this;
 
-    this.Constructor = function (messageBox, notification, xmppCore, xmppUtils) {
+
+    var chatSoundPlayer = null;
+    var unread = 0;
+
+    this.Constructor = function (messageBox, notification, xmppCore, xmppUtils, videoCall) {
       _messageBox = messageBox;
       _notification = notification;
       _xmppCore = xmppCore;
       _xmppUtils = xmppUtils;
+      _videoCall = videoCall;
     };
 
+    this.init = function(){
+      chatSoundPlayer = document.getElementById('chat-sound-player');
+    };
     this.onConnect = function (status) {
       _xmppCore.setAlive(false);
       if (status == Strophe.Status.CONNECTED || status == Strophe.Status.ATTACHED) {
@@ -72,7 +80,7 @@
 
       if (type != "error" && videoInvite.length > 0) {
 
-        _messageBox.videoRequest(message);
+        _videoCall.videoRequest(message);
         return true;
       }
       var body = $(message).find("html > body");
@@ -111,6 +119,8 @@
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
           }
+          chatSoundPlayer.SetVariable('method:stop', '');
+          chatSoundPlayer.SetVariable('method:play', '');
           _notification.attachOneMessageNotification(Constants.MAX_LONG, body, jid, _xmppCore.getMy().jid);
           _messageBox.strangerInlineMessage(id, jid, body);
         }
