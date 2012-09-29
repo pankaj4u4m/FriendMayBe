@@ -2,7 +2,9 @@ class AnonymousController < ApplicationController
   include XmppHelper
 
   def anonymous
-    @onlineUsers = 200;
+    Thread.new do
+      sleep(5000*50)
+    end
   end
 
   def anonymouslogin

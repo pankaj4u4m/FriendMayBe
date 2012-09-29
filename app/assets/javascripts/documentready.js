@@ -27,21 +27,27 @@ $(document).ready(function () {
   videoCall.init();
   xmppOnMethods.init();
 
-  var textArea = $('#feedback textarea');
+  var textArea = null;
   $('.feedback').click(function (e) {
-    $('#feedback .modal-body').empty().append(textArea);
-    $('#feedback').modal();
-    e.preventDefault();
-  });
-  $('#feedback .send').click(function (e) {
-    if (textArea.val().trim().length > 0) {
-      var txt = textArea.val().trim();
-      $('#feedback .modal-body').empty();
-      $('#feedback .modal-body').append('<p>sending...<br/>' + txt + '</p>')
-      $.get(Constants.FEEDBACK_URL, {feedback:txt}, function(){
-        $('#feedback').modal('hide');
+    var f = $('#feedbackModal');
+    if(!f.length) {
+      $('body').append(MetlyTemplates.feedbackModal);
+      textArea = $('#feedbackModal textarea');
+      $('#feedbackModal .send').click(function (e) {
+        if (textArea.val().trim().length > 0) {
+          var txt = textArea.val().trim();
+          $('#feedback .modal-body').empty();
+          $('#feedback .modal-body').append('<p>sending...<br/>' + txt + '</p>')
+          $.get(Constants.FEEDBACK_URL, {feedback:txt}, function(){
+            $('#feedback').modal('hide');
+          });
+        }
       });
+      f = $('#feedbackModal');
     }
+    $(f).find('.modal-body').empty().append(textArea);
+    $(f).modal();
+    e.preventDefault();
   });
   $(window).bind('resize',function(){
     var w = $('.loginbtn').width();

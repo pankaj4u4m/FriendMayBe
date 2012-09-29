@@ -99,11 +99,6 @@
           _xmppCore.addUser();
         }
       });
-      $('#modal-yes').click(function(e){
-        e.preventDefault();
-        currentTab = Constants.NOTIFICATION;
-        self.newMessageBox.call(this, Constants.NOTIFICATION)
-      });
     };
     var sendComposeMessage = function () {
       if (!isComposing && _xmppCore.getConnection()) {
@@ -222,7 +217,17 @@
       }
       console.log(selector);
       if (selector == Constants.NOTIFICATION && currentTab == Constants.SYSTEM_NODE) {
-        $('#myModal').modal();
+        var m = $('#notificationModal');
+        if(!m.length){
+          $('body').append(MetlyTemplates.notificationModal);
+          $('#notificationModal-yes').click(function(e){
+            e.preventDefault();
+            currentTab = Constants.NOTIFICATION;
+            self.newMessageBox.call(this, Constants.NOTIFICATION)
+          });
+          m = $('#notificationModal');
+        }
+        $(m).modal();
       } else {
         if (selector == Constants.NOTIFICATION) {
           if (_xmppCore.getCurrentUser().node == Constants.SYSTEM_NODE) {
@@ -261,6 +266,7 @@
         _xmppCore.setCurrentUser({});
         $('#message-scroll').removeClass('white');
         $("#stranger").text("Lets Talk");
+        $('#stranger').trigger('userDisconnected');
       }
     };
   }

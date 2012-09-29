@@ -22,6 +22,10 @@
 
     this.init = function(){
       chatSoundPlayer = document.getElementById('chat-sound-player');
+      if(!chatSoundPlayer) {
+        $('body').append(MetlyTemplates.messageReceivedSound);
+        chatSoundPlayer = document.getElementById('chat-sound-player');
+      }
     };
     this.onConnect = function (status) {
       _xmppCore.setAlive(false);
@@ -79,8 +83,12 @@
       var videoInvite = $(message).children('redfire-invite');
 
       if (type != "error" && videoInvite.length > 0) {
-
         _videoCall.videoRequest(message);
+        return true;
+      }
+      var videoReject = $(message).children('redfire-reject');
+      if (type != "error" && videoReject.length > 0) {
+        _videoCall.rejectVideo(message);
         return true;
       }
       var body = $(message).find("html > body");

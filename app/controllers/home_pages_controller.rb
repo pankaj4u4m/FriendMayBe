@@ -5,7 +5,9 @@ class HomePagesController < ApplicationController
 
   def home
     @user = current_user
-    @onlineUsers = 100
+    Thread.new do
+      sleep(5000*50)
+    end
   end
 
   def login

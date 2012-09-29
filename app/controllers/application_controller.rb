@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   around_filter :global_request_logging
 
+
   def global_request_logging
     http_request_header_keys = request.headers.keys.select{|header_name| header_name.match("^HTTP.*")}
     http_request_headers = request.headers.select{|header_name, header_value| http_request_header_keys.index(header_name)}
@@ -22,6 +23,7 @@ class ApplicationController < ActionController::Base
   #  #render params[:path]
   #  render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
   #end
+
 
   private
   def after_sign_in_path_for(resource)
