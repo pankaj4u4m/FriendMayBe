@@ -82,7 +82,17 @@ MetlyTemplates = {
     '<object id="video-sound-player" type="application/x-shockwave-flash" data="/res/audioplayer.swf" width="0" height="0" >',
     '<param name="movie" value="/res/audioplayer.swf" /><param name="AllowScriptAccess" value="always" />',
     '<param name="FlashVars" value="listener=audioplayerListener&amp;mp3=/res/pass.mp3" />',
-    '</object>'].join('')
-}
+    '</object>'].join(''),
+
+  getFlashPlayer : ['<p class="getFlashPlayer"> To view this page ensure that Adobe Flash Player version 11.1.0 or greater is installed. <span></span></p>',
+    '<script type="text/javascript">',
+    'var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://");',
+    '$(".getFlashPlayer span").html("',
+    '<a href=\'http://www.adobe.com/go/getflashplayer\' class=\'btn-link\'>',
+    '<img src=\'"+ pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif\' alt=\'Get Adobe Flash player\' />',
+    '</a>',
+    '" );',
+    '</script>' ].join('')
+};
 
 

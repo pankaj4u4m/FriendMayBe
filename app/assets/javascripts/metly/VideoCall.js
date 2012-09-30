@@ -92,6 +92,10 @@
       $('#video-container').append($('<div class="video-content"><div id="remote-video" style="width: 100%;height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
       $('#video-container').append($('<div class="video-content" style="margin-top: 10px"><div id="local-video" style="width: 100%; height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
 
+      $('#remote-video').html(MetlyTemplates.getFlashPlayer);
+      $('#local-video').html(MetlyTemplates.getFlashPlayer);
+
+
       $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
       startVideo(firstParty, secondParty, sessionId);
@@ -123,6 +127,11 @@
     }
 
     var startVideo = function(firstParty, secondParty, sessionId) {
+      startRemote(firstParty, secondParty, sessionId);
+      startLocal();
+    };
+
+    var startRemote = function(firstParty, secondParty, sessionId) {
       var streamMe	= firstParty;
       var streamYou	= secondParty;
       var rtmpUrl 	= 'rtmp:/oflaDemo';
@@ -135,30 +144,71 @@
       var videoBandwidth		= '256000';
       var micSetRate			= '22';
 
-      var remoteVideo = new SWFObject("/res/VideoChat.swf", "video-content", "100%", "100%", "10");
-      remoteVideo.addParam("swLiveConnect", "true");
-      remoteVideo.addParam("name", "video");
+      var swfVersionStr = "12.1.0";
+      // To use express install, set to playerProductInstall.swf, otherwise the empty string.
+      var xiSwfUrlStr = "";
+      var flashvars = {
+        videoPicQuality : videoPicQuality,
+        videoFps : videoFps,
+        videoBandwidth: videoBandwidth,
+        micSetRate: micSetRate,
+        videoWidth:500,
+        videoHeight:500,
+        rtmpUrl:rtmpUrl,
+        rtmfpUrl: rtmfpUrl,
+        streamKey: key,
+        myStreamId:'myStreamId',
+        receiverStreamId:'receiverStreamId'
+      };
+      var params = {};
+      params.quality = "high";
+      params.bgcolor = "#333333";
+      params.allowscriptaccess = "sameDomain";
+      params.allowfullscreen = "true";
+      var attributes = {};
+      attributes.id = "VideoChat";
+      attributes.name = "VideoChat";
+      attributes.align = "middle";
+      swfobject.embedSWF(
+          "/res/VideoCall.swf", "remote-video",
+          "100%", "100%",
+          swfVersionStr, xiSwfUrlStr,
+          flashvars, params, attributes);
+      // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+      swfobject.createCSS("#remote-video", "display:block;text-align:left;");
+    };
+    var startLocal = function() {
+      var videoPicQuality		= '0';
+      var videoFps			= '30';
+      var videoBandwidth		= '256000';
 
-      remoteVideo.addVariable("rtmpUrl", rtmpUrl);
-      remoteVideo.addVariable("rtmfpUrl", rtmfpUrl);
-      remoteVideo.addVariable("streamMe", streamMe);
-      remoteVideo.addVariable("streamYou", streamYou);
-      remoteVideo.addVariable("key", key);
+      var swfVersionStr = "11.1.0";
+      // To use express install, set to playerProductInstall.swf, otherwise the empty string.
+      var xiSwfUrlStr = "";
+      var flashvars = {
+        videoPicQuality : videoPicQuality,
+        videoFps : videoFps,
+        videoBandwidth: videoBandwidth,
+        videoWidth:500,
+        videoHeight:500,
+        localCamera: 'true'};
 
-      remoteVideo.addVariable("videoPicQuality", videoPicQuality);
-      remoteVideo.addVariable("videoFps", videoFps);
-      remoteVideo.addVariable("videoBandwidth", videoBandwidth);
-      remoteVideo.addVariable("micSetRate", micSetRate);
-
-      remoteVideo.write("remote-video");
-
-      var localVideo = new SWFObject("/res/VideoChat.swf", "video-content", "100%", "100%", "10");
-      localVideo.addParam("swLiveConnect", "false");
-      localVideo.addParam("name", "video");
-
-      localVideo.addVariable("local", "true");
-
-      localVideo.write("local-video");
+      var params = {};
+      params.quality = "high";
+      params.bgcolor = "#333333";
+      params.allowscriptaccess = "sameDomain";
+      params.allowfullscreen = "true";
+      var attributes = {};
+      attributes.id = "VideoChat";
+      attributes.name = "VideoChat";
+      attributes.align = "middle";
+      swfobject.embedSWF(
+          "/res/VideoCall.swf", "local-video",
+          "100%", "100%",
+          swfVersionStr, xiSwfUrlStr,
+          flashvars, params, attributes);
+      // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+      swfobject.createCSS("#local-video", "display:block;text-align:left;");
     }
   }
 
