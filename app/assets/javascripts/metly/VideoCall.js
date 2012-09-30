@@ -88,8 +88,10 @@
       if(content){
         $(content).remove();
       }
-      $('#video-container').append($('<div id="video-panel" style="height: 100%; width: 100%"></div>'));
       $('#video-container').css({'width' : $('#messagebar-fixed').width()/2});
+      $('#video-container').append($('<div class="video-content"><div id="remote-video" style="width: 100%;height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
+      $('#video-container').append($('<div class="video-content" style="margin-top: 10px"><div id="local-video" style="width: 100%; height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
+
       $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
       startVideo(firstParty, secondParty, sessionId);
@@ -133,22 +135,30 @@
       var videoBandwidth		= '256000';
       var micSetRate			= '22';
 
-      fo = new SWFObject("/res/video.swf", "video-content", "100%", "100%", "10");
-      fo.addParam("swLiveConnect", "true");
-      fo.addParam("name", "video");
+      var remoteVideo = new SWFObject("/res/VideoChat.swf", "video-content", "100%", "100%", "10");
+      remoteVideo.addParam("swLiveConnect", "true");
+      remoteVideo.addParam("name", "video");
 
-      fo.addVariable("rtmpUrl", rtmpUrl);
-      fo.addVariable("rtmfpUrl", rtmfpUrl);
-      fo.addVariable("streamMe", streamMe);
-      fo.addVariable("streamYou", streamYou);
-      fo.addVariable("key", key);
+      remoteVideo.addVariable("rtmpUrl", rtmpUrl);
+      remoteVideo.addVariable("rtmfpUrl", rtmfpUrl);
+      remoteVideo.addVariable("streamMe", streamMe);
+      remoteVideo.addVariable("streamYou", streamYou);
+      remoteVideo.addVariable("key", key);
 
-      fo.addVariable("videoPicQuality", videoPicQuality);
-      fo.addVariable("videoFps", videoFps);
-      fo.addVariable("videoBandwidth", videoBandwidth);
-      fo.addVariable("micSetRate", micSetRate);
+      remoteVideo.addVariable("videoPicQuality", videoPicQuality);
+      remoteVideo.addVariable("videoFps", videoFps);
+      remoteVideo.addVariable("videoBandwidth", videoBandwidth);
+      remoteVideo.addVariable("micSetRate", micSetRate);
 
-      fo.write("video-panel");
+      remoteVideo.write("remote-video");
+
+      var localVideo = new SWFObject("/res/VideoChat.swf", "video-content", "100%", "100%", "10");
+      localVideo.addParam("swLiveConnect", "false");
+      localVideo.addParam("name", "video");
+
+      localVideo.addVariable("local", "true");
+
+      localVideo.write("local-video");
     }
   }
 

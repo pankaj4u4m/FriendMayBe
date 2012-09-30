@@ -2,8 +2,22 @@ class AnonymousController < ApplicationController
   include XmppHelper
 
   def anonymous
+    @onlineUsers = Rails.cache.read('onlineUsers')
+    if @onlineUsers.nil?
+      @onlineUsers = 1
+    else
+      @onlineUsers += 1
+    end
+    Rails.cache.write('onlineUsers', @onlineUsers, :timeToLive => 1.day)
     Thread.new do
-      sleep(5000*50)
+      sleep(20.minutes)
+      @onlineUsers = Rails.cache.read('onlineUsers')
+      if @onlineUsers.nil?
+        @onlineUsers = 0
+      else
+        @onlineUsers -= 1
+      end
+      Rails.cache.write('onlineUsers', @onlineUsers, :timeToLive => 1.day)
     end
   end
 
