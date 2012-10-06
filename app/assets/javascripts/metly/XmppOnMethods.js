@@ -8,10 +8,6 @@
     var _videoCall = null;
     var self = this;
 
-
-    var chatSoundPlayer = null;
-    var unread = 0;
-
     this.Constructor = function (messageBox, notification, xmppCore, xmppUtils, videoCall) {
       _messageBox = messageBox;
       _notification = notification;
@@ -21,11 +17,7 @@
     };
 
     this.init = function(){
-      chatSoundPlayer = document.getElementById('chat-sound-player');
-      if(!chatSoundPlayer) {
-        $('body').append(MetlyTemplates.messageReceivedSound);
-        chatSoundPlayer = document.getElementById('chat-sound-player');
-      }
+
     };
     this.onConnect = function (status) {
       _xmppCore.setAlive(false);
@@ -81,7 +73,6 @@
         return true;
       }
       var videoInvite = $(message).children('redfire-invite');
-
       if (type != "error" && videoInvite.length > 0) {
         _videoCall.videoRequest(message);
         return true;
@@ -127,8 +118,6 @@
           if (_xmppCore.getCurrentUser().status == ChatButtonStatus.CONNECTING) {
             _messageBox.changeChatStatusChanged(ChatButtonStatus.DISCONNECT);
           }
-          chatSoundPlayer.SetVariable('method:stop', '');
-          chatSoundPlayer.SetVariable('method:play', '');
           _notification.attachOneMessageNotification(Constants.MAX_LONG, body, jid, _xmppCore.getMy().jid);
           _messageBox.strangerInlineMessage(id, jid, body);
         }

@@ -121,7 +121,7 @@
 
     this.xmppStart = function () {
       _xmppCore.setConnection(new Strophe.Connection(Constants.BOSH_SERVICE));
-      _xmppCore.getConnection().connectionmanager.enable(initiateConnection);
+
       initiateConnection();
       //connect();
     };

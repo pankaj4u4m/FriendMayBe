@@ -10,6 +10,8 @@
 
     var count = 0;
     var title = null;
+    var chatSoundPlayer = null;
+    var isDocumentVisible = true;
 
     this.Constructor = function (messageBox, xmppCore, xmppUtils) {
       _messageBox = messageBox;
@@ -38,6 +40,18 @@
       });
       _messageBox.newMessageBox.call($("<a data-toggle='tab' class='roster-contact'  href='#" + Constants.NOTIFICATION + "'></a>"), Constants.NOTIFICATION);
 
+      chatSoundPlayer = document.getElementById('chat-sound-player');
+      if(!chatSoundPlayer) {
+        $('body').append(MetlyTemplates.messageReceivedSound);
+        chatSoundPlayer = document.getElementById('chat-sound-player');
+      }
+
+      $(document).on('show', function() {
+        isDocumentVisible = true;
+      });
+      $(document).on('hide', function() {
+        isDocumentVisible = false;
+      });
     };
     var menuResize = function () {
       var mn = $(document).height() - 180;
@@ -269,14 +283,19 @@
         $('#notification .notification-contents > .' + pair.item.id).remove();
       }
       waitCompleteMethod();
-      var menu = getMessageNotification(pair.item, false, true);
-      var page = getMessageNotification(pair.item, false, false);
-      menuNotifications(menu, true);
-      pageNotifications(page, true);
-      if (_xmppCore.getCurrentUser().id != pair.item.id) {
+      var read = true;
+      if (_xmppCore.getCurrentUser().id != pair.item.id || !isDocumentVisible) {
+        chatSoundPlayer.SetVariable('method:stop', '');
+        chatSoundPlayer.SetVariable('method:play', '');
+        read = false;
         count++;
         notificationBtn();
+
       }
+      var menu = getMessageNotification(pair.item, read, true);
+      var page = getMessageNotification(pair.item, read, false);
+      menuNotifications(menu, true);
+      pageNotifications(page, true);
     };
     this.attachOneRequestNotification = function (jid, name) {
       if (!jid) return;
@@ -291,6 +310,9 @@
       var page = getRequestNotification(pair.item, false, false);
       menuNotifications(menu, true);
       pageNotifications(page, true);
+
+      chatSoundPlayer.SetVariable('method:stop', '');
+      chatSoundPlayer.SetVariable('method:play', '');
 
       count++;
       notificationBtn();
@@ -320,10 +342,10 @@
         }
       }
       $('#messagebar-box').css({'bottom' : 5});
-      $('#chatbox-bottom').css({'visibility' : 'hidden'});
+      $('#chatbox-bottom').addClass('hide');
       $('#optionbar-fixed .buddy-name a').attr('href', '#'+selector).html("Notifications");
-      $('#optionbar-fixed .buddy-options').addClass('hidden');
-      $('#optionbar-fixed .buddy-status').addClass('hidden');
+      $('#optionbar-fixed .buddy-options').addClass('hide');
+      $('#optionbar-fixed .buddy-status').addClass('hide');
     };
   }
 

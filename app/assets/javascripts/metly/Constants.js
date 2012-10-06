@@ -31,11 +31,15 @@ Commands = {
   DISCONNECT: '\\d'
 };
 
+audioplayerListener = new Object();
+audioplayerListener.onInit = function() { };
+audioplayerListener.onUpdate = function(){};
+
 MetlyTemplates = {
   videoModal : ['<div style="display: none;" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="videoModal" class="modal">',
     '<div class="modal-header">',
     '<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>',
-    '<p> Are you sure to disconnect current user? </p>',
+    '<span> User is calling...</span>',
     '</div>',
     '<div class="modal-footer">',
     '<button aria-hidden="true" data-dismiss="modal" class="btn" id="videoModal-reject">Reject</button>',
@@ -46,7 +50,7 @@ MetlyTemplates = {
    notificationModal : ['<div style="display: none;" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="notificationModal" class="modal">',
   '<div class="modal-header">',
   '<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>',
-  '<p> Are you sure to disconnect current user? </p>',
+  '<span> Are you sure to disconnect current user? </span>',
   '</div>',
   '<div class="modal-footer">',
   '<button aria-hidden="true" data-dismiss="modal" class="btn">No</button>',
@@ -57,31 +61,25 @@ MetlyTemplates = {
   feedbackModal : ['<div style="display: none;" aria-hidden="true" aria-labelledby="feedbackLabel" role="dialog" tabindex="-1" id="feedbackModal" class="modal">',
     '<div class="modal-header">',
     '<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>',
-    '<p>You can provide feedback/feature request/problems to us.</p>',
+    '<span>You can provide feedback/feature request/problems to us.</span>',
     '</div>',
     '<div class="modal-body">',
     '<textarea style="width: 100%; position: relative; right: 7px;"></textarea>',
     '</div>',
     '<div class="modal-footer">',
     '<button aria-hidden="true" data-dismiss="modal" class="btn">Cancel</button>',
-    '<button aria-hidden="true" class="btn send btn-primary">Send</button>',
+    '<button class="btn send btn-primary" >Send</button>',
     '</div>',
     '</div>'].join(''),
 
-  messageReceivedSound : ['<script type="text/javascript">',
-    'var audioplayerListener = new Object(); audioplayerListener.onInit = function() { };',
-    '</script>',
-    '<object id="chat-sound-player" type="application/x-shockwave-flash" data="/res/audioplayer.swf" width="0" height="0" >',
+  messageReceivedSound : ['<object id="chat-sound-player" type="application/x-shockwave-flash" data="/res/audioplayer.swf" width="0" height="0" >',
     '<param name="movie" value="/res/audioplayer.swf" /><param name="AllowScriptAccess" value="always" />',
-    '<param name="FlashVars" value="listener=audioplayerListener&amp;mp3=/res/notify.mp3" />',
+    '<param name="FlashVars" value="listener=audioplayerListener&amp;mp3=/res/notification.mp3" />',
     '</object>'].join(''),
 
-  videoCallReceivedSound : ['<script type="text/javascript">',
-    'var audioplayerListener = new Object(); audioplayerListener.onInit = function() { };',
-    '</script>',
-    '<object id="video-sound-player" type="application/x-shockwave-flash" data="/res/audioplayer.swf" width="0" height="0" >',
+  videoCallReceivedSound : ['<object id="video-sound-player" type="application/x-shockwave-flash" data="/res/audioplayer.swf" width="0" height="0" >',
     '<param name="movie" value="/res/audioplayer.swf" /><param name="AllowScriptAccess" value="always" />',
-    '<param name="FlashVars" value="listener=audioplayerListener&amp;mp3=/res/pass.mp3" />',
+    '<param name="FlashVars" value="listener=audioplayerListener&amp;mp3=/res/ringtone.mp3&amp;interval=1000" />',
     '</object>'].join(''),
 
   getFlashPlayer : ['<p class="getFlashPlayer"> To view this page ensure that Adobe Flash Player version 11.1.0 or greater is installed. <span></span></p>',
@@ -92,7 +90,12 @@ MetlyTemplates = {
     '<img src=\'"+ pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif\' alt=\'Get Adobe Flash player\' />',
     '</a>',
     '" );',
-    '</script>' ].join('')
+    '</script>' ].join(''),
+  alertMessage: ['<div class="alert fade in">',
+    '<button class="close" data-dismiss="alert" type="button">×</button>',
+    '<strong></strong>',
+    '<span></span>',
+    '</div>'].join('')
 };
 
 

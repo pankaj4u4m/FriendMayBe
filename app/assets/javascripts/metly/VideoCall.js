@@ -2,18 +2,15 @@
   function VideoCall(){
     var _xmppCore = null;
     var self = this;
-
-    var videoSoundPlayer = null;
-
+    var player = new Object();
     this.Constructor = function (xmppCore) {
       _xmppCore = xmppCore;
     };
-
     this.init = function(){
-      videoSoundPlayer = document.getElementById('video-sound-player');
-      if(!videoSoundPlayer) {
+      player.target = document.getElementById('video-sound-player');
+      if(!player.target) {
         $('body').append(MetlyTemplates.videoCallReceivedSound);
-        videoSoundPlayer = document.getElementById('video-sound-player');
+        player.target = document.getElementById('video-sound-player');
       }
       $('#optionbar-fixed button.video').click(function(e){
         e.preventDefault();
@@ -32,10 +29,30 @@
         $('#optionbar-fixed button.video').removeClass('callend btn-danger').addClass('btn-primary');
         $('#optionbar-fixed button.video').html('Video');
       });
+
+      player.repeat = true;
+      player.play = function(){
+        if(player.target) {
+          player.target.SetVariable('method:stop', '');
+          player.target.SetVariable('method:play', '');
+          setTimeout(function(){
+            player.target.SetVariable('method:stop', '');
+            if(player.repeat) {
+              player.play();
+            }
+          }, 3000);
+        }
+      };
+      player.stop = function(){
+        if(player.target) {
+          player.target.SetVariable('method:stop', '');
+          player.repeat = false;
+        }
+      };
+
     };
     this.videoRequest = function (message) {
-      videoSoundPlayer.SetVariable('method:stop', '');
-      videoSoundPlayer.SetVariable('method:play', '');
+      player.play();
 
       var prompt = $(message).find('body').text();
       var windowType = $(message).find("windowType").text();
@@ -44,17 +61,20 @@
       var sessionID = $(message).find("sessionID").text();
 
       var v = $('#videoModal');
+      var accepted = false;
       if(!v.length){
         $('body').append(MetlyTemplates.videoModal);
         $('#videoModal-accept').click(function(e){
+          accepted = true;
+          player.stop();
           e.preventDefault();
           stopApp();
           openWindow(secondParty, firstParty, sessionID);
           $('#optionbar-fixed button.video').removeClass('btn-primary').addClass('callend btn-danger');
-          $('#optionbar-fixed button.video').html('End Call');
+          $('#optionbar-fixed button.video').html('Hang Up');
         });
         $('#videoModal-reject').click(function(e) {
-          videoSoundPlayer.SetVariable('method:stop', '');
+          player.stop();
           var msg = $msg({to:_xmppCore.getCurrentUser().jid, type:"chat"}).c("body", {xmlns:Strophe.NS.CLIENT}).t(prompt);
           var redfire = msg.up().c("redfire-reject", {xmlns:"http://redfire.4ng.net/xmlns/redfire-invite"});
           _xmppCore.getConnection().send(msg);
@@ -64,13 +84,22 @@
       $(v).find('.modal-header p').html(_xmppCore.getRosterName(_xmppCore.getCurrentUser().jid) + prompt);
       $(v).modal();
       setTimeout(function(){
-        $('#videoModal-reject').trigger('click');
+        if(!accepted) {
+          $('#videoModal-reject').trigger('click');
+        }
       }, 30000);
     };
     this.rejectVideo = function(message) {
+      var m = $(MetlyTemplates.alertMessage);
+      $(m).find('span').html('User as rejected ur call');
+      setTimeout(function(){
+        $(m).alert('close');
+      },10000);
+      $('#messagebar-box').prepend(m);
+
       stopApp();
-      $(this).removeClass('callend btn-danger').addClass('btn-primary');
-      $(this).html('Video');
+      $('#optionbar-fixed button.video').removeClass('callend btn-danger').addClass('btn-primary');
+      $('#optionbar-fixed button.video').html('Video');
     };
     this.openVideo = function () {
       var firstParty = Math.random().toString(36).substr(2, 4);
@@ -79,139 +108,111 @@
 
       var title = "Video Call " + secondParty;
 
-      _sendInvite(" is offering to share a video in this chat", _xmppCore.getCurrentUser().jid, firstParty, secondParty, "_video", sessionId);
+      _sendInvite(" is offering to share a video in this chat...", _xmppCore.getCurrentUser().jid, firstParty, secondParty, "_video", sessionId);
       openWindow(firstParty, secondParty, sessionId)
     };
+
     var openWindow = function( firstParty, secondParty, sessionId )
     {
       var content = $('#video-content');
       if(content){
         $(content).remove();
       }
-      $('#video-container').css({'width' : $('#messagebar-fixed').width()/2});
-      $('#video-container').append($('<div class="video-content"><div id="remote-video" style="width: 100%;height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
-      $('#video-container').append($('<div class="video-content" style="margin-top: 10px"><div id="local-video" style="width: 100%; height: 100%"></div></div>').height($('#video-container').height()/2 - 5));
+
+      $('#video-container').width($('#messagebar-fixed').width()/2);
+
+      var remote = $('<div class="video-content"><div id="remote-video" style="width: 100%;height: 100%"></div><div class="video-options"></div></div>');
+      remote.height($('#video-container').height() - 5);
+      $('#video-container').append(remote);
+
+
 
       $('#remote-video').html(MetlyTemplates.getFlashPlayer);
-      $('#local-video').html(MetlyTemplates.getFlashPlayer);
 
 
-      $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
+      $('#video-container').css({'right' : "-600px"});
+      $('#video-container').animate({'right' : "0px"}, "slow", function(){
+        $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
+      });
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
       startVideo(firstParty, secondParty, sessionId);
     };
     var _sendInvite = function (prompt, jid, firstParty, secondParty, windowType, sessionId) {
       var msg = $msg({to:jid, type:"chat"}).c("body", {xmlns:Strophe.NS.CLIENT}).t(prompt);
       var redfire = msg.up().c("redfire-invite", {xmlns:"http://redfire.4ng.net/xmlns/redfire-invite"});
-      redfire.c("sessionID").t(sessionId);
-      redfire.c("firstParty").t(firstParty);
-      redfire.c("secondParty").t(secondParty);
-      redfire.c("windowType").t(windowType);
+      redfire.c("sessionID").t(sessionId).up();
+      redfire.c("firstParty").t(firstParty).up();
+      redfire.c("secondParty").t(secondParty).up();
+      redfire.c("windowType").t(windowType).up();
       _xmppCore.getConnection().send(msg);
     };
 
     function stopApp()
     {
-      var redfireVideo = $("#video-panel");
-      if (redfireVideo != null)
+      var videoContent = $(".video-content");
+      if (videoContent != null)
       {
         try {
-          redfireVideo.windowCloseEvent();
+          videoContent.windowCloseEvent();
 
         } catch (error) {}
-        $(redfireVideo).remove();
+        $(videoContent).remove();
       }
+
       $('#video-container').width(0);
+
       $('#chat-app').width('auto');
       $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
     }
 
     var startVideo = function(firstParty, secondParty, sessionId) {
       startRemote(firstParty, secondParty, sessionId);
-      startLocal();
     };
 
     var startRemote = function(firstParty, secondParty, sessionId) {
-      var streamMe	= firstParty;
-      var streamYou	= secondParty;
-      var rtmpUrl 	= 'rtmp:/oflaDemo';
+      var localUID	= firstParty;
+      var remoteUID	= secondParty;
       //var rtmfpUrl	= getPageParameter('rtmfpUrl', 'rtmfp://p2p.rtmfp.net/e423fa356c187078552b994c-004820ca784f/');
-      var rtmfpUrl	= '';
-      var key 		= sessionId;
 
-      var videoPicQuality		= '0';
-      var videoFps			= '30';
-      var videoBandwidth		= '256000';
-      var micSetRate			= '22';
+      var connectionKey 		= sessionId;
 
-      var swfVersionStr = "12.1.0";
-      // To use express install, set to playerProductInstall.swf, otherwise the empty string.
-      var xiSwfUrlStr = "";
-      var flashvars = {
-        videoPicQuality : videoPicQuality,
-        videoFps : videoFps,
-        videoBandwidth: videoBandwidth,
-        micSetRate: micSetRate,
-        videoWidth:500,
-        videoHeight:500,
-        rtmpUrl:rtmpUrl,
-        rtmfpUrl: rtmfpUrl,
-        streamKey: key,
-        myStreamId:'myStreamId',
-        receiverStreamId:'receiverStreamId'
-      };
-      var params = {};
-      params.quality = "high";
-      params.bgcolor = "#333333";
-      params.allowscriptaccess = "sameDomain";
-      params.allowfullscreen = "true";
-      var attributes = {};
-      attributes.id = "VideoChat";
-      attributes.name = "VideoChat";
-      attributes.align = "middle";
-      swfobject.embedSWF(
-          "/res/VideoCall.swf", "remote-video",
-          "100%", "100%",
-          swfVersionStr, xiSwfUrlStr,
-          flashvars, params, attributes);
-      // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
-      swfobject.createCSS("#remote-video", "display:block;text-align:left;");
-    };
-    var startLocal = function() {
-      var videoPicQuality		= '0';
-      var videoFps			= '30';
-      var videoBandwidth		= '256000';
+//      var videoPicQuality		= '0';
+//      var videoFps			= '30';
+//      var videoBandwidth		= '256000';
+//      var micSetRate			= '22';
 
       var swfVersionStr = "11.1.0";
       // To use express install, set to playerProductInstall.swf, otherwise the empty string.
       var xiSwfUrlStr = "";
       var flashvars = {
-        videoPicQuality : videoPicQuality,
-        videoFps : videoFps,
-        videoBandwidth: videoBandwidth,
-        videoWidth:500,
-        videoHeight:500,
-        localCamera: 'true'};
+//        videoPicQuality : videoPicQuality,
+//        videoFps : videoFps,
+//        videoBandwidth: videoBandwidth,
+//        micSetRate: micSetRate,
+        appWidth:$('#remote-video').width() -10 ,
+        appHeight:$('#remote-video').height() - 10,
 
+        connectionKey: connectionKey,
+        localUID:localUID,
+        remoteUID:remoteUID
+      };
       var params = {};
-      params.quality = "high";
-      params.bgcolor = "#333333";
+//      params.quality = "high";
+//      params.bgcolor = "#333333";
       params.allowscriptaccess = "sameDomain";
       params.allowfullscreen = "true";
       var attributes = {};
-      attributes.id = "VideoChat";
-      attributes.name = "VideoChat";
       attributes.align = "middle";
       swfobject.embedSWF(
-          "/res/VideoCall.swf", "local-video",
+          "/res/VideoChat.swf", "remote-video",
           "100%", "100%",
           swfVersionStr, xiSwfUrlStr,
           flashvars, params, attributes);
       // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
-      swfobject.createCSS("#local-video", "display:block;text-align:left;");
-    }
-  }
+      swfobject.createCSS("#remote-video", "display:block;text-align:left;");
 
+    };
+  }
   var _INSTANCE = new VideoCall();
 
   $.getVideocall = function () {

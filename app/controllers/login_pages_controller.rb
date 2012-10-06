@@ -20,7 +20,7 @@ class LoginPagesController < ApplicationController
                         feedback: params['feedback']
                     })
     respond_to do |format|
-      format.js { render json: {}}
+      format.js { render json: {status: 'feedback'}}
     end
   end
 end

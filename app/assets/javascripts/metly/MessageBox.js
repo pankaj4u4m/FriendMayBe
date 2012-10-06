@@ -134,23 +134,23 @@
         $(messageBar).append(chatbar);
       }
       $('#messagebar-box').css({'bottom' : 90});
-      $('#chatbox-bottom').css({'visibility' : 'visible'});
+      $('#chatbox-bottom').removeClass('hide');
       $('#optionbar-fixed .buddy-name a').attr('href', '#' + selector).html(user.name || Constants.SYSTEM_NAME);
       $('#message-scroll').addClass('white');
       self.chatOptions(selector, _xmppUtils.presenceValue(user.pres), isRemembered);
     };
     this.chatOptions = function (selector, presence, isRemembered) {
 
-      $('#optionbar-fixed .buddy-options').removeClass('hidden');
+      $('#optionbar-fixed .buddy-options').removeClass('hide');
 
       $('#optionbar-fixed .buddy-options .remember').removeClass('remove add disabled')
           .addClass((_xmppCore.getMy().isAnonymous ? "disabled" : ""));
 
       if (!isRemembered) {
-        $('#optionbar-fixed .buddy-status').addClass('hidden');
+        $('#optionbar-fixed .buddy-status').addClass('hide');
         $('#optionbar-fixed .buddy-options .remember').removeClass('remove').addClass('add').text('Remember')
       } else {
-        $('#optionbar-fixed .buddy-status').removeClass('hidden');
+        $('#optionbar-fixed .buddy-status').removeClass('hide');
         _xmppUtils.setPresence($('#optionbar-fixed .buddy-status'), presence);
         if (Strophe.getNodeFromJid(selector) != Constants.SYSTEM_NODE) {
           $('#optionbar-fixed .buddy-options .remember').removeClass('add').addClass('remove').text('Forget')

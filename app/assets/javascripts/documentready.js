@@ -28,19 +28,33 @@ $(document).ready(function () {
   xmppOnMethods.init();
 
   var textArea = null;
+  $('#logo').click(function(e){
+    e.preventDefault();
+
+
+
+    //TODO remove this this is only for experiment
+  });
   $('.feedback').click(function (e) {
     var f = $('#feedbackModal');
     if(!f.length) {
-      $('body').append(MetlyTemplates.feedbackModal);
+      var b = MetlyTemplates.feedbackModal;
+      $('body').append(b);
+
       textArea = $('#feedbackModal textarea');
-      $('#feedbackModal .send').click(function (e) {
+      $('#feedbackModal .send').click(function (e1) {
         if (textArea.val().trim().length > 0) {
+          $(this).text('Sending...');
+          $(this).addClass('disabled');
           var txt = textArea.val().trim();
-          $('#feedback .modal-body').empty();
-          $('#feedback .modal-body').append('<p>sending...<br/>' + txt + '</p>')
-          $.get(Constants.FEEDBACK_URL, {feedback:txt}, function(){
-            $('#feedback').modal('hide');
-          });
+          textArea.val('');
+          $('#feedbackModal .modal-body').empty();
+          $('#feedbackModal .modal-body').append('<p>' + txt + '</p>')
+          $.get(Constants.FEEDBACK_URL, {feedback:txt}, function(data){
+            $('#feedbackModal').modal('hide');
+            $(this).text('Send');
+            $(this).removeClass('disabled');
+          }, 'json');
         }
       });
       f = $('#feedbackModal');

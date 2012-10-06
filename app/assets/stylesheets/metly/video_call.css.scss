@@ -3,9 +3,16 @@
   position: absolute;
   right: 0;
   top: 41px;
-  max-width: 400px;
+  max-width: 600px;
 }
 .video-options {
   width: 100%;
-  height: 20px;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: 1024;
+  background-color: red;
+}
+.video-content {
+  width: 100%;
 }
