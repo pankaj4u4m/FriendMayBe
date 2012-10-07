@@ -38,7 +38,7 @@ $(document).ready(function () {
   $('.feedback').click(function (e) {
     var f = $('#feedbackModal');
     if(!f.length) {
-      var b = MetlyTemplates.feedbackModal;
+      var b = FriendmaybeTemplates.feedbackModal;
       $('body').append(b);
 
       textArea = $('#feedbackModal textarea');

@@ -9,7 +9,7 @@
     this.init = function(){
       player.target = document.getElementById('video-sound-player');
       if(!player.target) {
-        $('body').append(MetlyTemplates.videoCallReceivedSound);
+        $('body').append(FriendmaybeTemplates.videoCallReceivedSound);
         player.target = document.getElementById('video-sound-player');
       }
       $('#optionbar-fixed button.video').click(function(e){
@@ -63,7 +63,7 @@
       var v = $('#videoModal');
       var accepted = false;
       if(!v.length){
-        $('body').append(MetlyTemplates.videoModal);
+        $('body').append(FriendmaybeTemplates.videoModal);
         $('#videoModal-accept').click(function(e){
           accepted = true;
           player.stop();
@@ -90,7 +90,7 @@
       }, 30000);
     };
     this.rejectVideo = function(message) {
-      var m = $(MetlyTemplates.alertMessage);
+      var m = $(FriendmaybeTemplates.alertMessage);
       $(m).find('span').html('User as rejected ur call');
       setTimeout(function(){
         $(m).alert('close');
@@ -127,7 +127,7 @@
 
 
 
-      $('#remote-video').html(MetlyTemplates.getFlashPlayer);
+      $('#remote-video').html(FriendmaybeTemplates.getFlashPlayer);
 
 
       $('#video-container').css({'right' : "-600px"});

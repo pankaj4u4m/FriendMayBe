@@ -42,7 +42,7 @@
 
       chatSoundPlayer = document.getElementById('chat-sound-player');
       if(!chatSoundPlayer) {
-        $('body').append(MetlyTemplates.messageReceivedSound);
+        $('body').append(FriendmaybeTemplates.messageReceivedSound);
         chatSoundPlayer = document.getElementById('chat-sound-player');
       }
 

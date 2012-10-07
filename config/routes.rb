@@ -1,4 +1,4 @@
-MetlyDevise::Application.routes.draw do
+FriendmaybeDevise::Application.routes.draw do
 
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}, :skip => [:sessions, :passwords, :registrations] do
     get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session

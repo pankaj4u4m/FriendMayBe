@@ -1972,7 +1972,7 @@ Strophe.Connection.prototype = {
             ver: "1.6",
             "xmpp:version": "1.0",
             "xmlns:xmpp": Strophe.NS.BOSH,
-            //route: "xmpp:localhost:5222",
+            //route: "xmpp:friendmaybe.com:5222",
             secure: 'true'
     });
 

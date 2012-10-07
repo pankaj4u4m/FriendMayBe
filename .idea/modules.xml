@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/metly_devise.iml" filepath="$PROJECT_DIR$/.idea/metly_devise.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/friendmaybe.iml" filepath="$PROJECT_DIR$/.idea/friendmaybe.iml" />
     </modules>
   </component>
 </project>

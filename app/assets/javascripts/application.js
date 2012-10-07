@@ -15,6 +15,6 @@
 //= require_directory ./strophe
 //= require_directory ./strophe/plugin
 //= require_directory ./bootstrap
-//= require_directory ./metly
+//= require_directory ./friendmaybe
 //= require_self
 //= require_directory .

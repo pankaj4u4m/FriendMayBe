@@ -226,7 +226,7 @@
       if (selector == Constants.NOTIFICATION && currentTab == Constants.SYSTEM_NODE) {
         var m = $('#notificationModal');
         if(!m.length){
-          $('body').append(MetlyTemplates.notificationModal);
+          $('body').append(FriendmaybeTemplates.notificationModal);
           $('#notificationModal-yes').click(function(e){
             e.preventDefault();
             currentTab = Constants.NOTIFICATION;

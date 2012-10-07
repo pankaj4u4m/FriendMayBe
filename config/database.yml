@@ -10,10 +10,10 @@ development:
   adapter: mysql2spatial
   encoding: utf8
   reconnect: false
-  database: metly_production
+  database: friendmaybe_production
   pool: 5
-  username: metly
-  password: metly
+  username: friendmaybe
+  password: friendmaybe
   socket: /var/lib/mysql/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -23,19 +23,19 @@ test:
   adapter: mysql2spatial
   encoding: utf8
   reconnect: false
-  database: metly_test
+  database: friendmaybe_test
   pool: 5
-  username: metly
-  password: metly
+  username: friendmaybe
+  password: friendmaybe
   socket: /var/lib/mysql/mysql.sock
 
 production:
   adapter: mysql2spatial
   encoding: utf8
   reconnect: false
-  database: metly_production
+  database: friendmaybe_production
   pool: 5
-  username: metly
-  password: metly
+  username: friendmaybe
+  password: friendmaybe
   socket: /var/lib/mysql/mysql.sock
 

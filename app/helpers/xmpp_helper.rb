@@ -20,7 +20,7 @@ module XmppHelper
   #@closeCounter = 0
 
   def xmppLogin(jid = nil, pass = nil, user = nil)
-    @domain = "localhost"
+    @domain = "friendmaybe.com"
     @resource = SecureRandom.uuid;
     if(jid.nil?)
       @my_jid = nil
@@ -65,7 +65,7 @@ module XmppHelper
       vcard_helper.set(vcard)
       iq = Jabber::Iq.new(:set)
       iq.add(Jabber::Roster::IqQueryRoster.new)
-        .add(Jabber::Roster::RosterItem.new("metly@#{@domain}", 'metly'))
+        .add(Jabber::Roster::RosterItem.new("friendmaybe@#{@domain}", 'friendmaybe'))
       client.send(iq)
       client.close
     rescue => e

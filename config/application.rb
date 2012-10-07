@@ -24,7 +24,7 @@ if defined?(Bundler)
 
 end
 
-module MetlyDevise
+module FriendmaybeDevise
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -83,7 +83,7 @@ module MetlyDevise
     #config.force_ssl = true
 
     #memcache store
-    config.cache_store = :mem_cache_store, 'localhost:20020'
+    config.cache_store = :mem_cache_store, 'friendmaybe.com:20020'
 
 
   end

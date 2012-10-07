@@ -17,7 +17,7 @@ log4r_config:
   - type: DateFileOutputter
     name: datefile
     dirname: "log"
-    file: "metly.log" # this will be overrided by rails' config.
+    file: "friendmaybe.log" # this will be overrided by rails' config.
     formatter:
       date_pattern: '%H:%M:%S'
       pattern     : '%d %l %t [%h]: %m '

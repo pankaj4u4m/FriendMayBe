@@ -352,33 +352,6 @@ ActiveRecord::Schema.define(:version => 20120911025318) do
   add_index "ofSecurityAuditLog", ["entryStamp"], :name => "ofSecurityAuditLog_tstamp_idx"
   add_index "ofSecurityAuditLog", ["username"], :name => "ofSecurityAuditLog_uname_idx"
 
-  create_table "ofSipPhoneLog", :id => false, :force => true do |t|
-    t.string  "username"
-    t.string  "addressFrom"
-    t.string  "addressTo"
-    t.integer "datetime",    :limit => 8
-    t.integer "duration"
-    t.string  "callType",    :limit => 20
-  end
-
-  create_table "ofSipUser", :primary_key => "username", :force => true do |t|
-    t.string  "sipUsername"
-    t.string  "sipAuthuser"
-    t.string  "sipDisplayName"
-    t.string  "sipPassword"
-    t.string  "sipServer"
-    t.string  "stunServer"
-    t.string  "stunPort"
-    t.integer "useStun"
-    t.string  "voicemail"
-    t.integer "enabled"
-    t.string  "status"
-    t.string  "outboundproxy"
-    t.integer "promptCredentials"
-  end
-
-  add_index "ofSipUser", ["username"], :name => "username", :unique => true
-
   create_table "ofUser", :primary_key => "username", :force => true do |t|
     t.string "plainPassword",     :limit => 32
     t.string "encryptedPassword"

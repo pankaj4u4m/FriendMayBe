@@ -10,7 +10,7 @@
  *
  *= require_directory ./jquery
  *= require_directory ./bootstrap
- *= require_directory ./metly
+ *= require_directory ./friendmaybe
  *= require_self
  *= require_directory .
 

@@ -5,7 +5,7 @@ Constants = {
   PRE_BINDING_ANONYMOUS: '/anonymouslogin',
   NOTIFICATION_SERVICE: '/notification',
   FEEDBACK_URL: '/feedback',
-  SYSTEM_NODE: 'metly',
+  SYSTEM_NODE: 'friendmaybe',
   SYSTEM_NAME: 'Stranger',
   NOTIFICATION: 'notification',
   MAX_LONG:Math.pow(2, 63) - 1
@@ -35,7 +35,7 @@ audioplayerListener = new Object();
 audioplayerListener.onInit = function() { };
 audioplayerListener.onUpdate = function(){};
 
-MetlyTemplates = {
+FriendmaybeTemplates = {
   videoModal : ['<div style="display: none;" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="videoModal" class="modal">',
     '<div class="modal-header">',
     '<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>',
