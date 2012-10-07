@@ -1,5 +1,5 @@
 <!-- header start -->
-<%= render 'anonymous/header' %>
+<%= render partial: 'shared/header',  locals: {user: "anonymous", path: root_path} %>
 <!-- header end -->
 <script>
     $.getXmppActivity().anonymous();

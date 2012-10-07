@@ -236,6 +236,6 @@ Devise.setup do |config|
   #, :strategy_class => OmniAuth::Strategies::Facebook
   #{:scope => 'email, offline_access'
 
-  config.omniauth :google_oauth2, "61362364823.apps.googleusercontent.com", "pHt66STchIPEGGo8PN7fiHzU",
+  config.omniauth :google_oauth2, "61362364823.apps.googleusercontent.com", "UFwTANS6MAnBrkssqLNL49dT",
                   { access_type: "offline", approval_prompt: "" }
 end

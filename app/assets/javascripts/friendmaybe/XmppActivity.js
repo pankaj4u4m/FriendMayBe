@@ -65,7 +65,9 @@
       var tryReconnect = $("<button class='btn-link'>Try Reconnect</button>");
       $(tryAgain).click(function () {
         $('#remembereds ul .error').remove();
+        $('#remembereds ul').append("<li class='error'>Connecting... </li>")
         self.xmppStart();
+
       });
       $(tryReconnect).click(function () {
         self.xmppStart();

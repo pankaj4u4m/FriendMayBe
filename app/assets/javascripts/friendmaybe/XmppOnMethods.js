@@ -148,7 +148,7 @@
       return true;
     };
     this.onRosterReceive = function (list) {
-      $('#sidebar-fixed').addClass('white');
+      $('#sidebar-contacts').addClass('white');
 //      console.log(list);
       list.sort(function (a, b) {
         var r = _xmppUtils.presenceValue(_xmppUtils.rosterStatus(b.resources)) - _xmppUtils.presenceValue(_xmppUtils.rosterStatus(a.resources));
