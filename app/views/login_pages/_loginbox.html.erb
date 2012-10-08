@@ -1,26 +1,26 @@
-<div class="login-page loginbox-fixed">
-
-
-  <div class="loginbtn span4">
-    <div class="login-description">
-    </div>
-    <fieldset>
-      <legend>Sign-in</legend>
-      <div class="input-append">
-        <%= link_to "Anonymous", anonymous_path, class: "auth-btn btn btn btn-primary btn-large span4", title: "log in Anonymously" %>
-        <%= link_to "Facebook", user_omniauth_authorize_path(:facebook), class: "auth-btn btn btn-primary btn-large span4", title: "log in with Facebook" %>
-        <%= link_to "Google", user_omniauth_authorize_path(:google_oauth2), class: "auth-btn btn btn-primary btn-large span4", title: "log in with Google" %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+  <div class="loginbtn span6">
+    <div class="span6" style="border-right:1px solid #808080;text-align: center; padding-right: 10px;min-width: 200px;">
+      <div style="margin-bottom: 10px">
+        Find a new friend near by you where ever you go. You can choose to remember the user you are chatting or you choose only one time chat. The chat will be completely anonymous
+        You can try it as anonymous.
       </div>
+        <div class="span3"></div>
+        <%= link_to "Anonymous", anonymous_path, class: "auth-btn btn btn btn-primary span6", title: "log in Anonymously" %>
+    </div>
+    <div class="span6" style="min-width: 200px;">
+    <fieldset >
+      <div style="font-size: 21px;line-height: 40px;margin-bottom: 20px;text-align: center">Sign-in</div>
+        <div>
+          <%= link_to "Facebook", user_omniauth_authorize_path(:facebook), class: "auth-btn btn btn-primary span6", title: "log in with Facebook" %>
+          <%= link_to "Google", user_omniauth_authorize_path(:google_oauth2), class: "auth-btn btn btn-primary span6", title: "log in with Google" %>
+
+        </div>
       <!--<p>Google login has been disabled to testing</p>-->
 
     </fieldset>
+      </div>
   </div>
-
-  <div class="login-privacy">
-    <p>Friendmaybe is a great way to interact with people near by you. When you are in friendmaybe we pick a random near by user and
-      let you chat with each other. This interaction in complete anonymous and you can disconnect it anytime you want.
-      However if you like to you can remember them and chat with them later.</p>
-
-  </div>
-  <%= render 'login_pages/footer' %>
-</div>
+        </div></div></div>

@@ -1,0 +1,33 @@
+memcached
+httpd
+twisted
+mysql-server
+passenger
+openfire
+ruby-devel
+gcc-c++
+make
+system-config-firewall-tui
+google api console
+tar -xvzf git.tar.gz
+rake asset:precompile
+rake db:migrate RAIL_ENV="production"
+
+contact rezizable
+animated transition video call
+cached number of online users
+add request on opening the user in main box
+template engine
+
+link to open in new tab
+remove all console.log in precompile
+history messages
+voice input from candy for chrome
+
+openfire-websocket for reference
+
+if offline and can't receive message now
+
+remove current user to hashmap
+
+if 0 notification show hist, message button
