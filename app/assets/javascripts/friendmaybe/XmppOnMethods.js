@@ -138,6 +138,10 @@
       } else {
         self.onRosterReceive(list);
       }
+      if($('#remembereds li').length <= 0){
+        var li = $("<li class='error1'>No contacts added yet..</li>");
+        $('#remembereds ul').prepend(li);
+      }
       for (var i = 0; i < list.length; ++i) {
         _notification.updateNotificationUserStatusName(_xmppUtils.jidToId(list[i].jid), list[i].name
             || list[i].jid, _xmppUtils.rosterStatus(list[i].resources));
@@ -178,6 +182,10 @@
 
         }
       });
+      if($('#remembereds li').length == 0 ){
+        var li = $("<li class='error1'>No contacts added yet..</li>");
+        $('#remembereds ul').prepend(li);
+      }
       self.contactEventBind($("#remembereds a"));
       return true;
     };

@@ -1,10 +1,13 @@
 (function ($) {
   function VideoCall(){
     var _xmppCore = null;
+    var _appManager = null;
+
     var self = this;
     var player = new Object();
-    this.Constructor = function (xmppCore) {
+    this.Constructor = function (xmppCore, appManager) {
       _xmppCore = xmppCore;
+      _appManager = appManager;
     };
     this.init = function(){
       player.target = document.getElementById('video-sound-player');
@@ -118,23 +121,20 @@
       if(content){
         $(content).remove();
       }
-
-      $('#video-container').width($('#messagebar-fixed').width()/2);
+//      var appContainer = _appManager.getAppContainer();
+      var appContainer = _appManager.getInternalContainer();
 
       var remote = $('<div class="video-content"><div id="remote-video" style="width: 100%;height: 100%"></div><div class="video-options"></div></div>');
-      remote.height($('#video-container').height() - 5);
-      $('#video-container').append(remote);
+      remote.height(appContainer.height());
+
+      $(appContainer).html(remote);
 
 
 
       $('#remote-video').html(FriendmaybeTemplates.getFlashPlayer);
 
+      _appManager.showAppContainer();
 
-      $('#video-container').css({'right' : "-600px"});
-      $('#video-container').animate({'right' : "0px"}, "slow", function(){
-        $('#chat-app').width($('#chat-app').width() - $('#video-container').width());
-      });
-      $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
       startVideo(firstParty, secondParty, sessionId);
     };
     var _sendInvite = function (prompt, jid, firstParty, secondParty, windowType, sessionId) {
@@ -150,19 +150,13 @@
     function stopApp()
     {
       var videoContent = $(".video-content");
-      if (videoContent != null)
-      {
+      if (videoContent.length > 0) {
         try {
           videoContent.windowCloseEvent();
 
         } catch (error) {}
-        $(videoContent).remove();
+        _appManager.hideAppContainer();
       }
-
-      $('#video-container').width(0);
-
-      $('#chat-app').width('auto');
-      $('#' + _xmppCore.getCurrentUser().id).trigger("scrollResize");
     }
 
     var startVideo = function(firstParty, secondParty, sessionId) {

@@ -1,10 +1,11 @@
-//= require ./XmppUtils
+
 (function ($) {
   function MessageBox() {
     var _notification = null;
     var _xmppActivity = null;
     var _xmppCore = null;
     var _xmppUtils = null;
+    var _playGame = null;
 
     var self = this;
     var currentTab = null;
@@ -13,11 +14,13 @@
     var isComposing = false;
     var times = 0;
 
-    this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils) {
+    this.Constructor = function (notification, xmppActivity, xmppCore, xmppUtils, playGame) {
       _notification = notification;
       _xmppActivity = xmppActivity;
       _xmppCore = xmppCore;
       _xmppUtils = xmppUtils;
+      _playGame = playGame;
+
     };
     this.init = function () {
       $('#logout').click(function () {
@@ -109,7 +112,7 @@
            hideEventMessage = true
          }
         $($(this).attr('href')).trigger('scrollResize');
-      })
+      });
     };
     var sendComposeMessage = function () {
       if (!isComposing && _xmppCore.getConnection()) {
@@ -270,12 +273,21 @@
         _xmppCore.getCurrentUser().status = status;
         $("#stranger").text("Disconnect");
       } else if (status == ChatButtonStatus.HANGOUT) {
-        _xmppCore.setCurrentUser({});
-        $('#message-scroll').removeClass('white');
-        $("#stranger").text("Lets Talk");
+        userDisconnected();
         $('#stranger').trigger('userDisconnected');
       }
     };
+
+    var userDisconnected = function(){
+      var play = $("<button class='btn btn-primary'>Play</button>");
+      $(play).click(function () {
+        _playGame.loadAGame();
+      });
+      self.eventMessage(_xmppCore.getCurrentUser().id, $("<span>Mean while you can also play some games <span>").append(play) );
+      _xmppCore.setCurrentUser({});
+      $('#message-scroll').removeClass('white');
+      $("#stranger").text("Lets Talk");
+    }
   }
 
   var _INSTANCE = new MessageBox();

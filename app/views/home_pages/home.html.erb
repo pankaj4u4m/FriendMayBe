@@ -1,5 +1,5 @@
 <!-- header start -->
-<%= render 'home_pages/header' %>
+<%= render partial: 'shared/header',  locals: {user: "#{@user.user_details[0].name}", path: destroy_user_session_path} %>
 <!-- header end -->
 <script>
     $.getXmppActivity().xmppStart();

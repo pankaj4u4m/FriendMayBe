@@ -165,10 +165,10 @@
           menuNotifications(menu, false);
           pageNotifications(page, false);
         });
+        waitCompleteMethod();
       } else {
         errorNoifications("No notifications");
       }
-      waitCompleteMethod();
       inRequest = false;
     };
     var notificationBtn = function () {

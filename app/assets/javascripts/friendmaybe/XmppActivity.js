@@ -1,7 +1,4 @@
-//= require ./Constants
-//= require jquery/plugin/scrollbar
-//= require ./XmppUtils
-//=require ./UserLocation
+
 (function ($) {
   function XmppActivity() {
     var _messageBox = null;

@@ -2,18 +2,59 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a715b2d1-f260-4426-b136-6550e797c3c5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/bg-login-top.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/bg-login.png" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.swo" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.swp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/stylesheets/jquery/openid-shadow.css" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_flat_55_fbec88_40x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-hard_75_d0e5f5_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-soft_55_5c9ccc_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-soft_85_dfeffc_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-icons_217bc0_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/ui-icons_f9bd01_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/circle.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/pn.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/AppManager.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/PlayGame.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/jquery/jquery-ui-1.9.0.custom.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/stylesheets/jquery/jquery-ui-1.9.0.custom.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/basics.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/code.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/jquery.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/jquery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/jquery_002.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/jquery_003.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/pong_files/normalize.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/tetris.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/tetris_files/jquery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/tetris_files/tetris.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/tetris_files/tetris.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/typing.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/typing_files/jquery-ui.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/apps/typing_files/jquery.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_flat_75_ffffff_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_glass_55_fbf9ee_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_glass_65_ffffff_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-soft_75_cccccc_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-soft_75_dadada_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/ui-bg_highlight-soft_75_e6e6e6_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/home_pages/_header.html.erb" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/assets/images/ui-icons_222222_256x240.png" afterPath="$PROJECT_DIR$/app/assets/images/ui-icons_469bdd_256x240.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/assets/images/ui-icons_454545_256x240.png" afterPath="$PROJECT_DIR$/app/assets/images/ui-icons_6da8d5_256x240.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/assets/images/ui-icons_888888_256x240.png" afterPath="$PROJECT_DIR$/app/assets/images/ui-icons_d8e7f3_256x240.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/video_call.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/app-container.css.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/shared/_video.html.erb" afterPath="$PROJECT_DIR$/app/views/shared/_apps.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/documentready.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/MessageBox.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/MessageBox.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/Notification.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/Notification.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/VideoCall.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/VideoCall.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppOnMethods.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppOnMethods.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/login_pages.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/login_pages.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/message_box.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/message_box.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" afterPath="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login_pages/login.html.erb" afterPath="$PROJECT_DIR$/app/views/login_pages/login.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/_messagebox.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/_messagebox.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home_pages/home.html.erb" afterPath="$PROJECT_DIR$/app/views/home_pages/home.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="friendmaybe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,80 +77,66 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="_loginbox.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb">
+      <file leaf-file-name="VideoCall.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/VideoCall.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="90" selection-start="831" selection-end="831" vertical-scroll-proportion="-8.75">
+            <state line="29" column="0" selection-start="982" selection-end="1223" vertical-scroll-proportion="-7.3728814">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/login.html.erb">
+      <file leaf-file-name="tetris.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/apps/tetris.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="48" selection-start="234" selection-end="234" vertical-scroll-proportion="-5.0">
+            <state line="67" column="24" selection-start="4727" selection-end="4727" vertical-scroll-proportion="-22.416666">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="help.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/help.html.erb">
+      <file leaf-file-name="jquery.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/apps/pong_files/jquery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pong.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/apps/pong.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="23" selection-start="689" selection-end="689" vertical-scroll-proportion="-14.375">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="privacy.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/privacy.html.erb">
+      <file leaf-file-name="MessageBox.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/MessageBox.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="284" column="9" selection-start="10836" selection-end="10836" vertical-scroll-proportion="0.7106918">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_footer.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/_footer.html.erb">
+      <file leaf-file-name="documentready.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/documentready.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="8" selection-start="149" selection-end="149" vertical-scroll-proportion="-1.875">
-              <folding />
+            <state line="14" column="80" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_header.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/login_pages/_header.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="31" selection-start="172" selection-end="172" vertical-scroll-proportion="-1.875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login_pages.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/login_pages.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="21" selection-start="584" selection-end="584" vertical-scroll-proportion="-4.084746">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="message_box.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/message_box.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="10" selection-start="688" selection-end="688" vertical-scroll-proportion="-2.6271186">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="anonymous_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/anonymous_controller.rb">
+      <file leaf-file-name="Notification.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/Notification.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -117,10 +144,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application_controller.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <file leaf-file-name="XmppActivity.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="16" selection-start="836" selection-end="836" vertical-scroll-proportion="0.43247345">
+            <state line="34" column="165" selection-start="832" selection-end="1155" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XmppOnMethods.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppOnMethods.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="109" column="37" selection-start="3695" selection-end="3695" vertical-scroll-proportion="-4.9661016">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayGame.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/PlayGame.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="78" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -139,22 +184,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/login_pages/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/anonymous/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/home_pages/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/shared/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/anonymous/anonymous.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js" />
-        <option value="$PROJECT_DIR$/config/initializers/devise.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppOnMethods.js" />
-        <option value="$PROJECT_DIR$/app/views/home_pages/_sidebar.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/jquery/openid-shadow.css" />
-        <option value="$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/login_pages.css.scss" />
-        <option value="$PROJECT_DIR$/app/views/login_pages/login.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/message_box.css.scss" />
-        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
+        <option value="$PROJECT_DIR$/public/apps/tetris/tetris.css" />
+        <option value="$PROJECT_DIR$/public/apps/tetris/tetris.js" />
+        <option value="$PROJECT_DIR$/public/apps/tetris_files/tetris.css" />
+        <option value="$PROJECT_DIR$/public/apps/typing.html" />
+        <option value="$PROJECT_DIR$/public/apps/video.html" />
+        <option value="$PROJECT_DIR$/app/views/shared/_apps.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/app-container.css.scss" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/AppManager.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/PlayGame.js" />
+        <option value="$PROJECT_DIR$/public/apps/pong.html" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/VideoCall.js" />
+        <option value="$PROJECT_DIR$/public/apps/tetris.html" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/documentready.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/friendmaybe/MessageBox.js" />
       </list>
     </option>
   </component>
@@ -240,6 +285,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="RailsProjectView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -300,7 +347,105 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="typing_files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tetris_files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong_files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="log" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -427,6 +572,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="login_pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layouts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -712,7 +879,59 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="jquery" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="friendmaybe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bootstrap" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -736,24 +955,22 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="RailsProjectView" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="138" />
     <property name="JdbcConsole.Extract.Separator" value="'" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="138" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="183" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="JdbcConsole.Connection.Autocommit" value="true" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="324" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="124" />
-    <property name="JdbcConsole.ResultInNewTab" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/assets" />
     <property name="RakeTaksPopup.undocumentedIncluded" value="false" />
+    <property name="JdbcConsole.ResultInNewTab" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="124" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="539" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1064" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="325" />
@@ -768,31 +985,31 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="options.lastSelected" value="preferences.editor" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="JdbcConsole.Extract.OpeningQuote" value="'" />
     <property name="JdbcConsole.Extract.ClosingQuote" value="'" />
-    <property name="JdbcConsole.EnableParameterPattern" value="false" />
     <property name="JdbcConsole.Extract.IncludeHeader" value="false" />
+    <property name="JdbcConsole.EnableParameterPattern" value="false" />
     <property name="JdbcConsole.ParameterPattern" value="(\?\d*|\:\w+|\@\w+|\$\{[^$\{\}]*\}|\$\w+\$|\#\w+\#)" />
     <property name="JdbcConsole.ResultPageSize" value="1000" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/apps" />
       <recent name="$PROJECT_DIR$/public/img" />
-      <recent name="$PROJECT_DIR$/app/views/shared" />
-      <recent name="$PROJECT_DIR$/public/res" />
-      <recent name="$PROJECT_DIR$/app/assets/javascripts/jquery/plugin" />
-      <recent name="$PROJECT_DIR$/app/views/home_pages" />
+      <recent name="$PROJECT_DIR$/app/assets/images" />
+      <recent name="$PROJECT_DIR$/lib/assets/javascript" />
+      <recent name="$PROJECT_DIR$/lib/assets/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/assets" />
       <recent name="$PROJECT_DIR$/public/resources" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/app/assets" />
       <recent name="$PROJECT_DIR$/app/assets/javascripts/jquery/plugin" />
-      <recent name="$PROJECT_DIR$/app/assets/javascripts/strophe/plugin" />
     </key>
   </component>
   <component name="RunManager" selected="Ruby.jabber_http_binding_client">
@@ -993,13 +1210,6 @@
       <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="false" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Remote">
-      <JSRemoteDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSRemoteDebuggerConfigurationSettings>
-      <method />
-    </configuration>
     <configuration default="true" type="CucumberRunConfigurationType" factoryName="Cucumber">
       <predefined_log_file id="RUBY_CUCUMBER" enabled="true" />
       <module name="" />
@@ -1031,6 +1241,13 @@
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
       <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Remote">
+      <JSRemoteDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSRemoteDebuggerConfigurationSettings>
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
@@ -1213,12 +1430,13 @@
     <frame x="0" y="24" width="1600" height="876" extended-state="0" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.494852" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32797858" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31367293" sideWeight="0.9986702" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6188579" sideWeight="0.68139225" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3041237" sideWeight="0.6863271" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3079897" sideWeight="0.6863271" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25896415" sideWeight="0.32320443" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3266399" sideWeight="0.5006435" order="7" side_tool="true" content_ui="tabs" />
@@ -1229,7 +1447,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Unicode Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872927" sideWeight="0.494852" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1290,114 +1507,120 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/app-container.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="8" selection-start="2591" selection-end="2593" vertical-scroll-proportion="0.0">
+        <state line="18" column="14" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/initializers/devise.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/shared/_apps.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="65" selection-start="11658" selection-end="11658" vertical-scroll-proportion="0.0">
+        <state line="2" column="26" selection-start="64" selection-end="64" vertical-scroll-proportion="-1.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/AppManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="3" selection-start="2424" selection-end="2424" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/pong_files/jquery.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/pong_files/jquery_002.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/pong_files/jquery_003.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/pong_files/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/PlayGame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="78" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/tetris.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="24" selection-start="4727" selection-end="4727" vertical-scroll-proportion="-22.416666">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/apps/pong.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="23" selection-start="689" selection-end="689" vertical-scroll-proportion="-14.375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/VideoCall.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="982" selection-end="1223" vertical-scroll-proportion="-7.3728814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppActivity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="165" selection-start="832" selection-end="1155" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/documentready.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="80" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/Notification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/XmppOnMethods.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="10" selection-start="5387" selection-end="5387" vertical-scroll-proportion="0.0">
+        <state line="109" column="37" selection-start="3695" selection-end="3695" vertical-scroll-proportion="-4.9661016">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/home_pages/_sidebar.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/friendmaybe/MessageBox.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="22" selection-start="432" selection-end="432" vertical-scroll-proportion="-5.625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/notifications_menu.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="52" selection-end="54" vertical-scroll-proportion="-0.7627119">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/help.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/privacy.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="10" selection-start="1328" selection-end="1334" vertical-scroll-proportion="0.2137031">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/_header.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="31" selection-start="172" selection-end="172" vertical-scroll-proportion="-1.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/_footer.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="8" selection-start="149" selection-end="149" vertical-scroll-proportion="-1.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/login_pages.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="21" selection-start="584" selection-end="584" vertical-scroll-proportion="-4.084746">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/_loginbox.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="90" selection-start="831" selection-end="831" vertical-scroll-proportion="-8.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login_pages/login.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="48" selection-start="234" selection-end="234" vertical-scroll-proportion="-5.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/friendmaybe/message_box.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="10" selection-start="688" selection-end="688" vertical-scroll-proportion="-2.6271186">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/anonymous_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="16" selection-start="836" selection-end="836" vertical-scroll-proportion="0.43247345">
+        <state line="284" column="9" selection-start="10836" selection-end="10836" vertical-scroll-proportion="0.7106918">
           <folding />
         </state>
       </provider>
