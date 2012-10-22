@@ -226,7 +226,7 @@
       });
     };
     var errorNoifications = function (error) {
-      error = error || "something wrong happend";
+      error = error || "Ops, something went wrong!";
       waitCompleteMethod();
       inRequest = false;
       menuNotifications('<li class="error-notification"> ' + error + '</li>', false);

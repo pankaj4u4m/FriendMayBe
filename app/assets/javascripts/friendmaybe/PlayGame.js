@@ -15,9 +15,11 @@
 
 
   function PlayGame(){
+
     var _appManager = null;
 
     var gameUrls = ['/apps/typing.html', '/apps/tetris.html', '/apps/pong.html'];
+    var index = Math.floor(Math.random() * (gameUrls.length));
     var self = this;
 
     this.Constructor = function (appManager) {
@@ -27,14 +29,13 @@
 
     };
     this.loadAGame = function(){
-      var game = gameUrls[randomFromTo(0,gameUrls.length -1)]+'?width='+_appManager.width() + '&height='+_appManager.height();
+      var game = gameUrls[index]+'?width='+_appManager.width() + '&height='+_appManager.height();
+      index+=1;
+      index = index%gameUrls.length;
 
       _appManager.loadAppContainer(game);
       _appManager.showAppContainer();
     };
-    var randomFromTo = function(from, to){
-      return Math.floor(Math.random() * (to - from + 1) + from);
-    }
   }
   var _INSTANCE = new PlayGame();
   $.getPlayGame = function () {

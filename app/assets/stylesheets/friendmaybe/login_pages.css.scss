@@ -3,9 +3,8 @@
 .loginbtn {
   position: absolute;
   left: 36.5%;
-  top: 250px;
+  top: 40%;
   color: #808080;
-  min-width: 350px;
   //border: 1px solid #d7d7d7;
   //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   padding: 40px 50px;
@@ -35,7 +34,7 @@
 .login-description {
   font-size: 50px;
   text-align: center;
-  padding-top: 150px;
+  padding-top:50%;
 }
 .login-privacy {
   position: absolute;
@@ -49,12 +48,11 @@
   margin-left: 0;
 }
 .auth-btn {
-  margin-left: 5px;
   font-size: 17px;
-  min-height: 0;
   font-weight: bold;
   min-width: 125px;
   padding-top: 10px;
+  height: 42px;
 }
 
 .openid_large_btn {
@@ -106,7 +104,7 @@ a.openid_large_btn:focus {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 250px;
+  height: 40%;
   z-index: 1;
 }
 .login-wrapper {
