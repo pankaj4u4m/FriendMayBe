@@ -2,7 +2,7 @@ class LoginPagesController < ApplicationController
 
 
   def login
-
+    @onlineUsers = Rails.cache.read('onlineUsers')
   end
 
   def help
