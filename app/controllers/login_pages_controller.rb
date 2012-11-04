@@ -3,6 +3,9 @@ class LoginPagesController < ApplicationController
 
   def login
     @onlineUsers = Rails.cache.read('onlineUsers')
+    if @onlineUsers.nil?
+      @onlineUsers = 0
+    end
   end
 
   def help

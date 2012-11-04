@@ -3,12 +3,13 @@
 .loginbtn {
   position: absolute;
   left: 36.5%;
-  top: 40%;
-  color: #808080;
-  //border: 1px solid #d7d7d7;
-  //box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+  top: 200px;
+  background-color: #fff;
+  border: 1px solid #d7d7d7;
+  box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
   padding: 40px 50px;
   min-width: 550px;
+  max-width: 800px;
 }
 .loginbtn.span5 {
   margin-left: 0;
@@ -34,7 +35,7 @@
 .login-description {
   font-size: 50px;
   text-align: center;
-  padding-top:50%;
+  padding-top:100px;
 }
 .login-privacy {
   position: absolute;
@@ -53,6 +54,7 @@
   min-width: 125px;
   padding-top: 10px;
   height: 42px;
+  margin-top: 10px;
 }
 
 .openid_large_btn {
@@ -90,21 +92,12 @@ a.openid_large_btn:focus {
 }
 
 .login-body{
-  background: url("/img/bg-login.png") repeat scroll 0 0 #1B1B1B;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.login-body-top{
   background: url("/img/bg-login-top.png") repeat scroll 0 0 #FFFFFF;
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
-  height: 40%;
+  height: 100%;
   z-index: 1;
 }
 .login-wrapper {
